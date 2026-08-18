@@ -1,6 +1,6 @@
 <div align="center">
 
-# what is AtomPay
+# AtomPay
 
 ### automatic bill & tax tracking, powered by your inbox.
 
@@ -17,6 +17,8 @@ AtomPay detects your recurring bills such as electricity, water, gas, internet, 
 
 ## features
 
+| | |
+|---|---|
 | **automatic detection** connects to Gmail and detects utility & tax-related bills as they arrive |
 | **AI Chat Assistant (Atomcito)** ask questions to Atomcito about your current setup. Ex: *"how much did I spend on water last year?"* |
 | **manual input detection** insert PDFs manually into Atomcito |
