@@ -36,7 +36,7 @@ AtomPay detects your recurring bills such as electricity, water, gas, internet, 
 
 | | |
 |---|---|
-| **Mobile App** | React, TypeScript |
+| **App** | React, TypeScript |
 | **Backend** | Node.js |
 | **Email Integration** | Gmail API |
 | **Bill Parsing** | LLM-based extraction |
