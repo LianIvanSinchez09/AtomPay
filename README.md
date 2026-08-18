@@ -4,7 +4,7 @@
 
 ### automatic bill & tax tracking, powered by your inbox.
 
-AtomPay detects your recurring bills such as electricity, water, gas, internet, property tax straight from your email (or by your inputs), organizes them automatically.
+AtomPay detects your recurring bills such as electricity, water, gas, internet, property tax straight from your email (or by your inputs) and organizes them automatically.
 
 [![React](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)]
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)]
@@ -34,6 +34,8 @@ AtomPay detects your recurring bills such as electricity, water, gas, internet, 
 
 <div align="center">
 
+| | |
+|---|---|
 | **Mobile App** | React, TypeScript |
 | **Backend** | Node.js |
 | **Email Integration** | Gmail API |
