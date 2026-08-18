@@ -19,14 +19,14 @@ AtomPay detects your recurring bills such as electricity, water, gas, internet, 
 
 | | |
 |---|---|
-| **automatic detection** connects to Gmail and detects utility & tax-related bills as they arrive |
-| **AI Chat Assistant (Atomcito)** ask questions to Atomcito about your current setup. Ex: *"how much did I spend on water last year?"* |
-| **manual input detection** insert PDFs manually into Atomcito |
-| **smart categorization** sorts bills into categories (electricity, water, gas, internet, property tax, and more) automatically |
-| **detail analysis** visualizes spending over time, flags unusual spikes, and compares year-over-year costs |
-| **tax-ready reports** generates clean PDF summaries of expenses |
-| **reminders** get notifications about due dates |
-| **privacy-first** read-only email access, encrypted token storage, and full control to disconnect or delete your data anytime |
+| **automatic detection** | connects to Gmail and detects utility & tax-related bills as they arrive |
+| **AI Chat Assistant (Atomcito)** | ask questions to Atomcito about your current setup. Ex: *"how much did I spend on water last year?"* |
+| **manual input detection** | insert PDFs manually into Atomcito |
+| **smart categorization** | sorts bills into categories (electricity, water, gas, internet, property tax, and more) automatically |
+| **detail analysis** | visualizes spending over time, flags unusual spikes, and compares year-over-year costs |
+| **tax-ready reports** | generates clean PDF summaries of expenses |
+| **reminders** | get notifications about due dates |
+| **privacy-first** | read-only email access, encrypted token storage, and full control to disconnect or delete your data anytime |
 
 ---
 
