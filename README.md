@@ -34,7 +34,7 @@ AtomPay detects your recurring bills such as electricity, water, gas, internet, 
 
 <div align="center">
 
-| | |
+| Layer | Technology |
 |---|---|
 | **App** | React, TypeScript |
 | **Backend** | Node.js, Express |
