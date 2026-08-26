@@ -15,6 +15,7 @@ AtomPay detects your recurring bills and subscriptions (electricity, water, gas,
 ---
 
 ## features
+
 | | |
 |---|---|
 | **Automatic detection** | connects to Gmail via OAuth 2.0 and automatically detects, classifies and normalizes invoices, receipts and due dates from services (home utilities, digital subscriptions, etc.) |
@@ -35,20 +36,15 @@ AtomPay detects your recurring bills and subscriptions (electricity, water, gas,
 ---
 
 ## tech stack
-| | |
-|---|---|
-<div align="center">
-  
-| **Frontend** | React.js (TypeScript), Tailwind CSS |
-| **Backend** | Node.js + Express (TypeScript) |
-| **Database** | PostgreSQL + Prisma |
-| **Email Integration** | Gmail API |
-| **Auth** | Google OAuth 2.0 |
-| **Chat Assistant / Automation** | n8n |
-| **Bot protection** | reCAPTCHA v2 |
-| **Version control** | GitHub + GitHub Projects |
 
-</div>
+- **Frontend:** React.js (TypeScript), Tailwind CSS
+- **Backend:** Node.js + Express (TypeScript)
+- **Database:** PostgreSQL + Prisma
+- **Email Integration:** Gmail API
+- **Auth:** Google OAuth 2.0
+- **Chat Assistant / Automation:** n8n
+- **Bot protection:** reCAPTCHA v2
+- **Version control:** GitHub + GitHub Projects
 
 ---
 
