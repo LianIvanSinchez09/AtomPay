@@ -17,20 +17,20 @@ AtomPay detects your recurring bills and subscriptions (electricity, water, gas,
 ## features
 | | |
 |---|---|
-| **automatic detection** | connects to Gmail via OAuth 2.0 and automatically detects, classifies and normalizes invoices, receipts and due dates from services (home utilities, digital subscriptions, etc.) |
-| **smart categorization** | sorts services into categories (home, entertainment, communications, subscriptions...) |
-| **dashboard** | quick overview of current services and expenses |
-| **spending analysis** | weekly/monthly/annual breakdown, period comparison, and historical trends per service |
+| **Automatic detection** | connects to Gmail via OAuth 2.0 and automatically detects, classifies and normalizes invoices, receipts and due dates from services (home utilities, digital subscriptions, etc.) |
+| **Smart categorization** | sorts services into categories (home, entertainment, communications, subscriptions...) |
+| **Dashboard** | quick overview of current services and expenses |
+| **Spending analysis** | weekly/monthly/annual breakdown, period comparison, and historical trends per service |
 | **AtomScore** | custom score that summarizes overall spending health (due dates, price changes, concentration, history) |
-| **automatic insights** | proactively flags unusual increases, anomalies and trends — no query needed |
-| **expense projection** | estimates future spending based on historical behavior |
-| **scenario simulation** | preview how canceling/modifying a service or setting a savings goal would affect your budget |
+| **Automatic insights** | proactively flags unusual increases, anomalies and trends, no query needed |
+| **Expense projection** | estimates future spending based on historical behavior |
+| **Scenario simulation** | preview how canceling/modifying a service or setting a savings goal would affect your budget |
 | **AI Chat Assistant (Atomcito)** | ask natural-language questions about your bills and expenses |
-| **manual management** | add, edit or delete services by hand when needed |
-| **search & filters** | find services by category, period or other criteria |
-| **reminders** | alerts for upcoming due dates and price changes |
-| **reports** | downloadable PDF summary of recurring expenses |
-| **privacy-first** | least-privilege OAuth scopes, encrypted token storage, no password access, full control to disconnect/delete data |
+| **Manual management** | add, edit or delete services by hand when needed |
+| **Search & Filters** | find services by category, period or other criteria |
+| **Reminders** | alerts for upcoming due dates and price changes |
+| **Reports** | downloadable PDF summary of recurring expenses |
+| **Privacy-first** | least-privilege OAuth scopes, encrypted token storage, no password access, full control to disconnect/delete data |
 
 ---
 
