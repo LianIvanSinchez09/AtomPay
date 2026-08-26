@@ -15,7 +15,8 @@ AtomPay detects your recurring bills and subscriptions (electricity, water, gas,
 ---
 
 ## features
-
+| | |
+|---|---|
 | **automatic detection** | connects to Gmail via OAuth 2.0 and automatically detects, classifies and normalizes invoices, receipts and due dates from services (home utilities, digital subscriptions, etc.) |
 | **smart categorization** | sorts services into categories (home, entertainment, communications, subscriptions...) |
 | **dashboard** | quick overview of current services and expenses |
