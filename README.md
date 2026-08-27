@@ -1,57 +1,16 @@
-<div align="center">
+# React + Vite
 
-# AtomPay
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### automatic bill & expense tracking, powered by your inbox.
+Currently, two official plugins are available:
 
-AtomPay detects your recurring bills and subscriptions (electricity, water, gas, internet, Netflix, Spotify, etc.) straight from your email, organizes them automatically, and helps you understand where your money goes.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-[![React](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)]
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)]
-[![Gmail API](https://img.shields.io/badge/Gmail%20API-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](https://developers.google.com/gmail/api)
+## React Compiler
 
-</div>
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
----
+## Expanding the ESLint configuration
 
-## features
-
-| **automatic detection** | connects to Gmail via OAuth 2.0 and automatically detects, classifies and normalizes invoices, receipts and due dates from services (home utilities, digital subscriptions, etc.) |
-| **smart categorization** | sorts services into categories (home, entertainment, communications, subscriptions...) |
-| **dashboard** | quick overview of current services and expenses |
-| **spending analysis** | weekly/monthly/annual breakdown, period comparison, and historical trends per service |
-| **AtomScore** | custom score that summarizes overall spending health (due dates, price changes, concentration, history) |
-| **automatic insights** | proactively flags unusual increases, anomalies and trends — no query needed |
-| **expense projection** | estimates future spending based on historical behavior |
-| **scenario simulation** | preview how canceling/modifying a service or setting a savings goal would affect your budget |
-| **AI Chat Assistant (Atomcito)** | ask natural-language questions about your bills and expenses |
-| **manual management** | add, edit or delete services by hand when needed |
-| **search & filters** | find services by category, period or other criteria |
-| **reminders** | alerts for upcoming due dates and price changes |
-| **reports** | downloadable PDF summary of recurring expenses |
-| **privacy-first** | least-privilege OAuth scopes, encrypted token storage, no password access, full control to disconnect/delete data |
-
----
-
-## tech stack
-
-<div align="center">
-
-| **Frontend** | React.js (TypeScript), Tailwind CSS |
-| **Backend** | Node.js + Express (TypeScript) |
-| **Database** | PostgreSQL + Prisma |
-| **Email Integration** | Gmail API |
-| **Auth** | Google OAuth 2.0 |
-| **Chat Assistant / Automation** | n8n |
-| **Bot protection** | reCAPTCHA v2 |
-| **Version control** | GitHub + GitHub Projects |
-
-</div>
-
----
-
-## project structure
-
-TODO
-
----
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
