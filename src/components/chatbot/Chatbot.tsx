@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import '@n8n/chat/style.css';
+import './chatbotStyles.css';
 import { createChat } from '@n8n/chat';
-import { ChatBot } from '../types/types';
+import { ChatBot } from '../../types/types';
 import { JSX } from 'react';
 
 const chatBotConfig: ChatBot = {
