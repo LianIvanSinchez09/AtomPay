@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Chatbot from './components/Chatbot.tsx';
+import Chatbot from './components/chatbot/Chatbot.tsx';
 
 const App = () => {
 	return(
