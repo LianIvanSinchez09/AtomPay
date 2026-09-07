@@ -1,0 +1,8 @@
+.navitemAnimation {
+  cursor: pointer;
+  transition: all 5s;
+}
+&:hover {
+  background: white;
+  color: #321E48;
+}

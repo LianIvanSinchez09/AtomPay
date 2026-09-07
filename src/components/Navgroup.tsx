@@ -1,4 +1,4 @@
-import NavItem from "./NavItem";
+import NavItem from "./NavItem/NavItem";
 import { NavGroupProps } from "../types/types";
 
 export default function NavGroup({
@@ -7,8 +7,9 @@ export default function NavGroup({
   onSelect,
   layoutId,
 }: NavGroupProps) {
+
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex-col gap-2">
       <div className="flex flex-col gap-10">
         {items.map((item) => (
           <NavItem

@@ -64,3 +64,27 @@ export type NavGroupProps = {
   onSelect: (label: string) => void;
   layoutId: string;
 };
+
+export interface customWidth {
+  sm: "w-64",
+  md: "w-80",
+  lg: "w-96",
+}
+
+export type widthSize = keyof customWidth 
+
+//este es medio temporal hasta que tengamos hechas las paginas pero eso
+//va en otra branch
+export interface serviceItems {
+  label: string;
+  icon: LucideIcon;
+} 
+export interface SidepanelChildren {
+  width: widthSize;
+  mainTitle?: string;
+  serviceItems: serviceItems[];
+}
+
+export interface SidepanelProps extends SidepanelChildren {
+  children: React.ReactNode
+}
