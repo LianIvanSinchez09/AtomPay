@@ -1,9 +1,20 @@
 import { useEffect } from 'react';
-import Chatbot from './components/Chatbot.tsx';
+import Chatbot from './components/chatbot/Chatbot.tsx';
+import Toolbar from './components/Sidebar/Toolbar.tsx';
+import SecondarySidebar from './components/SecondarySidebar/SecondarySidebar.tsx';
+import AppRoutes from "./routes/AppRoutes";
 
 const App = () => {
 	return(
-		<Chatbot/>
+		
+		<>
+		<AppRoutes />
+		<div className='flex'>
+		</div>
+			<Chatbot/>
+			
+		</>
+		
 	)
 };
 
