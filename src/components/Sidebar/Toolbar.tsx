@@ -1,31 +1,64 @@
-import { BarChart3, Receipt, Plus, Pencil, Sparkles } from "lucide-react";
+import {
+  BarChart3,
+  Receipt,
+  Plus,
+  Pencil,
+  Sparkles,
+} from "lucide-react";
+
 import "./Sidebar.css";
 import Sidepanel from "../Sidepanel/Sidepanel";
-import type { serviceItems } from "../../types/types";
 import NavGroup from "../Navgroup";
-import { useState } from "react";
 
+import type { serviceItems } from "../../types/types";
 
 const serviceItems: serviceItems[] = [
-  { label: "Análisis", icon: BarChart3 },
-  { label: "Facturación", icon: Receipt },
-  { label: "Agregar Servicio", icon: Plus },
-  { label: "Modificar/Eliminar Servicio", icon: Pencil },
-  { label: "Atomcito", icon: Sparkles },
+  {
+    label: "Análisis",
+    icon: BarChart3,
+    path: "/dashboard/analysis",
+  },
+  {
+    label: "Facturación",
+    icon: Receipt,
+    path: "/dashboard/billing",
+  },
+  {
+    label: "Agregar Servicio",
+    icon: Plus,
+    path: "/dashboard/services/add",
+  },
+  {
+    label: "Modificar/Eliminar Servicio",
+    icon: Pencil,
+    path: "/dashboard/services/edit",
+  },
+  {
+    label: "Atomcito",
+    icon: Sparkles,
+    path: "/dashboard/atomcito",
+  },
 ];
 
-export default function Toolbar() {
+type ToolbarProps = {
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+};
 
-  const [active, setActive] = useState("Análisis");
-
-  //en width usamos sm, md ,lg como en tailwnd
+export default function Toolbar({
+  collapsed,
+  onCollapsedChange,
+}: ToolbarProps) {
   return (
-    <Sidepanel width={"lg"} mainTitle="AtomPay" serviceItems={serviceItems}>
+    <Sidepanel
+      width="lg"
+      collapsed={collapsed}
+      onCollapsedChange={onCollapsedChange}
+    >
       <NavGroup
         items={serviceItems}
-        activeLabel={active}
-        onSelect={setActive}
         layoutId="active-nav-pill"
+        collapsed={collapsed}
       />
     </Sidepanel>
   );
