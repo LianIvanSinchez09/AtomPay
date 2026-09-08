@@ -1,31 +1,33 @@
-import type { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from "lucide-react";
 
 export interface ChatBot {
-	webhookUrl: string;
-	webhookConfig?: {
-		method?: string;
-		headers?: Record<string, string>;
-	};
-	target?: string;
-	mode?: 'window' | 'fullscreen';
-	chatInputKey?: string;
-	chatSessionKey?: string;
-	loadPreviousSession?: boolean;
-	metadata?: Record<string, unknown>;
-	showWelcomeScreen?: boolean;
-	defaultLanguage?: string;
-	initialMessages?: string[];
-	i18n?: Record<string, unknown>;
-	enableStreaming?: boolean;
-	allowFileUploads?: boolean;
-    
+  webhookUrl: string;
+
+  webhookConfig?: {
+    method?: string;
+    headers?: Record<string, string>;
+  };
+
+  target?: string;
+  mode?: "window" | "fullscreen";
+  chatInputKey?: string;
+  chatSessionKey?: string;
+  loadPreviousSession?: boolean;
+  metadata?: Record<string, unknown>;
+  showWelcomeScreen?: boolean;
+  defaultLanguage?: string;
+  initialMessages?: string[];
+  i18n?: Record<string, unknown>;
+  enableStreaming?: boolean;
+  allowFileUploads?: boolean;
 }
-declare module '@n8n/chat/style.css';
+
+declare module "@n8n/chat/style.css";
 
 export type Props = {
-	props?: React.ReactNode
-	children?: React.ReactNode
-}
+  props?: React.ReactNode;
+  children?: React.ReactNode;
+};
 
 export type MotionButtonProps = {
   children: React.ReactNode;
@@ -40,6 +42,7 @@ export type NavItemProps = {
   active: boolean;
   onClick: () => void;
   layoutId: string;
+  collapsed: boolean;
 };
 
 export type TransitionButtonProps = {
@@ -56,35 +59,34 @@ export type SectionLabelProps = {
 export type NavGroupItem = {
   label: string;
   icon: LucideIcon;
+  path: string;
 };
-
-export type NavGroupProps = {
-  items: NavGroupItem[];
-  activeLabel: string;
-  onSelect: (label: string) => void;
-  layoutId: string;
-};
-
-export interface customWidth {
-  sm: "w-64",
-  md: "w-80",
-  lg: "w-96",
-}
-
-export type widthSize = keyof customWidth 
-
-//este es medio temporal hasta que tengamos hechas las paginas pero eso
-//va en otra branch
+// Temporal hasta que estén hechas las páginas. igual al de arriba. pegale un ojo lian.
 export interface serviceItems {
   label: string;
   icon: LucideIcon;
-} 
-export interface SidepanelChildren {
-  width: widthSize;
-  mainTitle?: string;
-  serviceItems: serviceItems[];
+  path: string;
 }
 
-export interface SidepanelProps extends SidepanelChildren {
-  children: React.ReactNode
+export type NavGroupProps = {
+  items: NavGroupItem[];
+  layoutId: string;
+   collapsed: boolean;
+};
+
+export interface customWidth {
+  sm: "w-64";
+  md: "w-80";
+  lg: "w-96";
+}
+
+export type widthSize = keyof customWidth;
+
+
+
+export interface SidepanelProps {
+  width: widthSize;
+  children: React.ReactNode;
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
 }
