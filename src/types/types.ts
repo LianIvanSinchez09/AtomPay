@@ -35,7 +35,9 @@ export type MotionButtonProps = {
 };
 
 export type NavItemProps = {
+  itemsCenter?: boolean
   label: string;
+  flexCol: boolean
   icon: LucideIcon;
   active: boolean;
   onClick: () => void;
@@ -54,37 +56,42 @@ export type SectionLabelProps = {
 };
 
 export type NavGroupItem = {
+  path: string
   label: string;
   icon: LucideIcon;
 };
 
 export type NavGroupProps = {
+  itemsCenter?: boolean
   items: NavGroupItem[];
-  activeLabel: string;
-  onSelect: (label: string) => void;
   layoutId: string;
 };
 
 export interface customWidth {
-  sm: "w-64",
-  md: "w-80",
-  lg: "w-96",
+  xs: "w-32"
+  sm: "w-64";
+  md: "w-80";
+  lg: "w-96";
+  xl: "w-120"
 }
+
+
 
 export type widthSize = keyof customWidth 
 
 //este es medio temporal hasta que tengamos hechas las paginas pero eso
 //va en otra branch
 export interface serviceItems {
+  path: string
   label: string;
   icon: LucideIcon;
 } 
 export interface SidepanelChildren {
   width: widthSize;
-  mainTitle?: string;
-  serviceItems: serviceItems[];
+  mainTitle?: boolean;
 }
 
 export interface SidepanelProps extends SidepanelChildren {
   children: React.ReactNode
+  hoverExpand?: boolean;
 }

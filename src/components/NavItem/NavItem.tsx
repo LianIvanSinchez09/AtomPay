@@ -1,5 +1,5 @@
 import { NavItemProps } from "../../types/types";
-import MotionButton from "../MotionButton";
+// import MotionButton from "../MotionButton";
 import { motion } from "motion/react";
 import "./NavItem.css"
 
@@ -7,35 +7,79 @@ import "./NavItem.css"
 export default function NavItem({
   label,
   icon: Icon,
+  flexCol,
   active,
   onClick,
   layoutId,
 }: NavItemProps) {
   return (
-    <div>
-      <MotionButton onClick={onClick}>
-        {active && (
-          <motion.div
-            layoutId={layoutId}
-            className="navitemAnimation flex flex-1 absolute inset-0"
-            transition={{ type: "spring", stiffness: 1000, damping: 110 }}
-          />
-        )}
-        <Icon
-          size={17}
-          strokeWidth={1.8}
-          className={`relative  z-10  ${
-            active ?  "border-2 rounded-25 text-white bg-zinc-400" : "text-white"
-          }`}
+    <button
+      type="button"
+      onClick={onClick}
+      title={label}
+      className={`
+        relative
+        flex
+        ${flexCol ? "flex-col" : null}
+        w-full
+        items-center
+        justify-center
+        gap-3
+        rounded-xl
+        px-4
+        py-3
+
+        text-white
+
+        transition-all
+        duration-200
+
+        hover:bg-white/10
+        hover:text-[#A7D129]
+      `}
+    >
+      {/* Indicador de opción activa */}
+      {active && (
+        <motion.div
+          layoutId={layoutId}
+          className="
+            absolute
+            inset-0
+            rounded-xl
+            bg-white/10
+          "
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 35,
+          }}
         />
-        <span
-          className={`relative z-10 ${
-            active ? "text-zinc-400 " : "text-white"
-          }`}
-        >
-          {label}
-        </span>
-      </MotionButton>
-    </div>
+      )}
+
+      {/* Icono */}
+      <Icon
+        size={22}
+        className="relative z-10 shrink-0"
+      />
+
+      {/* Texto */}
+      <motion.span
+        initial={false}
+        animate={{
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.2,
+        }}
+        className={`
+          relative
+          z-10
+          overflow-hidden
+          whitespace-nowrap
+        `}
+      >
+        {label}
+      </motion.span>
+    </button>
   );
 }
