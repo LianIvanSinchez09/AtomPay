@@ -4,11 +4,14 @@ import {
   Plus,
   Pencil,
   Sparkles,
+  Bell,
+  Settings,
 } from "lucide-react";
 
 import "./Sidebar.css";
 import Sidepanel from "../Sidepanel/Sidepanel";
 import NavGroup from "../Navgroup";
+// import { useState } from "react";
 
 import type { serviceItems } from "../../types/types";
 
@@ -33,33 +36,38 @@ const serviceItems: serviceItems[] = [
     icon: Pencil,
     path: "/dashboard/services/edit",
   },
+];
+
+const serviceItemsSecondary: serviceItems[] = [
+  {
+    label: "Notificaciones",
+    icon: Bell,
+    path: "/dashboard/atomcito",
+  },
   {
     label: "Atomcito",
     icon: Sparkles,
     path: "/dashboard/atomcito",
   },
+  {
+    label: "Ajustes",
+    icon: Settings,
+    path: "/dashboard/atomcito",
+  },
 ];
 
-type ToolbarProps = {
-  collapsed: boolean;
-  onCollapsedChange: (collapsed: boolean) => void;
-};
-
-export default function Toolbar({
-  collapsed,
-  onCollapsedChange,
-}: ToolbarProps) {
+export default function Toolbar() {
   return (
-    <Sidepanel
-      width="lg"
-      collapsed={collapsed}
-      onCollapsedChange={onCollapsedChange}
-    >
-      <NavGroup
-        items={serviceItems}
-        layoutId="active-nav-pill"
-        collapsed={collapsed}
-      />
-    </Sidepanel>
+    <div className="flex sticky top-0 left-0">
+      <Sidepanel width="sm" hoverExpand={true}>
+        <NavGroup items={serviceItemsSecondary} layoutId="active-nav-pill" />
+      </Sidepanel>
+      <Sidepanel mainTitle={true} width="sm">
+        <NavGroup
+          items={serviceItems}
+          layoutId="active-nav-pill"
+        />
+      </Sidepanel>
+    </div>
   );
 }

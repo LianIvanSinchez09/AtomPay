@@ -1,0 +1,9 @@
+.hideTransition {
+    animation: 0.5s fadeOut 1s;
+    -webkit-animation: 0.5s fadeOut 1s;
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1}
+  100% {opacity: 0}
+}

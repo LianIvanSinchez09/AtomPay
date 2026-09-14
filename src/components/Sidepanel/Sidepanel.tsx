@@ -1,3 +1,6 @@
+import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
+import "./Sidepanel.css"
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -5,25 +8,43 @@ import type {
   SidepanelProps,
   customWidth,
 } from "../../types/types";
+import { useState } from "react";
 
 export default function Sidepanel({
   width,
   children,
-  collapsed,
-  onCollapsedChange,
+  mainTitle,
+  hoverExpand=false,
+
 }: SidepanelProps) {
+
   const widths: customWidth = {
+    xs: "w-32",
     sm: "w-64",
     md: "w-80",
     lg: "w-96",
+    xl: "w-120"
   };
+
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(hoverExpand);
+
+  const hoverHandlers = hoverExpand
+    ? {
+        onMouseEnter: () => setSidebarCollapsed(false),
+        onMouseLeave: () => setSidebarCollapsed(true),
+      }
+    : {};
+
+  const currentWidth = hoverExpand
+    ? (sidebarCollapsed ? "w-16" : widths[width])
+    : widths[width];
 
   return (
     <div
+      {...hoverHandlers}
       className={`
         h-screen
-        ${collapsed ? "w-20" : widths[width]}
-
+        ${currentWidth}
         shrink-0
         flex
         flex-col
@@ -42,6 +63,8 @@ export default function Sidepanel({
         transition-all
         duration-300
         ease-in-out
+
+        overflow-hidden
       `}
     >
       {/* Header */}
@@ -49,57 +72,34 @@ export default function Sidepanel({
         className={`
           flex
           items-center
-          ${collapsed ? "justify-center" : "justify-between"}
+          justify-center
           px-4
           pt-5
           pb-2
         `}
       >
-        <Link
-          to="/dashboard"
-          className="
-            font-bold
-            transition-opacity
-            hover:opacity-80
-          "
-        >
-          {collapsed ? (
-            <span className="text-xl">A</span>
-          ) : (
-            <span className="text-2xl">AtomPay</span>
-          )}
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => onCollapsedChange(!collapsed)}
-          aria-label={
-            collapsed
-              ? "Abrir barra lateral"
-              : "Cerrar barra lateral"
-          }
-          className="
-            rounded-lg
-            p-2
-            transition-colors
-            hover:bg-white/10
-            focus:outline-none
-            focus:ring-2
-            focus:ring-white/30
-          "
-        >
-          {collapsed ? (
-            <PanelLeftOpen size={20} />
-          ) : (
-            <PanelLeftClose size={20} />
-          )}
-        </button>
+        {mainTitle ? (
+          <Link
+            to="/dashboard"
+            className="
+              m-5
+              font-bold
+              transition-opacity
+              hover:opacity-80
+            "
+          >
+            <span className="text-2xl hover:text-[#A7D129]">AtomPay</span>
+          </Link>
+        ) : (
+          <div className="m-5">
+            <Menu size={25}/>
+          </div>
+        )}
       </div>
 
-      {/* Navegación */}
-      <div className="flex-1 overflow-y-auto px-2 pb-2">
-        {children}
-      </div>
+        <div className="flex-1 overflow-y-auto px-2 pb-2">
+          {children}
+        </div>
     </div>
   );
 }

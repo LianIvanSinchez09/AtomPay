@@ -1,10 +1,12 @@
+import { NavItemProps } from "../../types/types";
+// import MotionButton from "../MotionButton";
 import { motion } from "motion/react";
-
-import type { NavItemProps } from "../../types/types";
+import "./NavItem.css"
 
 export default function NavItem({
   label,
   icon: Icon,
+  flexCol,
   active,
   onClick,
   layoutId,
@@ -14,13 +16,14 @@ export default function NavItem({
     <button
       type="button"
       onClick={onClick}
-      title={collapsed ? label : undefined}
+      title={label}
       className={`
         relative
         flex
+        ${flexCol ? "flex-col" : null}
         w-full
         items-center
-        ${collapsed ? "justify-center" : "justify-start"}
+        justify-center
         gap-3
         rounded-xl
         px-4
@@ -32,6 +35,7 @@ export default function NavItem({
         duration-200
 
         hover:bg-white/10
+        hover:text-[#A7D129]
       `}
     >
       {/* Indicador de opción activa */}
@@ -62,8 +66,7 @@ export default function NavItem({
       <motion.span
         initial={false}
         animate={{
-          opacity: collapsed ? 0 : 1,
-          width: collapsed ? 0 : "auto",
+          opacity: 1,
         }}
         transition={{
           duration: 0.2,
@@ -73,7 +76,6 @@ export default function NavItem({
           z-10
           overflow-hidden
           whitespace-nowrap
-          ${collapsed ? "pointer-events-none" : ""}
         `}
       >
         {label}
