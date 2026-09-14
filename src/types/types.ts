@@ -1,31 +1,33 @@
-import type { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from "lucide-react";
 
 export interface ChatBot {
-	webhookUrl: string;
-	webhookConfig?: {
-		method?: string;
-		headers?: Record<string, string>;
-	};
-	target?: string;
-	mode?: 'window' | 'fullscreen';
-	chatInputKey?: string;
-	chatSessionKey?: string;
-	loadPreviousSession?: boolean;
-	metadata?: Record<string, unknown>;
-	showWelcomeScreen?: boolean;
-	defaultLanguage?: string;
-	initialMessages?: string[];
-	i18n?: Record<string, unknown>;
-	enableStreaming?: boolean;
-	allowFileUploads?: boolean;
-    
+  webhookUrl: string;
+
+  webhookConfig?: {
+    method?: string;
+    headers?: Record<string, string>;
+  };
+
+  target?: string;
+  mode?: "window" | "fullscreen";
+  chatInputKey?: string;
+  chatSessionKey?: string;
+  loadPreviousSession?: boolean;
+  metadata?: Record<string, unknown>;
+  showWelcomeScreen?: boolean;
+  defaultLanguage?: string;
+  initialMessages?: string[];
+  i18n?: Record<string, unknown>;
+  enableStreaming?: boolean;
+  allowFileUploads?: boolean;
 }
-declare module '@n8n/chat/style.css';
+
+declare module "@n8n/chat/style.css";
 
 export type Props = {
-	props?: React.ReactNode
-	children?: React.ReactNode
-}
+  props?: React.ReactNode;
+  children?: React.ReactNode;
+};
 
 export type MotionButtonProps = {
   children: React.ReactNode;
@@ -42,6 +44,7 @@ export type NavItemProps = {
   active: boolean;
   onClick: () => void;
   layoutId: string;
+  collapsed: boolean;
 };
 
 export type TransitionButtonProps = {
@@ -59,12 +62,20 @@ export type NavGroupItem = {
   path: string
   label: string;
   icon: LucideIcon;
+  path: string;
 };
+// Temporal hasta que estén hechas las páginas. igual al de arriba. pegale un ojo lian.
+export interface serviceItems {
+  label: string;
+  icon: LucideIcon;
+  path: string;
+}
 
 export type NavGroupProps = {
   itemsCenter?: boolean
   items: NavGroupItem[];
   layoutId: string;
+   collapsed: boolean;
 };
 
 export interface customWidth {

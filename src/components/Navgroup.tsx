@@ -8,6 +8,7 @@ export default function NavGroup({
   itemsCenter,
   items,
   layoutId,
+  collapsed,
 }: NavGroupProps) {
   const location = useLocation();
   const navigate = useNavigate();

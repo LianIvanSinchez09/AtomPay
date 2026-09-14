@@ -10,9 +10,10 @@ import {
 
 import "./Sidebar.css";
 import Sidepanel from "../Sidepanel/Sidepanel";
-import type { serviceItems } from "../../types/types";
 import NavGroup from "../Navgroup";
 // import { useState } from "react";
+
+import type { serviceItems } from "../../types/types";
 
 const serviceItems: serviceItems[] = [
   {

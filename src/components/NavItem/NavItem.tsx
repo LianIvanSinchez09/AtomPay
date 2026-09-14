@@ -3,7 +3,6 @@ import { NavItemProps } from "../../types/types";
 import { motion } from "motion/react";
 import "./NavItem.css"
 
-
 export default function NavItem({
   label,
   icon: Icon,
@@ -11,6 +10,7 @@ export default function NavItem({
   active,
   onClick,
   layoutId,
+  collapsed,
 }: NavItemProps) {
   return (
     <button
