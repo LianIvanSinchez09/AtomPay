@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Home from "../pages/public/Home";
+import Home from "../pages/public/Home/Home.tsx";
 import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 

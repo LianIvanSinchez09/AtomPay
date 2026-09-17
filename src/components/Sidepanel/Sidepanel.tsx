@@ -1,8 +1,6 @@
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Sidepanel.css"
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { Link } from "react-router-dom";
 
 import type {
   SidepanelProps,
