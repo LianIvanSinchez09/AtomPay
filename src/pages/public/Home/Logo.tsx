@@ -13,6 +13,9 @@ const Logo = () => {
         <Core/>
         <div className="orbit3"></div>
         <div className="orbit3Back"></div>
+        <div className="orbit4FHalf"></div>
+        <div className="orbit4SHalf"></div>
+        <div className="orbit4FHalfBack"></div>
       </motion.div>
     </>
   );
