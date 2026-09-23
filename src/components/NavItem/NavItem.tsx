@@ -10,7 +10,6 @@ export default function NavItem({
   active,
   onClick,
   layoutId,
-  collapsed,
 }: NavItemProps) {
   return (
     <button

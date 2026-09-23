@@ -44,7 +44,6 @@ export type NavItemProps = {
   active: boolean;
   onClick: () => void;
   layoutId: string;
-  collapsed: boolean;
 };
 
 export type TransitionButtonProps = {
@@ -59,7 +58,6 @@ export type SectionLabelProps = {
 };
 
 export type NavGroupItem = {
-  path: string
   label: string;
   icon: LucideIcon;
   path: string;
@@ -75,7 +73,6 @@ export type NavGroupProps = {
   itemsCenter?: boolean
   items: NavGroupItem[];
   layoutId: string;
-   collapsed: boolean;
 };
 
 export interface customWidth {
