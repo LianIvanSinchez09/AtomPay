@@ -1,0 +1,11 @@
+html, body { overflow-x: hidden; }
+body { min-width: 100vw; }
+
+.homeContainer {
+    display: flex;
+    max-width: 100vw;
+}
+
+.homeItem {
+    flex-grow: 1;
+}

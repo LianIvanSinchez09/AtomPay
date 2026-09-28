@@ -1,47 +1,16 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import Logo from "./Logo";
+import Navbar from "../Navbar";
+import "./Home.css"
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-[#EEF7FF] text-[#4D869C] dark:bg-[#000000] dark:text-white transition-colors duration-300">
-      {/* Navbar */}
-      <motion.nav
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="flex items-center justify-between px-6 py-5 md:px-12"
-      >
-        <Link
-          to="/"
-          className="text-2xl font-bold text-[#4D869C] dark:text-[#A7D129]"
-        >
-          AtomPay
-        </Link>
-
-        <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="rounded-lg px-4 py-2 font-medium transition hover:bg-[#CDE8E5] dark:hover:bg-[#3E432E]"
-          >
-            Iniciar sesión
-          </Link>
-
-          <Link
-            to="/register"
-            className="rounded-lg bg-[#4D869C] px-4 py-2 font-medium text-white transition hover:bg-[#7AB2B2] dark:bg-[#A7D129] dark:text-[#000000] dark:hover:bg-[#616F39]"
-          >
-            Registrarse
-          </Link>
-        </div>
-      </motion.nav>
-
-      {/* Hero */}
-      <main className="mx-auto flex min-h-[calc(100vh-88px)] max-w-6xl items-center px-6 py-16">
-        <div className="grid w-full items-center gap-12 md:grid-cols-2">
-          {/* Logo animado */}
+    <div className="dark:bg-[#000000] dark:text-white transition-colors duration-300">
+      <Navbar/>
+      <main className="homeContainer mx-auto flex min-h-[calc(100vh-88px)] max-w-6xl items-center px-6 py-16">
+        <div className="homeItem  w-full">
           <motion.div className="relative flex items-center justify-center">
-            {/* Aura detrás del logo */}
             <motion.div className="absolute h-50 w-50 rounded-full bg-[#7AB2B2] blur-3xl dark:bg-[#A7D129]" />
             <Logo />
           </motion.div>
@@ -52,10 +21,6 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <span className="mb-4 inline-block rounded-full bg-[#CDE8E5] px-4 py-2 text-sm font-medium text-[#4D869C] dark:bg-[#3E432E] dark:text-[#A7D129]">
-              Gestión inteligente de gastos
-            </span>
-
             <h1 className="flex gap-1 flex-col text-xl font-bold leading-tight md:text-6xl">
               Tu dinero tiene patrones.
               <span className="text-[#4D869C] dark:text-[#A7D129]">
