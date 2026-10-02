@@ -6,6 +6,13 @@ body { min-width: 100vw; }
     max-width: 100vw;
 }
 
+.introContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
 .homeItem {
     flex-grow: 1;
 }

@@ -9,7 +9,7 @@ const Home = () => {
     <div className="dark:bg-[#000000] dark:text-white transition-colors duration-300">
       <Navbar/>
       <main className="homeContainer mx-auto flex min-h-[calc(100vh-88px)] max-w-6xl items-center px-6 py-16">
-        <div className="homeItem  w-full">
+        <div className="homeItem introContainer w-full">
           <motion.div className="relative flex items-center justify-center">
             <motion.div className="absolute h-50 w-50 rounded-full bg-[#7AB2B2] blur-3xl dark:bg-[#A7D129]" />
             <Logo />
