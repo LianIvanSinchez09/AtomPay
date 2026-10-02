@@ -1,7 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 const Login = () => {
+    const navigate = useNavigate();
+    const { login } = useAuth(); // Usamos la función del contexto
+
+    const loginWithGoogle = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                const userInfo = await axios.get(
+                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    {
+                        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                    }
+                );
+
+                // Guardamos en el estado global y localStorage a través del Contexto
+                login(userInfo.data);
+
+                // Redirigimos
+                navigate("/dashboard");
+            } catch (error) {
+                console.error("Error al obtener perfil del usuario:", error);
+            }
+        },
+        onError: (errorResponse) => console.error("Error en inicio de sesión:", errorResponse),
+    });
     return (
         <div className="min-h-screen bg-[#EEF7FF] text-[#4D869C] transition-colors duration-300 dark:bg-[#000000] dark:text-white">
 
@@ -43,6 +69,7 @@ const Login = () => {
 
                     {/* Google */}
                     <motion.button
+                        onClick={() => loginWithGoogle()}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-[#CDE8E5] bg-white px-4 py-3 font-medium text-[#4D869C] transition hover:bg-[#EEF7FF] dark:border-[#616F39] dark:bg-[#000000] dark:text-white dark:hover:bg-[#3E432E]"

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-
 import ToolBar from "../../../components/Sidebar/Toolbar";
 
 export default function Dashboard() {
