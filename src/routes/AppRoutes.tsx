@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Home from "../pages/public/Home/Home.tsx";
+import Home from "../pages/public/Home/Home";
 import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 
@@ -14,6 +14,9 @@ import Analysis from "../pages/private/dashboard/Analysis";
 import Billing from "../pages/private/dashboard/Billing";
 import AddService from "../pages/private/dashboard/AddService";
 import EditService from "../pages/private/dashboard/EditService";
+
+import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
+import Chatbot from "../components/chatbot/Chatbot";
 
 const AppRoutes = () => {
   return (
@@ -24,21 +27,28 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Dashboard */}
-        <Route path="/dashboard" element={<Dashboard />}>
-          {/* Página inicial del Dashboard */}
-          <Route
-            index
-            element={<Navigate to="analysis" replace />}
-          />
+        {/* Rutas Privadas / Dashboard (Protegidas) */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          {/* Redirección por defecto */}
+          <Route index element={<Navigate to="analysis" replace />} />
 
-          {/* Páginas del Dashboard */}
+          {/* Sub-páginas privadas */}
           <Route path="analysis" element={<Analysis />} />
           <Route path="billing" element={<Billing />} />
           <Route path="services/add" element={<AddService />} />
           <Route path="services/edit" element={<EditService />} />
         </Route>
       </Routes>
+
+      {/* Chatbot dentro del BrowserRouter para que pueda usar hooks de navegación si los necesita */}
+      <Chatbot />
     </BrowserRouter>
   );
 };
