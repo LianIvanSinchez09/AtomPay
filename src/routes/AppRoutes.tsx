@@ -47,7 +47,6 @@ const AppRoutes = () => {
       </Routes>
 
       <Chatbot />
-      <Footer/>
     </BrowserRouter>
   );
 };

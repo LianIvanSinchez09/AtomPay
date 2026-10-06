@@ -61,33 +61,11 @@ const serviceItemsSecondary: serviceItems[] = [
     path: "/dashboard/atomcito",
   },
 ];
-
 export default function ToolBar({ collapsed }: ToolBarProps) {
   const { user, logout } = useAuth();
-  const footer = document.querySelector("footer")
-  const { scrollY } = useScroll();
-  const stopAt = scrollY <= 1790 ? scrollY : 1790;
-  const [stopped, setStopped] = useState(() => scrollY.get() >= stopAt);
-  const distanceFooterFromTop = footer.getBoundingClientRect().top + window.scrollY;
-  const toolBarHeightRef = useRef<HTMLDivElement>(null);
-  console.log(toolBarHeightRef);
-  
-  const toolBarHeight = toolBarHeightRef.current
-  const next = footerTop - el.offsetHeight;
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setStopped(latest >= stopAt);
-  });
 
   return (
-    <div
-      className={`left-0 
-        flex 
-        h-screen
-        ${stopped ? "absolute" : "fixed top-0"}
-        `}
-      style={stopped ? { top: stopAt } : undefined}
-    >
+    <div className="flex h-screen shrink-0 self-start">
       <Sidepanel width="sm" hoverExpand={true}>
         <NavGroup items={serviceItemsSecondary} layoutId="active-nav-pill" />
       </Sidepanel>
@@ -106,12 +84,12 @@ export default function ToolBar({ collapsed }: ToolBarProps) {
                   referrerPolicy="no-referrer"
                 />
 
-                {/* Oculta los textos si collapsed es true */}
                 {!collapsed && (
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">
                       {user.name}
                     </p>
+
                     <p className="text-xs opacity-70 truncate">{user.email}</p>
                   </div>
                 )}

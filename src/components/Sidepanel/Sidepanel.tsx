@@ -1,27 +1,22 @@
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
-import "./Sidepanel.css"
+import "./Sidepanel.css";
 
-import type {
-  SidepanelProps,
-  customWidth,
-} from "../../types/types";
+import type { SidepanelProps, customWidth } from "../../types/types";
 import { useState } from "react";
 
 export default function Sidepanel({
   width,
   children,
   mainTitle,
-  hoverExpand=false,
-
+  hoverExpand = false,
 }: SidepanelProps) {
-
   const widths: customWidth = {
     xs: "w-32",
     sm: "w-64",
     md: "w-80",
     lg: "w-96",
-    xl: "w-120"
+    xl: "w-120",
   };
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(hoverExpand);
@@ -34,42 +29,37 @@ export default function Sidepanel({
     : {};
 
   const currentWidth = hoverExpand
-    ? (sidebarCollapsed ? "w-16" : widths[width])
+    ? sidebarCollapsed
+      ? "w-16"
+      : widths[width]
     : widths[width];
 
   return (
     <div
       {...hoverHandlers}
       className={`
-        relative
-        h-full
-        ${currentWidth}
-        shrink-0
-        flex
-        flex-col
-        font-sans
-
-        bg-[#4D869C]
-        text-white
-
-        border-r
-        border-[#3D7183]
-
-        dark:bg-black
-        dark:border-[#222222]
-        dark:text-white
-
-        transition-all
-        duration-300
-        ease-in-out
-
-        overflow-hidden
-      `}
+    h-screen
+    ${currentWidth}
+    shrink-0
+    flex
+    flex-col
+    font-sans
+    bg-[#4D869C]
+    text-white
+    border-r
+    border-[#3D7183]
+    dark:bg-black
+    dark:border-[#222222]
+    dark:text-white
+    transition-all
+    duration-300
+    ease-in-out
+    overflow-hidden
+  `}
     >
       {/* Header */}
       <div
         className={`
-          sticky
           flex
           items-center
           justify-center
@@ -92,14 +82,12 @@ export default function Sidepanel({
           </Link>
         ) : (
           <div className="m-5">
-            <Menu size={25}/>
+            <Menu size={25} />
           </div>
         )}
       </div>
 
-        <div className="sticky flex-1 overflow-y-auto px-2 pb-2">
-          {children}
-        </div>
+      <div className="flex-1 overflow-y-auto px-2 pb-2">{children}</div>
     </div>
   );
 }

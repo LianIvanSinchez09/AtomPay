@@ -8,8 +8,8 @@ import Footer from "../../../components/Footer";
 const Home = () => {
   return (
     <>
-      <div className=" dark:bg-[#000000] dark:text-white transition-colors duration-300">
-      <Navbar />
+      <div className="h-dvh overflow-y-auto dark:bg-[#000000] dark:text-white transition-colors duration-300">
+        <Navbar />
         <main className="homeContainer mx-auto flex min-h-[calc(100vh-88px)] max-w-6xl items-center">
           <div className="homeItem introContainer w-full">
             <motion.div className="relative flex items-center justify-center">
@@ -58,6 +58,7 @@ const Home = () => {
             </motion.div>
           </div>
         </main>
+        <Footer/>
       </div>
     </>
   );
