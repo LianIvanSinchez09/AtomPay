@@ -9,9 +9,8 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
-  // Esperar a verificar localStorage antes de redireccionar
   if (loading) {
-    return null; // O un Spinner/Loader
+    return null;
   }
 
   if (!user) {

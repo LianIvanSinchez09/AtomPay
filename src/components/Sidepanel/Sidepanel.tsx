@@ -41,7 +41,8 @@ export default function Sidepanel({
     <div
       {...hoverHandlers}
       className={`
-        h-screen
+        relative
+        h-full
         ${currentWidth}
         shrink-0
         flex
@@ -68,6 +69,7 @@ export default function Sidepanel({
       {/* Header */}
       <div
         className={`
+          sticky
           flex
           items-center
           justify-center
@@ -95,7 +97,7 @@ export default function Sidepanel({
         )}
       </div>
 
-        <div className="flex-1 overflow-y-auto px-2 pb-2">
+        <div className="sticky flex-1 overflow-y-auto px-2 pb-2">
           {children}
         </div>
     </div>
