@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { ReactNode } from "react";
 
 export interface ChatBot {
   webhookUrl: string;
@@ -102,4 +103,25 @@ export interface SidepanelChildren {
 export interface SidepanelProps extends SidepanelChildren {
   children: React.ReactNode
   hoverExpand?: boolean;
+}
+
+// Usuario que devuelve nuestro backend
+export interface User {
+  id: string;
+  googleId: string;
+  email: string;
+  name: string;
+  avatarUrl: string | null;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  login: (userData: User, token: string) => void;
+  register: (userData: User, token: string) => void;
+  logout: () => void;
+  loading: boolean;
+}
+
+export interface AuthProviderProps {
+  children: ReactNode;
 }
