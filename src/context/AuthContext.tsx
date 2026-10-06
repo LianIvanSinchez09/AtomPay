@@ -1,78 +1,169 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    type ReactNode,
+} from "react";
 
-// 1. Interfaz del usuario
-export interface GoogleUser {
-  sub: string;
-  name: string;
-  given_name: string;
-  family_name: string;
-  picture: string;
-  email: string;
-  email_verified: boolean;
-}
+import axios from "axios";
 
-// 2. Interfaz del Contexto
-interface AuthContextType {
-  user: GoogleUser | null;
-  login: (userData: GoogleUser) => void;
-  register: (userData: GoogleUser) => void;
-  logout: () => void;
-  loading: boolean;
-}
+import type {
+    AuthContextType,
+    AuthProviderProps,
+    GoogleUser,
+} from "../types/AuthContext";
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
+const API_URL = "http://localhost:3001/api";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<GoogleUser | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export const AuthProvider = ({
+    children,
+}: AuthProviderProps) => {
+    const [user, setUser] = useState<GoogleUser | null>(null);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Error al parsear el usuario del localStorage:", error);
-        localStorage.removeItem('user');
-      }
-    }
-    setLoading(false);
-  }, []);
+    /*
+    |--------------------------------------------------------------------------
+    | Recuperar sesión
+    |--------------------------------------------------------------------------
+    */
 
-  // 3. DECLARAR LA FUNCIÓN LOGIN (esto es lo que faltaba)
-  const login = (userData: GoogleUser) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-  };
+    useEffect(() => {
+        const restoreSession = async () => {
+            const sessionToken =
+                localStorage.getItem("atompay_session");
 
-  // 4. DECLARAR LA FUNCIÓN REGISTER
-  const register = (userData: GoogleUser) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-  };
+            if (!sessionToken) {
+                setLoading(false);
+                return;
+            }
 
-  // 5. DECLARAR LA FUNCIÓN LOGOUT
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-  };
+            try {
+                const response = await axios.get(
+                    `${API_URL}/auth/me`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${sessionToken}`,
+                        },
+                    }
+                );
 
-  return (
-    // Ahora 'user', 'login', 'register', 'logout' y 'loading' existen correctamente en el ámbito
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+                setUser(response.data.user);
+            } catch (error) {
+                console.error(
+                    "La sesión ya no es válida:",
+                    error
+                );
+
+                localStorage.removeItem("atompay_session");
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        restoreSession();
+    }, []);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login
+    |--------------------------------------------------------------------------
+    */
+
+    const login = (
+        userData: GoogleUser,
+        sessionToken: string
+    ) => {
+        setUser(userData);
+
+        /*
+        | Solamente guardamos el token de sesión.
+        | NO guardamos email, nombre ni perfil de Google.
+        */
+
+        localStorage.setItem(
+            "atompay_session",
+            sessionToken
+        );
+    };
+
+    /*
+    |--------------------------------------------------------------------------
+    | Register
+    |--------------------------------------------------------------------------
+    */
+
+    const register = (
+        userData: GoogleUser,
+        sessionToken: string
+    ) => {
+        setUser(userData);
+
+        localStorage.setItem(
+            "atompay_session",
+            sessionToken
+        );
+    };
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout
+    |--------------------------------------------------------------------------
+    */
+
+    const logout = async () => {
+        const sessionToken =
+            localStorage.getItem("atompay_session");
+
+        try {
+            if (sessionToken) {
+                await axios.post(
+                    `${API_URL}/auth/logout`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${sessionToken}`,
+                        },
+                    }
+                );
+            }
+        } catch (error) {
+            console.error(
+                "Error al cerrar sesión:",
+                error
+            );
+        } finally {
+            setUser(null);
+            localStorage.removeItem("atompay_session");
+        }
+    };
+
+    return (
+        <AuthContext.Provider
+            value={{
+                user,
+                login,
+                register,
+                logout,
+                loading,
+            }}
+        >
+            {!loading && children}
+        </AuthContext.Provider>
+    );
 };
 
 export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
-  }
-  return context;
+    const context = useContext(AuthContext);
+
+    if (!context) {
+        throw new Error(
+            "useAuth debe utilizarse dentro de AuthProvider"
+        );
+    }
+
+    return context;
 };
