@@ -83,6 +83,10 @@
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
 }
+.logoContainer::before::after{
+  border: 2px solid white;
+  content: "gergreg";
+}
 .core {
   position: absolute;
   top: 50%;
@@ -234,7 +238,7 @@
   width: 12px;
   height: 12px;
   background-color: transparent;
-    border: 1.5px solid white;
+  border: 1.5px solid white;
 
   animation-duration: 4.8s;
   animation-delay: 0.2s;
@@ -266,45 +270,24 @@
     -moz-transform: rotateZ(90deg) rotateX(60deg) rotateY(160deg);
     -ms-transform: rotateZ(90deg) rotateX(60deg) rotateY(160deg);
     -o-transform: rotateZ(90deg) rotateX(60deg) rotateY(160deg);
-}
+  }
   to {
     transform: rotateZ(450deg) rotateX(60deg) rotateY(160deg);
     -webkit-transform: rotateZ(450deg) rotateX(60deg) rotateY(160deg);
     -moz-transform: rotateZ(450deg) rotateX(60deg) rotateY(160deg);
     -ms-transform: rotateZ(450deg) rotateX(60deg) rotateY(160deg);
     -o-transform: rotateZ(450deg) rotateX(60deg) rotateY(160deg);
-}
+  }
 }
 @keyframes line2 {
-  0% {
+  from {
     transform: rotateZ(-60deg);
     -webkit-transform: rotateZ(-60deg);
     -moz-transform: rotateZ(-60deg);
     -ms-transform: rotateZ(-60deg);
     -o-transform: rotateZ(-60deg);
   }
-  25% {
-    transform: rotateZ(60deg);
-    -webkit-transform: rotateZ(60deg);
-    -moz-transform: rotateZ(60deg);
-    -ms-transform: rotateZ(60deg);
-    -o-transform: rotateZ(60deg);
-  }
-  50% {
-    transform: rotateZ(120deg);
-    -webkit-transform: rotateZ(120deg);
-    -moz-transform: rotateZ(120deg);
-    -ms-transform: rotateZ(120deg);
-    -o-transform: rotateZ(120deg);
-  }
-  75% {
-    transform: rotateZ(240deg);
-    -webkit-transform: rotateZ(240deg);
-    -moz-transform: rotateZ(240deg);
-    -ms-transform: rotateZ(240deg);
-    -o-transform: rotateZ(240deg);
-  }
-  100% {
+  to {
     transform: rotateZ(300deg);
     -webkit-transform: rotateZ(300deg);
     -moz-transform: rotateZ(300deg);
@@ -319,14 +302,14 @@
     -moz-transform: rotateX(60deg) rotateY(160deg) rotateZ(90deg);
     -ms-transform: rotateX(60deg) rotateY(160deg) rotateZ(90deg);
     -o-transform: rotateX(60deg) rotateY(160deg) rotateZ(90deg);
-}
+  }
   to {
     transform: rotateX(60deg) rotateY(160deg) rotateZ(450deg);
     -webkit-transform: rotateX(60deg) rotateY(160deg) rotateZ(450deg);
     -moz-transform: rotateX(60deg) rotateY(160deg) rotateZ(450deg);
     -ms-transform: rotateX(60deg) rotateY(160deg) rotateZ(450deg);
     -o-transform: rotateX(60deg) rotateY(160deg) rotateZ(450deg);
-}
+  }
 }
 @keyframes spinOrbit3 {
   from {
@@ -335,14 +318,14 @@
     -moz-transform: rotateX(60deg) rotateY(160deg) rotateZ(140deg);
     -ms-transform: rotateX(60deg) rotateY(160deg) rotateZ(140deg);
     -o-transform: rotateX(60deg) rotateY(160deg) rotateZ(140deg);
-}
+  }
   to {
     transform: rotateX(60deg) rotateY(160deg) rotateZ(500deg);
     -webkit-transform: rotateX(60deg) rotateY(160deg) rotateZ(500deg);
     -moz-transform: rotateX(60deg) rotateY(160deg) rotateZ(500deg);
     -ms-transform: rotateX(60deg) rotateY(160deg) rotateZ(500deg);
     -o-transform: rotateX(60deg) rotateY(160deg) rotateZ(500deg);
-}
+  }
 }
 @keyframes spinOrbit4FHalf {
   from {
@@ -351,7 +334,7 @@
     -moz-transform: rotateX(190deg) rotateY(120deg) rotateZ(190deg);
     -ms-transform: rotateX(190deg) rotateY(120deg) rotateZ(190deg);
     -o-transform: rotateX(190deg) rotateY(120deg) rotateZ(190deg);
-}
+  }
 
   to {
     transform: rotateX(190deg) rotateY(120deg) rotateZ(550deg);
@@ -359,7 +342,7 @@
     -moz-transform: rotateX(190deg) rotateY(120deg) rotateZ(550deg);
     -ms-transform: rotateX(190deg) rotateY(120deg) rotateZ(550deg);
     -o-transform: rotateX(190deg) rotateY(120deg) rotateZ(550deg);
-}
+  }
 }
 @keyframes spinOrbit4SHalf {
   from {
@@ -368,12 +351,12 @@
     -moz-transform: rotateX(120deg) rotateY(190deg) rotateZ(20deg);
     -ms-transform: rotateX(120deg) rotateY(190deg) rotateZ(20deg);
     -o-transform: rotateX(120deg) rotateY(190deg) rotateZ(20deg);
-}
+  }
   to {
     transform: rotateX(120deg) rotateY(190deg) rotateZ(380deg);
     -webkit-transform: rotateX(120deg) rotateY(190deg) rotateZ(380deg);
     -moz-transform: rotateX(120deg) rotateY(190deg) rotateZ(380deg);
     -ms-transform: rotateX(120deg) rotateY(190deg) rotateZ(380deg);
     -o-transform: rotateX(120deg) rotateY(190deg) rotateZ(380deg);
-}
+  }
 }

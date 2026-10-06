@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useAuth(); // Usamos la función del contexto
+    const { login } = useAuth(); 
 
     const loginWithGoogle = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -17,10 +17,8 @@ const Login = () => {
                     }
                 );
 
-                // Guardamos en el estado global y localStorage a través del Contexto
                 login(userInfo.data);
 
-                // Redirigimos
                 navigate("/dashboard");
             } catch (error) {
                 console.error("Error al obtener perfil del usuario:", error);
@@ -46,7 +44,6 @@ const Login = () => {
                 </Link>
             </motion.nav>
 
-            {/* Login */}
             <main className="flex min-h-[calc(100vh-88px)] items-center justify-center px-4 py-10">
 
                 <motion.div
@@ -56,7 +53,6 @@ const Login = () => {
                     className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl dark:bg-[#3E432E]"
                 >
 
-                    {/* Título */}
                     <div className="mb-8 text-center">
                         <h1 className="text-2xl font-bold">
                             Bienvenido de nuevo
@@ -67,7 +63,6 @@ const Login = () => {
                         </p>
                     </div>
 
-                    {/* Google */}
                     <motion.button
                         onClick={() => loginWithGoogle()}
                         whileHover={{ scale: 1.02 }}

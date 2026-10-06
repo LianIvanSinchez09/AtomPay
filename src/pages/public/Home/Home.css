@@ -1,0 +1,26 @@
+
+
+
+.homeContainer {
+  display: flex;
+  max-width: 100vw;
+  padding: 12rem;
+}
+
+.introContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7rem;
+}
+
+.homeItem {
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .introContainer {
+    flex-direction: column;
+    gap: 10rem;
+  }
+}

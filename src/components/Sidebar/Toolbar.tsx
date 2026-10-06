@@ -8,15 +8,14 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
-
 import "./Sidebar.css";
 import Sidepanel from "../Sidepanel/Sidepanel";
 import NavGroup from "../Navgroup";
 import { useAuth } from "../../context/AuthContext";
-
 import type { serviceItems } from "../../types/types";
+import { useState } from "react";
+import { useScroll, useMotionValueEvent } from "motion/react";
 
-// 1. Definimos la interfaz de las props que recibe de Dashboard
 interface ToolBarProps {
   collapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
@@ -62,13 +61,11 @@ const serviceItemsSecondary: serviceItems[] = [
     path: "/dashboard/atomcito",
   },
 ];
-
-// 2. Le asignamos los props a la función
-export default function ToolBar({ collapsed, onCollapsedChange }: ToolBarProps) {
+export default function ToolBar({ collapsed }: ToolBarProps) {
   const { user, logout } = useAuth();
 
   return (
-    <div className="flex sticky top-0 left-0 h-screen">
+    <div className="flex h-screen shrink-0 self-start">
       <Sidepanel width="sm" hoverExpand={true}>
         <NavGroup items={serviceItemsSecondary} layoutId="active-nav-pill" />
       </Sidepanel>
@@ -86,11 +83,13 @@ export default function ToolBar({ collapsed, onCollapsedChange }: ToolBarProps) 
                   className="h-9 w-9 rounded-full object-cover"
                   referrerPolicy="no-referrer"
                 />
-                
-                {/* Oculta los textos si collapsed es true */}
+
                 {!collapsed && (
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold truncate">{user.name}</p>
+                    <p className="text-sm font-semibold truncate">
+                      {user.name}
+                    </p>
+
                     <p className="text-xs opacity-70 truncate">{user.email}</p>
                   </div>
                 )}

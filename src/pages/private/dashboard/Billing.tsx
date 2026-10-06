@@ -43,7 +43,7 @@ export default function Billing() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px]">
+            <table className="w-full min-w-150">
               <thead>
                 <tr className="border-b border-[#CDE8E5] text-left dark:border-[#616F39]">
                   <th className="px-6 py-4">Servicio</th>
