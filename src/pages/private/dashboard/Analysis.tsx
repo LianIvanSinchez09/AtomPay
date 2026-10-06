@@ -14,6 +14,7 @@ import FinancialInsights from "../../../components/analysis/FinancialInsights";
 import RecentInvoices from "../../../components/analysis/RecentInvoices";
 import PeriodComparison from "../../../components/analysis/PeriodComparison";
 
+
 import {
   monthlyExpenses,
   categoryExpenses,
@@ -29,7 +30,6 @@ export default function Analysis() {
     <main className="min-h-screen bg-[#EEF7FF] px-4 py-6 dark:bg-[#000000] md:px-8 lg:px-10">
       <div className="mx-auto max-w-7xl">
 
-        {/* HEADER */}
         <AnalysisHeader />
 
         {/* ESTADÍSTICAS */}

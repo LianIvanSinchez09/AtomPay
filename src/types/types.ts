@@ -1,6 +1,19 @@
 import type { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 
+
+export type FooterLink = {
+  label: string;
+  to: string;
+  end?: boolean;
+};
+
+export type FooterSection = {
+  title: string;
+  links: FooterLink[];
+};
+
+
 export interface ChatBot {
   webhookUrl: string;
 
