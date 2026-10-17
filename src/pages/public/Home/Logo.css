@@ -83,10 +83,6 @@
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
 }
-.logoContainer::before::after{
-  border: 2px solid white;
-  content: "gergreg";
-}
 .core {
   position: absolute;
   top: 50%;
