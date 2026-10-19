@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 export interface ChatBot {
   webhookUrl: string;
@@ -103,3 +104,59 @@ export interface SidepanelProps extends SidepanelChildren {
   children: React.ReactNode
   hoverExpand?: boolean;
 }
+
+// Usuario que devuelve nuestro backend
+export interface User {
+  id: string;
+  googleId: string;
+  email: string;
+  name: string;
+  avatarUrl: string | null;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  login: (userData: User, token: string) => void;
+  register: (userData: User, token: string) => void;
+  logout: () => void;
+  loading: boolean;
+}
+
+export interface AuthProviderProps {
+  children: ReactNode;
+}
+
+//esto para el billing
+export type InvoiceStatus = "Pagado" | "Pendiente" | "Vencido";
+
+export interface InvoiceConsumption {
+  value: number;
+  unit: string;
+}
+
+export interface Invoice {
+  id: string;
+  category: string;
+  service: string;
+  provider: string;
+  issueDate: string;
+  dueDate: string | null;
+  amount: number;
+  currency: string;
+  status: InvoiceStatus;
+  period: string;
+  consumption?: InvoiceConsumption;
+  /** true cuando el comprobante no traía el importe y hay que completarlo. */
+  requiresReview?: boolean;
+  source?: string;
+  invoiceNumber?: string | null;
+  /** Link al mail original en Gmail, para ir a verlo o pagarlo. */
+  emailUrl?: string | null;
+}
+
+export interface ServiceCategory {
+  name: string;
+  description: string;
+  icon: LucideIcon;
+}
+
