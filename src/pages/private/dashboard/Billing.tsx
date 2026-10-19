@@ -213,11 +213,24 @@ export default function Billing() {
             </div>
           </div>
 
+<<<<<<< HEAD
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-150">
+              <thead>
+                <tr className="border-b border-[#CDE8E5] text-left dark:border-[#616F39]">
+                  <th className="px-6 py-4">Servicio</th>
+                  <th className="px-6 py-4">Fecha</th>
+                  <th className="px-6 py-4">Monto</th>
+                  <th className="px-6 py-4">Estado</th>
+                </tr>
+              </thead>
+=======
           <div className="rounded-2xl border border-[#CDE8E5] bg-white p-5 shadow-sm dark:border-[#616F39] dark:bg-[#3E432E]">
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-[#EEF7FF] p-3 dark:bg-[#616F39]">
                 <CalendarDays size={22} />
               </div>
+>>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
 
               <div>
                 <p className="text-sm opacity-70">

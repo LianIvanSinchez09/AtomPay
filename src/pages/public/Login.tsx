@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import {
+    AlertCircle,
+    CheckCircle2,
+    ShieldCheck,
+} from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import {
     AlertCircle,
@@ -147,9 +152,16 @@ const Login = () => {
             >
                 <Link
                     to="/"
-                    className="text-2xl font-bold text-[#4D869C] dark:text-[#A7D129]"
+                    className="text-2xl font-bold tracking-tight text-[#4D869C] transition-transform hover:scale-105 dark:text-[#A7D129]"
                 >
                     AtomPay
+                </Link>
+
+                <Link
+                    to="/register"
+                    className="text-sm font-medium text-[#4D869C] transition-colors hover:text-[#7AB2B2] dark:text-[#A7D129] dark:hover:text-white"
+                >
+                    Crear cuenta
                 </Link>
             </motion.nav>
 
