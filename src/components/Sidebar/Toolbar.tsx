@@ -13,8 +13,6 @@ import Sidepanel from "../Sidepanel/Sidepanel";
 import NavGroup from "../Navgroup";
 import { useAuth } from "../../context/AuthContext";
 import type { serviceItems } from "../../types/types";
-import { useState } from "react";
-import { useScroll, useMotionValueEvent } from "motion/react";
 
 interface ToolBarProps {
   collapsed?: boolean;
@@ -78,7 +76,7 @@ export default function ToolBar({ collapsed }: ToolBarProps) {
             <div className="mt-auto border-t border-[#CDE8E5] p-4 dark:border-[#616F39]">
               <div className="flex items-center gap-3">
                 <img
-                  src={user.picture}
+                  src={user.avatarUrl ?? undefined}
                   alt={user.name}
                   className="h-9 w-9 rounded-full object-cover"
                   referrerPolicy="no-referrer"

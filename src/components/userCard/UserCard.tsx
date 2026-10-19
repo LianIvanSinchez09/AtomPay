@@ -15,7 +15,7 @@ const UserCard = () => {
         <div className="flex items-center gap-3 rounded-xl border border-[#CDE8E5] bg-white p-3 shadow-sm dark:border-[#616F39] dark:bg-[#000000]">
 
             <img
-                src={user.picture}
+                src={user.avatarUrl ?? undefined}
                 alt={user.name}
                 className="h-10 w-10 rounded-full object-cover"
             />

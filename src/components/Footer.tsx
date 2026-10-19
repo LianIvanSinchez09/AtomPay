@@ -1,6 +1,5 @@
 import { Atom } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { FooterLink } from "../types/types"
 import { FooterSection } from "../types/types"
 import { useScroll, useMotionValueEvent } from "motion/react";
 
@@ -39,7 +38,7 @@ const linkClasses = ({ isActive }: { isActive: boolean }) =>
   ].join(" ");
 
 export default function Footer() {
-  const { scrollY, scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
 
 useMotionValueEvent(scrollY, "change", (latest) => {
   console.log(latest); // pixels

@@ -15,7 +15,6 @@ import Billing from "../pages/private/dashboard/Billing";
 import AddService from "../pages/private/dashboard/AddService";
 import EditService from "../pages/private/dashboard/EditService";
 import Atomcito from "../pages/private/dashboard/Atomcito.tsx"
-import Footer from "../components/Footer.tsx"
 
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
 import Chatbot from "../components/chatbot/Chatbot";
