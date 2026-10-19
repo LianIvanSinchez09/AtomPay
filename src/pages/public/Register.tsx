@@ -3,30 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
 import {
-    CheckCircle2,
     AlertCircle,
+    CheckCircle2,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import { api } from "../../services/api";
 
 const Register = () => {
     const navigate = useNavigate();
-
     const { register } = useAuth();
 
-    const [message, setMessage] = useState<string | null>(
-        null
-    );
-
     const [errorMessage, setErrorMessage] =
+        useState<string | null>(null);
+
+    const [successMessage, setSuccessMessage] =
         useState<string | null>(null);
 
     const handleGoogleRegister = async (
         credential: string
     ) => {
         try {
-            setMessage(null);
             setErrorMessage(null);
 
             const response = await api.post(
@@ -41,65 +38,42 @@ const Register = () => {
                 response.data.token
             );
 
-            localStorage.setItem(
-                "token",
-                response.data.token
-            );
-
-            setMessage(
-                "¡Registro exitoso! Redirigiendo al Dashboard..."
+            setSuccessMessage(
+                "¡Registro exitoso! Redirigiendo..."
             );
 
             setTimeout(() => {
                 navigate("/dashboard");
-            }, 1200);
+            }, 1000);
+
         } catch (error) {
-    console.error("ERROR COMPLETO:", error);
+            if (
+                axios.isAxiosError(error) &&
+                error.response?.status === 409
+            ) {
+                setErrorMessage(
+                    "Esta cuenta de Google ya está registrada. Iniciá sesión."
+                );
 
-    if (axios.isAxiosError(error)) {
-        console.error("STATUS:", error.response?.status);
-        console.error("DATA:", error.response?.data);
-    }
+                return;
+            }
 
-    setErrorMessage(
-        axios.isAxiosError(error)
-            ? error.response?.data?.message ??
-              "Error desconocido del servidor."
-            : "No se pudo completar el registro."
-    );
-}
+            console.error(
+                "Error durante el registro:",
+                error
+            );
+
+            setErrorMessage(
+                "No se pudo completar el registro. Intentá nuevamente."
+            );
+        }
     };
 
     return (
         <div className="relative min-h-screen bg-[#EEF7FF] text-[#4D869C] transition-colors duration-300 dark:bg-[#000000] dark:text-white">
 
+            {/* Alertas */}
             <AnimatePresence>
-                {message && (
-                    <motion.div
-                        initial={{
-                            opacity: 0,
-                            y: -20,
-                            scale: 0.95,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                        }}
-                        exit={{
-                            opacity: 0,
-                            y: -20,
-                        }}
-                        className="fixed right-6 top-6 z-50 flex items-center gap-3 rounded-2xl bg-emerald-500 px-5 py-4 text-white shadow-xl"
-                    >
-                        <CheckCircle2 className="h-6 w-6 shrink-0" />
-
-                        <span className="text-sm font-semibold">
-                            {message}
-                        </span>
-                    </motion.div>
-                )}
-
                 {errorMessage && (
                     <motion.div
                         initial={{
@@ -125,8 +99,35 @@ const Register = () => {
                         </span>
                     </motion.div>
                 )}
+
+                {successMessage && (
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                            y: -20,
+                            scale: 0.95,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                        }}
+                        exit={{
+                            opacity: 0,
+                            y: -20,
+                        }}
+                        className="fixed right-6 top-6 z-50 flex items-center gap-3 rounded-2xl bg-emerald-500 px-5 py-4 text-white shadow-xl dark:bg-emerald-600"
+                    >
+                        <CheckCircle2 className="h-6 w-6 shrink-0" />
+
+                        <span className="text-sm font-semibold">
+                            {successMessage}
+                        </span>
+                    </motion.div>
+                )}
             </AnimatePresence>
 
+            {/* Navbar */}
             <motion.nav
                 initial={{
                     y: -30,
@@ -149,8 +150,8 @@ const Register = () => {
                 </Link>
             </motion.nav>
 
+            {/* Register */}
             <main className="flex min-h-[calc(100vh-88px)] items-center justify-center px-4 py-10">
-
                 <motion.div
                     initial={{
                         opacity: 0,
@@ -165,7 +166,7 @@ const Register = () => {
                     }}
                     className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl dark:bg-[#3E432E]"
                 >
-
+                    {/* Título */}
                     <div className="mb-8 text-center">
                         <h1 className="text-2xl font-bold">
                             Crear una cuenta
@@ -176,6 +177,7 @@ const Register = () => {
                         </p>
                     </div>
 
+                    {/* Google */}
                     <div className="flex w-full justify-center">
                         <GoogleLogin
                             onSuccess={(response) => {
@@ -183,6 +185,7 @@ const Register = () => {
                                     setErrorMessage(
                                         "Google no devolvió las credenciales necesarias."
                                     );
+
                                     return;
                                 }
 
@@ -199,6 +202,7 @@ const Register = () => {
                         />
                     </div>
 
+                    {/* Login */}
                     <p className="mt-8 text-center text-sm opacity-70">
                         ¿Ya tenés una cuenta?{" "}
 

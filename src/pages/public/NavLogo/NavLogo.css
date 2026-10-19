@@ -1,0 +1,23 @@
+.navLogo {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.5rem
+}
+.navLogo::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  pointer-events: none;
+  -webkit-clip-path: polygon(0 100%, 0 100%, 0 100%);
+  clip-path: polygon(0 100%, 0 100%, 0 100%);
+  transition: clip-path 0.57s ease;
+}
+.navLogo:hover::after {
+  -webkit-clip-path: polygon(0 100%, 0 -200%, 400% 100%);
+  clip-path: polygon(0 100%, 0 -200%, 400% 100%);
+}
+.navLogo:hover {
+
+}
