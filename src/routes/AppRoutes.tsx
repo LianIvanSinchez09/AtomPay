@@ -12,8 +12,7 @@ import Register from "../pages/public/Register";
 import Dashboard from "../pages/private/dashboard/Dashboard";
 import Analysis from "../pages/private/dashboard/Analysis";
 import Billing from "../pages/private/dashboard/Billing";
-import AddService from "../pages/private/dashboard/AddService";
-import EditService from "../pages/private/dashboard/EditService";
+import AdminServices from "../pages/private/dashboard/AdminServices";
 import Atomcito from "../pages/private/dashboard/Atomcito.tsx"
 
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
@@ -39,8 +38,13 @@ const AppRoutes = () => {
 
           <Route path="analysis" element={<Analysis />} />
           <Route path="billing" element={<Billing />} />
-          <Route path="services/add" element={<AddService />} />
-          <Route path="services/edit" element={<EditService />} />
+          <Route path="admin-services" element={<AdminServices />} />
+          <Route
+            path="services/*"
+            element={
+              <Navigate to="/dashboard/admin-services" replace />
+            }
+          />
           <Route path="atomcito" element={<Atomcito />} />
         </Route>
       </Routes>

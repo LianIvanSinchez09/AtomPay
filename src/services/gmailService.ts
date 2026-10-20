@@ -45,7 +45,7 @@ export async function disconnectGmailAccount(id: string): Promise<void> {
 
 export async function syncGmailAccount(
   id: string,
-  maxResults = 25
+  maxResults = 500
 ): Promise<SyncResult> {
   const { data } = await api.post<{ status: string; data: SyncResult }>(
     `/gmail/accounts/${id}/sync`,

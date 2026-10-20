@@ -1,8 +1,7 @@
 import {
   BarChart3,
   Receipt,
-  Plus,
-  Pencil,
+  Settings2,
   Sparkles,
   Bell,
   Settings,
@@ -31,14 +30,9 @@ const serviceItems: serviceItems[] = [
     path: "/dashboard/billing",
   },
   {
-    label: "Agregar Servicio",
-    icon: Plus,
-    path: "/dashboard/services/add",
-  },
-  {
-    label: "Modificar/Eliminar Servicio",
-    icon: Pencil,
-    path: "/dashboard/services/edit",
+    label: "Administrar Servicios",
+    icon: Settings2,
+    path: "/dashboard/admin-services",
   },
 ];
 

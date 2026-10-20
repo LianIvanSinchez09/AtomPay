@@ -3,95 +3,36 @@ import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   AlertCircle,
-  ArrowLeftRight,
   CalendarDays,
   CheckCircle,
   ChevronDown,
   Clock,
-  Droplets,
   FileText,
-  Flame,
+  Folder,
   Loader2,
-  ShoppingBag,
-  Tv,
-  Wifi,
-  Zap,
-  CircleDollarSign,
   Mail,
   type LucideIcon,
 } from "lucide-react";
 
 import type {
+  CategoryRecord,
   Invoice,
   InvoiceStatus,
   ServiceCategory,
 } from "../../../types/types";
 
 import GmailConnection from "../../../components/gmail/GmailConnection";
-import { getBillingOverview } from "../../../services/billingService";
+import {
+  getBillingOverview,
+  getCategories,
+} from "../../../services/billingService";
+import { serviceCategories as categories } from "../../../data/serviceCategories";
+import {
+  dateFormat,
+  moneyFormat,
+  sourceLabels,
+} from "../../../utils/billingFormat";
 import { errorMessage } from "../../../services/apiError";
-
-const categories: ServiceCategory[] = [
-  {
-    name: "Luz",
-    description: "Facturas de electricidad y consumo energético",
-    icon: Zap,
-  },
-  {
-    name: "Gas",
-    description: "Facturas de gas y consumo",
-    icon: Flame,
-  },
-  {
-    name: "Agua",
-    description: "Facturas y consumo de agua",
-    icon: Droplets,
-  },
-  {
-    name: "Internet",
-    description: "Internet, telefonía y conectividad",
-    icon: Wifi,
-  },
-  {
-    name: "Multimedia",
-    description: "Streaming, plataformas y suscripciones",
-    icon: Tv,
-  },
-  {
-    name: "Compras",
-    description: "Compras y pedidos online",
-    icon: ShoppingBag,
-  },
-  {
-    name: "Pagos",
-    description: "Transferencias, débitos y pagos con cualquier medio",
-    icon: ArrowLeftRight,
-  },
-  {
-    name: "Otros",
-    description: "Otros servicios y facturas detectados",
-    icon: CircleDollarSign,
-  },
-];
-
-const moneyFormat = (amount: number, currency: string) =>
-  new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 2,
-  }).format(amount);
-
-const dateFormat = (date: string) =>
-  new Intl.DateTimeFormat("es-AR").format(
-    new Date(`${date}T12:00:00`)
-  );
-
-// De dónde salió el importe. El usuario no lo edita: se muestra la fuente.
-const sourceLabels: Record<string, string> = {
-  pdf: "PDF adjunto",
-  image: "Factura escaneada (OCR)",
-  email_body: "Cuerpo del mail",
-};
 
 const statusStyles: Record<InvoiceStatus, string> = {
   Pagado:
@@ -124,6 +65,9 @@ export default function Billing() {
   const [selectedCategory, setSelectedCategory] =
     useState<string | null>(null);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [categoryRows, setCategoryRows] = useState<CategoryRecord[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -138,24 +82,62 @@ export default function Billing() {
     }
   }, []);
 
+  const loadCategories = useCallback(async () => {
+    try {
+      setCategoryRows(await getCategories());
+    } catch {
+      // Si falla, la grilla usa las categorías base.
+    }
+  }, []);
+
   useEffect(() => {
     void loadInvoices();
-  }, [loadInvoices]);
+    void loadCategories();
+  }, [loadInvoices, loadCategories]);
 
-  // Categorías conocidas + las que aparezcan en los datos.
+  const toggleCategory = (name: string) => {
+    setSelectedCategory((current) =>
+      current === name ? null : name
+    );
+  };
+
+  // Categorías guardadas (base + las que haya) y, por las dudas, las que
+  // aparezcan en los comprobantes. El orden y el icono salen de la lista
+  // conocida; las desconocidas usan un icono genérico.
+  const categoryOrder = new Map(
+    categories.map((category, index) => [category.name, index])
+  );
+
   const displayedCategories: ServiceCategory[] = Array.from(
     new Set([
-      ...categories.map((category) => category.name),
+      ...(categoryRows.length > 0
+        ? categoryRows.map((category) => category.name)
+        : categories.map((category) => category.name)),
       ...invoices.map((invoice) => invoice.category),
     ])
-  ).map(
-    (name) =>
-      categories.find((category) => category.name === name) ?? {
+  )
+    .sort(
+      (a, b) =>
+        (categoryOrder.get(a) ?? 99) - (categoryOrder.get(b) ?? 99) ||
+        a.localeCompare(b)
+    )
+    .map((name) => {
+      const known = categories.find(
+        (category) => category.name === name
+      );
+      const stored = categoryRows.find(
+        (category) => category.name === name
+      );
+
+      return {
         name,
-        description: "Comprobantes detectados automáticamente",
-        icon: FileText,
-      }
-  );
+        description:
+          stored?.description ??
+          known?.description ??
+          "Categoría personalizada",
+        icon: known?.icon ?? Folder,
+      };
+    });
 
   const totalPending = invoices
     .filter((invoice) => invoice.status !== "Pagado")
@@ -264,11 +246,7 @@ export default function Billing() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.04 }}
-                  onClick={() =>
-                    setSelectedCategory(
-                      isSelected ? null : category.name
-                    )
-                  }
+                  onClick={() => toggleCategory(category.name)}
                   aria-expanded={isSelected}
                   className={`rounded-2xl border p-5 text-left shadow-sm transition-colors ${
                     isSelected
