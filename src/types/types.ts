@@ -150,6 +150,7 @@ export interface InvoiceConsumption {
 
 export interface Invoice {
   id: string;
+  serviceId: string;
   category: string;
   service: string;
   provider: string;
@@ -168,9 +169,64 @@ export interface Invoice {
   emailUrl?: string | null;
 }
 
+/**
+ * Categoría que quedó asociada a un remitente cuando el usuario corrigió un
+ * comprobante. Se aplica a los comprobantes nuevos de esa misma dirección.
+ */
+export interface SenderRule {
+  sender: string;
+  category: string;
+}
+
+/** Servicio que el usuario agregó para que el escaneo lo busque. */
+export interface ServiceSource {
+  id: string;
+  name: string;
+  sender: string | null;
+  keywords: string | null;
+  category: string;
+  /** Mails descartados que volvieron a la cola al agregarlo. */
+  requeued?: number;
+}
+
+/** Categoría tal como está guardada (las base + las que crea el usuario). */
+export interface CategoryRecord {
+  id: string;
+  name: string;
+  description: string | null;
+}
+
+/** Servicio existente al que se puede asignar un comprobante manual. */
+export interface BillableService {
+  id: string;
+  name: string;
+  provider: string | null;
+  category: string;
+  invoiceCount: number;
+}
+
+/** Resultado de leer un comprobante subido a mano. */
+export interface ManualInvoice {
+  id: string;
+  service: string;
+  category: string;
+  amount: number;
+  currency: string;
+  issueDate: string;
+  dueDate: string | null;
+  invoiceNumber: string | null;
+  requiresReview: boolean;
+}
+
 export interface ServiceCategory {
   name: string;
   description: string;
   icon: LucideIcon;
 }
+
+/** Categoría con su id y cantidad de comprobantes, para la grilla. */
+export type DisplayCategory = ServiceCategory & {
+  id: string | null;
+  invoiceCount: number;
+};
 

@@ -18,8 +18,10 @@ const sections: FooterSection[] = [
   {
     title: "Servicios",
     links: [
-      { label: "Agregar servicio", to: "/dashboard/services/add" },
-      { label: "Modificar / Eliminar", to: "/dashboard/services/edit" },
+      {
+        label: "Administrar servicios",
+        to: "/dashboard/admin-services",
+      },
     ],
   },
   {
