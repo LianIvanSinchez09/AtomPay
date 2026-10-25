@@ -1,22 +1,6 @@
 import axios from "axios";
 
 export const api = axios.create({
-<<<<<<< HEAD
-  baseURL: "http://localhost:3001/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-=======
     baseURL: "http://localhost:3001/api",
     headers: {
         "Content-Type": "application/json",
@@ -31,5 +15,10 @@ api.interceptors.request.use((config) => {
     }
 
     return config;
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
 });
+
+export async function getDolar(tipo = "blue") {
+  const res = await fetch(`https://dolarapi.com/v1/dolares/${tipo}`);
+  if (!res.ok) throw new Error(`Error ${res.status}`);
+  return res.json();
+}

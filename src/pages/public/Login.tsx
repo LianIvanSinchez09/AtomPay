@@ -9,10 +9,6 @@ import {
     ShieldCheck,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import {
-    AlertCircle,
-    CheckCircle2,
-} from "lucide-react";
 import { api } from "../../services/api";
 
 const Login = () => {

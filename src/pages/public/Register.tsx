@@ -8,10 +8,6 @@ import {
     CheckCircle2,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import {
-    CheckCircle2,
-    AlertCircle,
-} from "lucide-react";
 import { api } from "../../services/api";
 
 const Register = () => {
@@ -77,40 +73,8 @@ const Register = () => {
     return (
         <div className="relative min-h-screen bg-[#EEF7FF] text-[#4D869C] transition-colors duration-300 dark:bg-[#000000] dark:text-white">
 
-<<<<<<< HEAD
-            {/* Alertas */}
-            <AnimatePresence>
-                {errorMessage && (
-                    <motion.div
-                        initial={{
-                            opacity: 0,
-                            y: -20,
-                            scale: 0.95,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                        }}
-                        exit={{
-                            opacity: 0,
-                            y: -20,
-                        }}
-                        className="fixed right-6 top-6 z-50 flex max-w-sm items-center gap-3 rounded-2xl bg-red-500 px-5 py-4 text-white shadow-xl"
-                    >
-                        <AlertCircle className="h-6 w-6 shrink-0" />
-
-                        <span className="text-sm font-semibold">
-                            {errorMessage}
-                        </span>
-                    </motion.div>
-                )}
-
-                {successMessage && (
-=======
             <AnimatePresence>
                 {message && (
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
                     <motion.div
                         initial={{
                             opacity: 0,
@@ -126,18 +90,11 @@ const Register = () => {
                             opacity: 0,
                             y: -20,
                         }}
-<<<<<<< HEAD
-                        className="fixed right-6 top-6 z-50 flex items-center gap-3 rounded-2xl bg-emerald-500 px-5 py-4 text-white shadow-xl dark:bg-emerald-600"
-=======
                         className="fixed right-6 top-6 z-50 flex items-center gap-3 rounded-2xl bg-emerald-500 px-5 py-4 text-white shadow-xl"
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
                     >
                         <CheckCircle2 className="h-6 w-6 shrink-0" />
 
                         <span className="text-sm font-semibold">
-<<<<<<< HEAD
-                            {successMessage}
-=======
                             {message}
                         </span>
                     </motion.div>
@@ -165,7 +122,6 @@ const Register = () => {
 
                         <span className="text-sm font-semibold">
                             {errorMessage}
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
                         </span>
                     </motion.div>
                 )}
@@ -220,10 +176,6 @@ const Register = () => {
                         </p>
                     </div>
 
-<<<<<<< HEAD
-                    {/* Google */}
-=======
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
                     <div className="flex w-full justify-center">
                         <GoogleLogin
                             onSuccess={(response) => {
@@ -231,16 +183,9 @@ const Register = () => {
                                     setErrorMessage(
                                         "Google no devolvió las credenciales necesarias."
                                     );
-<<<<<<< HEAD
-
                                     return;
                                 }
 
-=======
-                                    return;
-                                }
-
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
                                 handleGoogleRegister(
                                     response.credential
                                 );
@@ -254,10 +199,6 @@ const Register = () => {
                         />
                     </div>
 
-<<<<<<< HEAD
-                    {/* Login */}
-=======
->>>>>>> b75b05db808b16eb0cef75707722f62462b5a79f
                     <p className="mt-8 text-center text-sm opacity-70">
                         ¿Ya tenés una cuenta?{" "}
 
