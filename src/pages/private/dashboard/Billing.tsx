@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -13,6 +12,8 @@ import {
   Mail,
   type LucideIcon,
 } from "lucide-react";
+
+import { getDolar } from "../../../services/api";
 
 import type {
   CategoryRecord,
@@ -35,12 +36,10 @@ import {
 import { errorMessage } from "../../../services/apiError";
 
 const statusStyles: Record<InvoiceStatus, string> = {
-  Pagado:
-    "bg-[#CDE8E5] text-[#28665D] dark:bg-[#616F39] dark:text-[#D7F59A]",
+  Pagado: "bg-[#CDE8E5] text-[#28665D] dark:bg-[#616F39] dark:text-[#D7F59A]",
   Pendiente:
     "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
-  Vencido:
-    "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+  Vencido: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
 };
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
@@ -62,14 +61,16 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 }
 
 export default function Billing() {
-  const [selectedCategory, setSelectedCategory] =
-    useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [categoryRows, setCategoryRows] = useState<CategoryRecord[]>(
-    []
-  );
+  const [categoryRows, setCategoryRows] = useState<CategoryRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [showUsd, setShowUsd] = useState(false);
+  const [usdRate, setUsdRate] = useState<number | null>(null);
+  const [rateLoading, setRateLoading] = useState(false);
+  const [rateError, setRateError] = useState(false);
 
   const loadInvoices = useCallback(async () => {
     try {
@@ -96,16 +97,14 @@ export default function Billing() {
   }, [loadInvoices, loadCategories]);
 
   const toggleCategory = (name: string) => {
-    setSelectedCategory((current) =>
-      current === name ? null : name
-    );
+    setSelectedCategory((current) => (current === name ? null : name));
   };
 
   // Categorías guardadas (base + las que haya) y, por las dudas, las que
   // aparezcan en los comprobantes. El orden y el icono salen de la lista
   // conocida; las desconocidas usan un icono genérico.
   const categoryOrder = new Map(
-    categories.map((category, index) => [category.name, index])
+    categories.map((category, index) => [category.name, index]),
   );
 
   const displayedCategories: ServiceCategory[] = Array.from(
@@ -114,20 +113,16 @@ export default function Billing() {
         ? categoryRows.map((category) => category.name)
         : categories.map((category) => category.name)),
       ...invoices.map((invoice) => invoice.category),
-    ])
+    ]),
   )
     .sort(
       (a, b) =>
         (categoryOrder.get(a) ?? 99) - (categoryOrder.get(b) ?? 99) ||
-        a.localeCompare(b)
+        a.localeCompare(b),
     )
     .map((name) => {
-      const known = categories.find(
-        (category) => category.name === name
-      );
-      const stored = categoryRows.find(
-        (category) => category.name === name
-      );
+      const known = categories.find((category) => category.name === name);
+      const stored = categoryRows.find((category) => category.name === name);
 
       return {
         name,
@@ -139,9 +134,40 @@ export default function Billing() {
       };
     });
 
+  const toggleCurrency = async () => {
+    const next = !showUsd;
+    setShowUsd(next);
+
+    if (!next || usdRate !== null) return;
+
+    try {
+      setRateLoading(true);
+      setRateError(false);
+
+      const result: unknown = await getDolar();
+      const rate =
+        typeof result === "number"
+          ? result
+          : (result as { venta?: number })?.venta;
+
+      if (!rate || rate <= 0) throw new Error("Cotización inválida");
+      setUsdRate(rate);
+    } catch {
+      setRateError(true);
+      setShowUsd(false);
+    } finally {
+      setRateLoading(false);
+    }
+  };
+
   const totalPending = invoices
     .filter((invoice) => invoice.status !== "Pagado")
     .reduce((total, invoice) => total + invoice.amount, 0);
+
+  const pendingDisplay =
+    showUsd && usdRate
+      ? moneyFormat(totalPending / usdRate, "USD")
+      : moneyFormat(totalPending, "ARS");
 
   return (
     <div className="min-h-screen bg-[#EEF7FF] p-5 text-[#4D869C] dark:bg-black dark:text-white md:p-10">
@@ -156,13 +182,11 @@ export default function Billing() {
             Gestión de servicios
           </p>
 
-          <h1 className="text-3xl font-bold md:text-4xl">
-            Facturación
-          </h1>
+          <h1 className="text-3xl font-bold md:text-4xl">Facturación</h1>
 
           <p className="mt-3 max-w-2xl text-sm opacity-70 md:text-base">
-            Consultá tus servicios, facturas, vencimientos y consumos
-            en un solo lugar.
+            Consultá tus servicios, facturas, vencimientos y consumos en un solo
+            lugar.
           </p>
         </header>
 
@@ -181,9 +205,7 @@ export default function Billing() {
               </div>
 
               <div>
-                <p className="text-sm opacity-70">
-                  Facturas registradas
-                </p>
+                <p className="text-sm opacity-70">Facturas registradas</p>
                 <p className="text-2xl font-bold">
                   {loading ? (
                     <Loader2 size={22} className="animate-spin" />
@@ -205,11 +227,32 @@ export default function Billing() {
                 <p className="text-sm opacity-70">
                   Importe pendiente o vencido
                 </p>
-                <p className="text-2xl font-bold">
-                  {moneyFormat(totalPending, "ARS")}
-                </p>
+                <p className="text-2xl font-bold">{pendingDisplay}</p>
               </div>
+
+              <button
+                type="button"
+                onClick={toggleCurrency}
+                disabled={rateLoading}
+                aria-pressed={showUsd}
+                title="Alternar entre pesos y dólares"
+                className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4D869C] px-3 py-1 text-xs font-semibold transition-colors hover:bg-[#EEF7FF] disabled:opacity-60 dark:border-[#A7D129] dark:hover:bg-black/30"
+              >
+                {rateLoading && <Loader2 size={14} className="animate-spin" />}
+                {showUsd ? "USD (Blue)" : "ARS"}
+              </button>
             </div>
+
+            {rateError && (
+              <p className="mt-3 text-xs text-red-600 dark:text-red-300">
+                No se pudo obtener la cotización del dólar.
+              </p>
+            )}
+            {showUsd && usdRate && (
+              <p className="mt-3 text-xs opacity-60">
+                Cotización usada: {moneyFormat(usdRate, "ARS")} por USD
+              </p>
+            )}
           </div>
         </div>
 
@@ -229,14 +272,13 @@ export default function Billing() {
             {displayedCategories.map((category, index) => {
               const Icon: LucideIcon = category.icon;
               const categoryInvoices = invoices.filter(
-                (invoice) => invoice.category === category.name
+                (invoice) => invoice.category === category.name,
               );
-              const isSelected =
-                selectedCategory === category.name;
+              const isSelected = selectedCategory === category.name;
 
               const categoryTotal = categoryInvoices.reduce(
                 (total, invoice) => total + invoice.amount,
-                0
+                0,
               );
 
               return (
@@ -261,9 +303,7 @@ export default function Billing() {
                       </div>
 
                       <div>
-                        <h3 className="font-bold">
-                          {category.name}
-                        </h3>
+                        <h3 className="font-bold">{category.name}</h3>
                         <p className="mt-1 text-xs opacity-65">
                           {categoryInvoices.length}{" "}
                           {categoryInvoices.length === 1
@@ -286,9 +326,7 @@ export default function Billing() {
                   </p>
 
                   <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
-                    <p className="text-xs opacity-65">
-                      Total registrado
-                    </p>
+                    <p className="text-xs opacity-65">Total registrado</p>
                     <p className="mt-1 font-bold">
                       {moneyFormat(categoryTotal, "ARS")}
                     </p>
@@ -320,20 +358,12 @@ export default function Billing() {
 
               <div className="divide-y divide-[#CDE8E5] dark:divide-[#616F39]">
                 {invoices
-                  .filter(
-                    (invoice) =>
-                      invoice.category === selectedCategory
-                  )
+                  .filter((invoice) => invoice.category === selectedCategory)
                   .map((invoice) => (
-                    <article
-                      key={invoice.id}
-                      className="p-5 md:p-6"
-                    >
+                    <article key={invoice.id} className="p-5 md:p-6">
                       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
                         <div>
-                          <h3 className="font-bold">
-                            {invoice.service}
-                          </h3>
+                          <h3 className="font-bold">{invoice.service}</h3>
                           <p className="mt-1 text-sm opacity-70">
                             {invoice.provider}
                           </p>
@@ -365,18 +395,13 @@ export default function Billing() {
                           <p className="opacity-60">Importe</p>
                           <p className="mt-1 font-medium">
                             {invoice.amount > 0
-                              ? moneyFormat(
-                                  invoice.amount,
-                                  invoice.currency
-                                )
+                              ? moneyFormat(invoice.amount, invoice.currency)
                               : "Sin importe"}
                           </p>
                         </div>
 
                         <div>
-                          <p className="opacity-60">
-                            Fecha de emisión
-                          </p>
+                          <p className="opacity-60">Fecha de emisión</p>
                           <p className="mt-1 font-medium">
                             {dateFormat(invoice.issueDate)}
                           </p>
@@ -403,9 +428,7 @@ export default function Billing() {
 
                         {invoice.invoiceNumber && (
                           <div>
-                            <p className="opacity-60">
-                              N° de comprobante
-                            </p>
+                            <p className="opacity-60">N° de comprobante</p>
                             <p className="mt-1 break-all font-medium">
                               {invoice.invoiceNumber}
                             </p>
@@ -416,8 +439,7 @@ export default function Billing() {
                           <div>
                             <p className="opacity-60">Origen del dato</p>
                             <p className="mt-1 font-medium">
-                              {sourceLabels[invoice.source] ??
-                                invoice.source}
+                              {sourceLabels[invoice.source] ?? invoice.source}
                             </p>
                           </div>
                         )}
@@ -426,14 +448,10 @@ export default function Billing() {
                   ))}
 
                 {invoices.filter(
-                  (invoice) =>
-                    invoice.category === selectedCategory
+                  (invoice) => invoice.category === selectedCategory,
                 ).length === 0 && (
                   <div className="p-8 text-center">
-                    <FileText
-                      size={32}
-                      className="mx-auto mb-3 opacity-50"
-                    />
+                    <FileText size={32} className="mx-auto mb-3 opacity-50" />
                     <p className="font-semibold">
                       Todavía no hay facturas en esta categoría.
                     </p>
@@ -450,18 +468,15 @@ export default function Billing() {
         <div className="mt-8 flex items-start gap-3 rounded-2xl border border-[#CDE8E5] bg-white p-5 dark:border-[#616F39] dark:bg-[#3E432E]">
           <AlertCircle size={21} className="mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold">
-              Datos detectados automáticamente
-            </p>
+            <p className="font-semibold">Datos detectados automáticamente</p>
             <p className="mt-1 text-sm opacity-70">
-              Los comprobantes y pagos se extraen de los mails de tu
-              casilla conectada. Si el comprobante viene adjunto como
-              PDF o como foto, se lee el archivo para obtener el
-              importe. Cuando no hay ningún importe disponible (por
-              ejemplo, Temu envía el recibo por la app), queda como
-              "Sin importe". En esos casos usá{" "}
-              <strong>Abrir correo</strong> para ver el mail original y
-              seguir desde ahí el link del proveedor.
+              Los comprobantes y pagos se extraen de los mails de tu casilla
+              conectada. Si el comprobante viene adjunto como PDF o como foto,
+              se lee el archivo para obtener el importe. Cuando no hay ningún
+              importe disponible (por ejemplo, Temu envía el recibo por la app),
+              queda como "Sin importe". En esos casos usá{" "}
+              <strong>Abrir correo</strong> para ver el mail original y seguir
+              desde ahí el link del proveedor.
             </p>
           </div>
         </div>
