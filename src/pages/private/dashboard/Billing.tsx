@@ -144,7 +144,7 @@ export default function Billing() {
       setRateLoading(true);
       setRateError(false);
 
-      const result: unknown = await getDolar();
+      const result: Promise<number> = await getDolar();
       const rate =
         typeof result === "number"
           ? result
