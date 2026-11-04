@@ -59,14 +59,14 @@ const registerSchema = z
 const inputBase =
   "w-full rounded-lg border bg-white py-2.5 pl-10 text-sm text-neutral-900 outline-none transition-colors placeholder:text-neutral-400 focus:ring-2 dark:bg-black dark:text-white dark:placeholder:text-neutral-500";
 
-const inputNormal =
+const normalInput =
   "border-neutral-300 focus:border-[#4D869C] focus:ring-[#4D869C]/25 dark:border-white/20 dark:focus:border-[#A7D129] dark:focus:ring-[#A7D129]/25";
 
 const inputInvalid =
   "border-red-500 focus:border-red-500 focus:ring-red-500/25";
 
 const inputClass = (hasError: boolean, paddingRight = "pr-3") =>
-  `${inputBase} ${paddingRight} ${hasError ? inputInvalid : inputNormal}`;
+  `${inputBase} ${paddingRight} ${hasError ? inputInvalid : normalInput}`;
 
 const getRegisterErrorMessage = (error: unknown) => {
   if (axios.isAxiosError(error)) {
