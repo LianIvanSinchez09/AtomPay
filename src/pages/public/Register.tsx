@@ -2,7 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { GoogleLogin } from "@react-oauth/google";
-import { useForm } from "react-hook-form";
+import { FormState, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
@@ -18,8 +18,9 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../services/api";
 import FieldShell from "./FieldShell";
-import type RegisterFormData from "../../types/types";
 import ButtonForm from "./ButtonForm";
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 const registerSchema = z
   .object({
@@ -69,49 +70,84 @@ const getRegisterErrorMessage = (error: unknown) => {
 };
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { register: registerUser } = useAuth();
+  const [message, setMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
   const [step, setStep] = useState(0);
+  const [status, setStatus] = useState(false);
+
   const Stepper = ({ step }) => {
+    const check = async (fields: (keyof RegisterFormData)[]) => {
+      const isValid = await trigger(fields, { shouldFocus: true });
+      console.log(isValid);
+
+      if (isValid) {
+        setStep((s) => s + 1);
+      }
+    };
+
     return (
-      <>
+      <motion.div className="flex flex-col gap-5">
         {step === 0 && (
-          <FieldShell
-            id="name"
-            label="Nombre"
-            icon={<User className="h-4 w-4" />}
-            error={errors.name?.message}
-          >
-            <input
+          <>
+            <FieldShell
               id="name"
-              type="text"
-              autoComplete="name"
-              placeholder="Tu nombre"
-              aria-invalid={!!errors.name}
-              aria-describedby={errors.name ? "name-error" : undefined}
-              className={inputClass(!!errors.name)}
-              {...register("name")}
-            />
-            <ButtonForm fn={() => setStep((s) => s + 1)} text="Continuar" />
-          </FieldShell>
+              label="Nombre"
+              icon={<User className="h-4 w-4" />}
+              error={errors.name?.message}
+            >
+              <input
+                id="name"
+                type="text"
+                autoComplete="name"
+                placeholder="Tu nombre"
+                aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? "name-error" : undefined}
+                className={inputClass(!!errors.name)}
+                {...register("name")}
+              />
+            </FieldShell>
+            <ButtonForm fn={check} param={["name"]} text="Continuar" />
+          </>
         )}
         {step === 1 && (
-          <FieldShell
-            id="email"
-            label="Correo electrónico"
-            icon={<Mail className="h-4 w-4" />}
-            error={errors.email?.message}
-          >
-            <input
+          <>
+            <FieldShell
               id="email"
-              type="email"
-              autoComplete="email"
-              placeholder="tucorreo@ejemplo.com"
-              aria-invalid={!!errors.email}
-              aria-describedby={errors.email ? "email-error" : undefined}
-              className={inputClass(!!errors.email)}
-              {...register("email")}
-            />
-            <ButtonForm fn={() => setStep((s) => s + 1)} text="Continuar" />
-          </FieldShell>
+              label="Correo electrónico"
+              icon={<Mail className="h-4 w-4" />}
+              error={errors.email?.message}
+            >
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                placeholder="tucorreo@ejemplo.com"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                className={inputClass(!!errors.email)}
+                {...register("email")}
+              />
+            </FieldShell>
+            <ButtonForm fn={check} param={["email"]} text="Continuar" />
+          </>
         )}
         {step === 2 && (
           <>
@@ -178,28 +214,10 @@ const Register = () => {
             </button>
           </>
         )}
-      </>
+      </motion.div>
     );
   };
 
-  const navigate = useNavigate();
-  const { register: registerUser } = useAuth();
-  const [message, setMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
   const completeRegister = (
     user: Parameters<typeof registerUser>[0],
     token: string,
@@ -306,7 +324,7 @@ const Register = () => {
           )}
         </AnimatePresence>
 
-        <section className="flex w-full flex-col px-6 py-8 sm:px-12 lg:w-1/2 lg:px-20 dark:lg:border-r dark:lg:border-white/10">
+        <section className="flex w-full flex-col px-6 py-8 sm:px-12 lg:px-20">
           <Link
             to="/"
             className="w-fit text-2xl font-bold tracking-tight text-neutral-900 dark:text-[#A7D129]"
@@ -333,7 +351,7 @@ const Register = () => {
               noValidate
               className="mt-8 space-y-4"
             >
-                <Stepper step={step} />
+              <Stepper step={step} />
             </form>
 
             <div className="my-6 flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">
@@ -373,51 +391,6 @@ const Register = () => {
             </p>
           </motion.div>
         </section>
-
-        <aside
-          className="hidden flex-col p-16 text-white lg:flex lg:w-1/2"
-          style={{
-            backgroundImage:
-              "radial-gradient(90% 70% at 100% 0%, #A7D129 0%, rgba(167,209,41,0.35) 35%, #000000 75%)",
-            backgroundColor: "#000000",
-          }}
-        >
-          <div className="my-auto max-w-lg">
-            <h2 className="text-5xl font-semibold leading-tight">
-              Todas tus facturas. En un solo lugar.
-            </h2>
-
-            <p className="mt-6 text-lg text-white/80">
-              Creá tu cuenta, conectá tu Gmail y AtomPay se encarga de
-              encontrar, ordenar y analizar tus gastos recurrentes.
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-white/70">AtomPay detecta facturas de</p>
-
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {[
-                "Netflix",
-                "Spotify",
-                "Disney+",
-                "YouTube Premium",
-                "Crunchyroll",
-                "Luz",
-                "Gas",
-                "Agua",
-                "Internet",
-              ].map((service) => (
-                <li
-                  key={service}
-                  className="rounded-full border border-white/25 px-3 py-1 text-sm text-white/90"
-                >
-                  {service}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
       </div>
     </MotionConfig>
   );
