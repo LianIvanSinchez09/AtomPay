@@ -8,9 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@hookform/resolvers':
+        specifier: ^7.0.1
+        version: 7.0.1(@standard-schema/spec@1.1.0)(react-hook-form@7.91.0(@types/react@19.2.18)(react@19.2.8))(zod@4.6.7)
       '@n8n/chat':
         specifier: ^1.35.4
-        version: 1.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.27.0(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.27.0(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(zod@3.25.76)
+        version: 1.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(zod@4.6.7)
       '@react-oauth/google':
         specifier: ^0.13.5
         version: 0.13.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -32,6 +35,9 @@ importers:
       react-dom:
         specifier: ^19.2.8
         version: 19.2.8(react@19.2.8)
+      react-hook-form:
+        specifier: ^7.91.0
+        version: 7.91.0(@types/react@19.2.18)(react@19.2.8)
       react-router-dom:
         specifier: ^7.18.2
         version: 7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -41,6 +47,9 @@ importers:
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1
@@ -225,6 +234,81 @@ packages:
   '@floating-ui/vue@1.1.11':
     resolution: {integrity: sha512-HzHKCNVxnGS35r9fCHBc3+uCnjw9IWIlCPL683cGgM9Kgj2BiAl8x1mS7vtvP6F9S/e/q4O6MApwSHj8hNLGfw==}
 
+  '@hookform/resolvers@7.0.1':
+    resolution: {integrity: sha512-F3aM0dDWsRGmFjnnXjogaGLwP7gY2HA6/c5qp4v4Im/UV7pTNkX+WAjcOlM1V0PE0zoMzuPqCyaYtMzUhoFToA==}
+    peerDependencies:
+      '@standard-schema/spec': ^1.0.0
+      '@vinejs/vine': ^2.0.0 || ^3.0.0 || ^4.0.0
+      ajv: ^8.12.0
+      ajv-errors: ^3.0.0
+      ajv-formats: ^2.1.1
+      arktype: ^2.0.0
+      ata-validator: ^1.23.0
+      class-transformer: '>=0.4.0'
+      class-validator: '>=0.12.0'
+      computed-types: ^1.0.0
+      effect: ^4.0.0
+      fluentvalidation-ts: ^3.0.0
+      fp-ts: ^2.7.0
+      io-ts: ^2.0.0
+      joi: ^17.0.0 || ^18.0.0
+      nope-validator: '>=0.12.0'
+      react-hook-form: ^7.55.0
+      superstruct: '>=0.12.0'
+      typanion: ^3.3.2
+      typebox: ^1.0.0
+      valibot: '>=0.31.0 || ^1.0.0-beta.4 || ^1.0.0-rc'
+      vest: '>=6.0.0'
+      yup: ^1.0.0
+      zod: ^3.25.0 || ^4.0.0
+    peerDependenciesMeta:
+      '@standard-schema/spec':
+        optional: true
+      '@vinejs/vine':
+        optional: true
+      ajv:
+        optional: true
+      ajv-errors:
+        optional: true
+      ajv-formats:
+        optional: true
+      arktype:
+        optional: true
+      ata-validator:
+        optional: true
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+      computed-types:
+        optional: true
+      effect:
+        optional: true
+      fluentvalidation-ts:
+        optional: true
+      fp-ts:
+        optional: true
+      io-ts:
+        optional: true
+      joi:
+        optional: true
+      nope-validator:
+        optional: true
+      superstruct:
+        optional: true
+      typanion:
+        optional: true
+      typebox:
+        optional: true
+      valibot:
+        optional: true
+      vest:
+        optional: true
+      yup:
+        optional: true
+      zod:
+        optional: true
+
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
     engines: {node: '>=18.18.0'}
@@ -372,6 +456,7 @@ packages:
   '@opentelemetry/sdk-trace-base@2.10.0':
     resolution: {integrity: sha512-GuYQQT7QD2EeO8lcZLRQzcbOyhqAzL+6WWTKTU9mSUBYBazkEDl+VrQcXQhbB08OWM9anD1aHleVadzulpOaUQ==}
     engines: {node: ^18.19.0 || >=20.6.0}
+    deprecated: Use @opentelemetry/sdk-trace package
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
 
@@ -2164,6 +2249,16 @@ packages:
     peerDependencies:
       react: ^19.2.8
 
+  react-hook-form@7.91.0:
+    resolution: {integrity: sha512-5BEBUnCBwa28AFXYTYmOaB/+CSpJ/+CWVASHEvIGUzFdHyUiPHeRhG7r5hOZ8nZi0yP7pbHdFNXO/p31EKTJFQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17 || ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
   react-is@19.2.8:
     resolution: {integrity: sha512-s5un28nYxKJw5gvUHyW5PCC28CvBqLu9r3cWgzHT4Vo/5fqqkFcdRYsGcKf50WMPpjjFZS5d76fn3YCo2njKwQ==}
 
@@ -2515,8 +2610,8 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+  zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
 snapshots:
 
@@ -2731,6 +2826,14 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
+  '@hookform/resolvers@7.0.1(@standard-schema/spec@1.1.0)(react-hook-form@7.91.0(@types/react@19.2.18)(react@19.2.8))(zod@4.6.7)':
+    dependencies:
+      '@standard-schema/utils': 0.3.0
+      react-hook-form: 7.91.0(@types/react@19.2.18)(react@19.2.8)
+    optionalDependencies:
+      '@standard-schema/spec': 1.1.0
+      zod: 4.6.7
+
   '@humanfs/core@0.19.2':
     dependencies:
       '@humanfs/types': 0.15.0
@@ -2804,22 +2907,22 @@ snapshots:
 
   '@marijn/find-cluster-break@1.0.4': {}
 
-  '@n8n/api-types@1.36.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.4.3)':
+  '@n8n/api-types@1.36.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.6.7)':
     dependencies:
       '@n8n/permissions': 0.73.0
       '@n8n_io/ai-assistant-sdk': 1.26.0
-      n8n-workflow: 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.4.3)
+      n8n-workflow: 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.6.7)
       xss: 1.0.15
-      zod: 4.4.3
+      zod: 4.6.7
     transitivePeerDependencies:
       - '@opentelemetry/core'
       - '@opentelemetry/exporter-trace-otlp-http'
       - debug
       - supports-color
 
-  '@n8n/chat@1.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(zod@4.4.3)':
+  '@n8n/chat@1.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(zod@4.6.7)':
     dependencies:
-      '@n8n/design-system': 2.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(vue@3.5.41(typescript@7.0.2))(zod@4.4.3)
+      '@n8n/design-system': 2.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(vue@3.5.41(typescript@7.0.2))(zod@4.6.7)
       '@vueuse/core': 14.4.0(vue@3.5.41(typescript@7.0.2))
       highlight.js: 11.12.0
       markdown-it: 13.0.2
@@ -2840,15 +2943,15 @@ snapshots:
       - vue-router
       - zod
 
-  '@n8n/composables@1.26.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.4.3)':
+  '@n8n/composables@1.26.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.6.7)':
     dependencies:
-      '@n8n/api-types': 1.36.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.4.3)
+      '@n8n/api-types': 1.36.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.6.7)
       '@n8n/frontend-constants': 0.4.0
       '@n8n/frontend-utils': 0.4.0(typescript@7.0.2)
-      '@n8n/i18n': 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.4.3)
+      '@n8n/i18n': 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.6.7)
       '@vueuse/core': 14.4.0(vue@3.5.41(typescript@7.0.2))
       lodash: 4.18.1
-      n8n-workflow: 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.4.3)
+      n8n-workflow: 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.6.7)
       vue: 3.5.41(typescript@7.0.2)
       vue-router: 4.6.4(vue@3.5.41(typescript@7.0.2))
     transitivePeerDependencies:
@@ -2861,10 +2964,10 @@ snapshots:
 
   '@n8n/constants@0.35.0': {}
 
-  '@n8n/design-system@2.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(vue@3.5.41(typescript@7.0.2))(zod@4.4.3)':
+  '@n8n/design-system@2.35.4(@floating-ui/dom@1.8.0)(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@tiptap/extension-list@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(@tiptap/extensions@3.30.5(@tiptap/core@3.27.0(@tiptap/pm@3.27.0))(@tiptap/pm@3.27.0))(typescript@7.0.2)(vue-router@4.6.4(vue@3.5.41(typescript@7.0.2)))(vue@3.5.41(typescript@7.0.2))(zod@4.6.7)':
     dependencies:
       '@internationalized/date': 3.12.3
-      '@n8n/composables': 1.26.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.4.3)
+      '@n8n/composables': 1.26.4(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.6.7)
       '@n8n/frontend-utils': 0.4.0(typescript@7.0.2)
       '@n8n/utils': 1.44.0
       '@tanstack/vue-table': 8.21.3(vue@3.5.41(typescript@7.0.2))
@@ -2939,9 +3042,9 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@n8n/i18n@2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.4.3)':
+  '@n8n/i18n@2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(typescript@7.0.2)(zod@4.6.7)':
     dependencies:
-      n8n-workflow: 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.4.3)
+      n8n-workflow: 2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.6.7)
       vue: 3.5.41(typescript@7.0.2)
       vue-i18n: 11.4.10(vue@3.5.41(typescript@7.0.2))
     transitivePeerDependencies:
@@ -3958,8 +4061,8 @@ snapshots:
       '@babel/parser': 7.29.8
       eslint: 10.9.1(jiti@2.7.0)
       hermes-parser: 0.25.1
-      zod: 4.4.3
-      zod-validation-error: 4.0.2(zod@4.4.3)
+      zod: 4.6.7
+      zod-validation-error: 4.0.2(zod@4.6.7)
     transitivePeerDependencies:
       - supports-color
 
@@ -4474,7 +4577,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  n8n-workflow@2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.4.3):
+  n8n-workflow@2.36.3(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(zod@4.6.7):
     dependencies:
       '@codemirror/autocomplete': 6.20.0
       '@n8n/errors': 0.13.0
@@ -4502,7 +4605,7 @@ snapshots:
       transliteration: 2.3.5
       uuid: 11.1.1
       xml2js: 0.6.2
-      zod: 4.4.3
+      zod: 4.6.7
     transitivePeerDependencies:
       - '@opentelemetry/core'
       - '@opentelemetry/exporter-trace-otlp-http'
@@ -4665,6 +4768,12 @@ snapshots:
     dependencies:
       react: 19.2.8
       scheduler: 0.27.0
+
+  react-hook-form@7.91.0(@types/react@19.2.18)(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+    optionalDependencies:
+      '@types/react': 19.2.18
 
   react-is@19.2.8: {}
 
@@ -5038,10 +5147,10 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod-validation-error@4.0.2(zod@4.4.3):
+  zod-validation-error@4.0.2(zod@4.6.7):
     dependencies:
-      zod: 4.4.3
+      zod: 4.6.7
 
   zod@3.25.76: {}
 
-  zod@4.4.3: {}
+  zod@4.6.7: {}
