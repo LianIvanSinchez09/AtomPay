@@ -19,6 +19,17 @@ import { useAuth } from "../../context/AuthContext";
 import { api } from "../../services/api";
 import FieldShell from "./FieldShell";
 import ButtonForm from "./ButtonForm";
+import ExpenseEvolutionChart from "../../components/analysis/ExpenseEvolutionChart.tsx";
+import type { MonthlyExpense } from "../../types/types";
+
+const previewData: MonthlyExpense[] = [
+  { month: "Ene", amount: 82000 },
+  { month: "Feb", amount: 95000 },
+  { month: "Mar", amount: 78000 },
+  { month: "Abr", amount: 110000 },
+  { month: "May", amount: 98000 },
+  { month: "Jun", amount: 125000 },
+];
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
@@ -96,8 +107,6 @@ const Register = () => {
   const Stepper = ({ step }) => {
     const check = async (fields: (keyof RegisterFormData)[]) => {
       const isValid = await trigger(fields, { shouldFocus: true });
-      console.log(isValid);
-
       if (isValid) {
         setStep((s) => s + 1);
       }
@@ -324,7 +333,7 @@ const Register = () => {
           )}
         </AnimatePresence>
 
-        <section className="flex w-full flex-col px-6 py-8 sm:px-12 lg:px-20">
+        <section className="flex w-full flex-col px-6 py-8 sm:px-12 lg:w-1/2 lg:px-20">
           <Link
             to="/"
             className="w-fit text-2xl font-bold tracking-tight text-neutral-900 dark:text-[#A7D129]"
@@ -369,7 +378,6 @@ const Register = () => {
                     );
                     return;
                   }
-
                   handleGoogleRegister(response.credential);
                 }}
                 onError={() => {
@@ -391,6 +399,30 @@ const Register = () => {
             </p>
           </motion.div>
         </section>
+        <aside
+          className="hidden flex-col p-16 text-white lg:flex lg:w-1/2"
+          style={{
+            backgroundImage:
+              "radial-gradient(90% 70% at 100% 0%, #A7D129 0%, rgba(167,209,41,0.35) 35%, #000000 75%)",
+            backgroundColor: "#000000",
+          }}
+        >
+          <div className="my-auto w-full max-w-xl">
+            <div className="relative pb-12 ">
+              <ExpenseEvolutionChart data={previewData} />
+            </div>
+
+            <div className="mt-8 text-center">
+              <h2 className="text-3xl font-semibold leading-tight">
+                Todas tus facturas. En un solo lugar.
+              </h2>
+              <p className="mt-4 text-sm text-white/80">
+                Conectá tu Gmail y AtomPay se encarga de encontrar, ordenar y
+                analizar tus gastos recurrentes.
+              </p>
+            </div>
+          </div>
+        </aside>
       </div>
     </MotionConfig>
   );

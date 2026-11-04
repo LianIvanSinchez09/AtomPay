@@ -12,7 +12,6 @@ export interface GmailAccount {
   updatedAt: string;
 }
 
-type RegisterFormData = z.infer<typeof registerSchema>;
 
 
 export interface SyncResult {

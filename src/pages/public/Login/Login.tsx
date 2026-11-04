@@ -27,17 +27,6 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-const DETECTED_SERVICES = [
-  "Netflix",
-  "Spotify",
-  "Disney+",
-  "YouTube Premium",
-  "Crunchyroll",
-  "Luz",
-  "Gas",
-  "Agua",
-  "Internet",
-];
 
 const inputBase =
   "w-full rounded-lg border bg-white py-2.5 pl-10 text-sm text-neutral-900 outline-none transition-colors placeholder:text-neutral-400 focus:ring-2 dark:bg-black dark:text-white dark:placeholder:text-neutral-500";
@@ -370,23 +359,6 @@ const Login = () => {
               muestra dónde podés ahorrar, sin que tengas que revisar tu correo.
             </p>
           </motion.div>
-
-          <div>
-            <div className="flex gap-2 justify-center items-center">
-              <p className="text-sm text-white/70">Soporta</p>
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {DETECTED_SERVICES.map((service) => (
-                <li
-                key={service}
-                className="rounded-full border border-white/25 px-3 py-1 text-sm text-white/90"
-                >
-                  {service}
-                </li>
-              ))}
-            </ul>
-            </div>
-          </div>
         </aside>
       </div>
     </MotionConfig>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import { motion, AnimatePresence, MotionConfig } from "motion/react";
 
 type FieldShellProps = {
   id: string;
@@ -9,7 +10,11 @@ type FieldShellProps = {
 };
 
 const FieldShell = ({ id, label, icon, error, children }: FieldShellProps) => (
-  <div>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4 }}
+  >
     <label
       htmlFor={id}
       className="mb-1.5 block text-sm font-medium text-neutral-900 dark:text-white"
@@ -34,7 +39,7 @@ const FieldShell = ({ id, label, icon, error, children }: FieldShellProps) => (
         {error}
       </p>
     )}
-  </div>
+  </motion.div>
 );
 
-export default FieldShell
+export default FieldShell;
