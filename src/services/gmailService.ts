@@ -1,4 +1,5 @@
 import { api } from "./api";
+import type { SyncResult, GmailAccount } from "../types/types";
 
 const BASE_URL = api.defaults.baseURL ?? "http://localhost:3001/api";
 
@@ -7,26 +8,6 @@ const BASE_URL = api.defaults.baseURL ?? "http://localhost:3001/api";
  * que emite la página de callback de OAuth, que la sirve el backend.
  */
 export const API_ORIGIN = new URL(BASE_URL).origin;
-
-/** Lo que devuelve GET /api/gmail/accounts (nunca incluye los tokens). */
-export interface GmailAccount {
-  id: string;
-  provider: string;
-  email: string;
-  status: string;
-  lastSyncAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface SyncResult {
-  discovered: number;
-  created: number;
-  merged: number;
-  ignored: number;
-  failed: number;
-  queued: number;
-}
 
 /** Devuelve la URL de consentimiento de Google para abrir en un popup. */
 export async function getGmailConnectUrl(): Promise<string> {
