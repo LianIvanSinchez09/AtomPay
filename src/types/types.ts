@@ -1,7 +1,27 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+/** Lo que devuelve GET /api/gmail/accounts (nunca incluye los tokens). */
+export interface GmailAccount {
+  id: string;
+  provider: string;
+  email: string;
+  status: string;
+  lastSyncAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
 
+
+
+export interface SyncResult {
+  discovered: number;
+  created: number;
+  merged: number;
+  ignored: number;
+  failed: number;
+  queued: number;
+}
 export interface ChatBot {
   webhookUrl: string;
 

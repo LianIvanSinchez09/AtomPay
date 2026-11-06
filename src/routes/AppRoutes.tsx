@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import Home from "../pages/public/Home/Home";
-import Login from "../pages/public/Login";
+import Login from "../pages/public/Login/Login.tsx";
 import Register from "../pages/public/Register";
 
 import Dashboard from "../pages/private/dashboard/Dashboard";
