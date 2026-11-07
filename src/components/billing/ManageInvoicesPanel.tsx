@@ -8,7 +8,7 @@ import {
   Mail,
   Trash2,
 } from "lucide-react";
-
+import "./billing.css"
 import type { DisplayCategory, Invoice } from "../../types/types";
 import { deleteInvoice, moveInvoice } from "../../services/billingService";
 import {
@@ -43,11 +43,6 @@ export default function ManageInvoicesPanel({
   const [actionError, setActionError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
-  console.log(invoices);
-  
-
-
-  // El mensaje de confirmación se va solo.
   useEffect(() => {
     if (!feedback) return;
 
@@ -102,11 +97,10 @@ export default function ManageInvoicesPanel({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
-      className="mt-8 overflow-hidden rounded border border-[#CDE8E5] bg-white shadow-sm dark:border-[#616F39] dark:bg-[#3E432E]"
+      className="mt-8 overflow-hidden rounded-2xl p-2  border-[#CDE8E5] bg-white shadow-sm dark:border-[#FFFF] dark:bg-[#000000]"
     >
-      <div className="flex flex-col justify-between gap-3 border-b border-[#CDE8E5] p-5 dark:border-[#616F39] md:flex-row md:items-center md:p-6">
+      <div className="flex flex-col justify-between gap-3 border-b border-[#CDE8E5] p-5 dark:border-[#FFFF] md:flex-row md:items-center md:p-6">
         <div>
-          <h2 className="text-xl font-bold">Administrar comprobantes</h2>
           <p className="mt-1 text-sm opacity-70">
             Cada comprobante está asociado a una categoría. Si quedó en la
             equivocada, cambiala; si no querés verlo más, eliminalo.
@@ -131,7 +125,7 @@ export default function ManageInvoicesPanel({
           )}
         </div>
       </div>
-      <FilterBy text={"test"}/>
+      {/* <FilterBy text={"test"}/> */}
       {actionError && (
         <div className="flex items-start gap-2 border-b border-red-200 bg-red-50 px-5 py-3 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-300">
           <AlertCircle size={16} className="mt-0.5 shrink-0" />

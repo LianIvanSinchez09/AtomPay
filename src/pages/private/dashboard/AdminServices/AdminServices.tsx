@@ -31,10 +31,7 @@ import { serviceCategories as baseCategories } from "../../../../data/serviceCat
 import { dateFormat } from "../../../../utils/billingFormat";
 import { errorMessage } from "../../../../services/apiError";
 import TogglePanelButton from "./TogglePanelButton";
-
-/** Solo puede haber un panel abierto a la vez. */
 type PanelKind = "add-service" | "manager" | "upload";
-
 export default function AdminServices() {
   const [panel, setPanel] = useState<PanelKind | null>(null);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -71,7 +68,6 @@ export default function AdminServices() {
     setPanel((current) => (current === next ? null : next));
   };
 
-  // Categorías para el selector del administrador de comprobantes.
   const categoryOrder = new Map(
     baseCategories.map((category, index) => [category.name, index]),
   );
@@ -239,7 +235,7 @@ export default function AdminServices() {
               </div>
             </TogglePanelButton>
 
-            <TogglePanelButton fn={togglePanel} param={"manager"} panel={panel}>
+            <TogglePanelButton fn={togglePanel} param={"upload"} panel={panel}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-[#EEF7FF] p-3 dark:bg-[#616F39]">
