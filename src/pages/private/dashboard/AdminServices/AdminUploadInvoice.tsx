@@ -1,5 +1,5 @@
 import ManualInvoicePanel from "../../../../components/billing/ManualInvoicePanel";
-import { useAdminServicesData } from "../../../../hooks/useAdminServicesData";
+import { useAdminServicesData } from "./useAdminServicesData";
 import { dateFormat } from "../../../../utils/billingFormat";
 import AdminPageLayout from "./AdminPageLayout";
 

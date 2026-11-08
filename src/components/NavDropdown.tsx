@@ -13,7 +13,7 @@ type Props = {
   label: string;
   icon: LucideIcon;
   /** Prefijo común de las rutas hijas; abre el menú si estás dentro. */
-  basePath: string;
+  basePath?: string;
   items: NavDropdownChild[];
 };
 

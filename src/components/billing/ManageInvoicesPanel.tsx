@@ -8,7 +8,7 @@ import {
   Mail,
   Trash2,
 } from "lucide-react";
-import "./billing.css"
+import "./billing.css";
 import type { DisplayCategory, Invoice } from "../../types/types";
 import { deleteInvoice, moveInvoice } from "../../services/billingService";
 import {
@@ -17,11 +17,10 @@ import {
   sourceLabels,
 } from "../../utils/billingFormat";
 import { errorMessage } from "../../services/apiError";
-import FilterBy from "../Filters/FilterBy";
 import SortBy from "../Filters/SortBy";
 import InvoiceContainer from "./InvoiceContainer";
 import { source } from "motion/react-client";
-
+import FilterBy from "../Filters/FilterBy";
 
 type Props = {
   invoices: Invoice[];
@@ -110,6 +109,7 @@ export default function ManageInvoicesPanel({
             nuevos de esa dirección van a ir directo a la categoría que elijas.
           </p>
         </div>
+        <FilterBy />
 
         <div className="flex shrink-0 flex-wrap items-center gap-2 self-start md:self-auto">
           <span className="rounded-full bg-[#EEF7FF] px-3 py-1 text-xs font-semibold dark:bg-black/20">
@@ -152,7 +152,13 @@ export default function ManageInvoicesPanel({
           </p>
         </div>
       ) : (
-        <InvoiceContainer invoices={invoices} busyId={busyId} confirmDelete={confirmDeleteId} sourceLabels={sourceLabels} categories={categories} />
+        <InvoiceContainer
+          invoices={invoices}
+          busyId={busyId}
+          confirmDelete={confirmDeleteId}
+          sourceLabels={sourceLabels}
+          categories={categories}
+        />
       )}
     </motion.section>
   );
