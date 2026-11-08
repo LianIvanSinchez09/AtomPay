@@ -6,7 +6,8 @@ interface StatCardProps {
   value: string;
   description?: string;
   icon: LucideIcon;
-  trend?: number;
+  /** Variación porcentual. Para gastos, subir es negativo. */
+  trend?: number | null;
   delay?: number;
 }
 
@@ -18,7 +19,9 @@ export default function StatCard({
   trend,
   delay = 0,
 }: StatCardProps) {
-  const isPositive = trend !== undefined && trend >= 0;
+  const hasTrend = trend !== undefined && trend !== null;
+  const increased = hasTrend && (trend as number) > 0;
+  const unchanged = hasTrend && (trend as number) === 0;
 
   return (
     <motion.div
@@ -53,15 +56,18 @@ export default function StatCard({
         </div>
       </div>
 
-      {trend !== undefined && (
+      {hasTrend && (
         <div
           className={`mt-4 text-sm font-medium ${
-            isPositive
-              ? "text-red-500"
-              : "text-[#4D869C] dark:text-[#A7D129]"
+            unchanged
+              ? "text-slate-500 dark:text-gray-400"
+              : increased
+                ? "text-red-500"
+                : "text-[#4D869C] dark:text-[#A7D129]"
           }`}
         >
-          {isPositive ? "↑" : "↓"} {Math.abs(trend)}% vs. mes anterior
+          {unchanged ? "→" : increased ? "↑" : "↓"}{" "}
+          {Math.abs(trend as number).toFixed(1)}% vs. mes anterior
         </div>
       )}
     </motion.div>
