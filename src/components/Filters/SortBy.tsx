@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { Invoice } from "../../types/types";
 import type { SortByProps } from "../../types/types";
 
-
 export default function SortBy({
   label,
   icon: Icon,
@@ -12,11 +11,20 @@ export default function SortBy({
   setInvoiceState,
 }: SortByProps) {
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
 
-  const dateFilter = () => {
+  const dateDescFilter = () => {
     const sorted = [...items].sort(
       (a, b) =>
         new Date(a.issueDate).getTime() - new Date(b.issueDate).getTime(),
+    );
+    setInvoiceState(sorted);
+  };
+
+  const dateAscFilter = () => {
+    const sorted = [...items].sort(
+      (a, b) =>
+        new Date(b.issueDate).getTime() - new Date(a.issueDate).getTime(),
     );
     setInvoiceState(sorted);
   };
@@ -67,16 +75,35 @@ export default function SortBy({
     setInvoiceState(sorted);
   };
 
+  const options = [
+    { key: "dateAsc", label: "Fecha (Asc)", sort: dateAscFilter },
+    { key: "dateDesc", label: "Fecha (desc)", sort: dateDescFilter },
+    { key: "importDesc", label: "Importe (desc)", sort: importDescFilter },
+    { key: "importAsc", label: "Importe (asc)", sort: importAscFilter },
+    { key: "providerDesc", label: "Proveedor (desc)", sort: providerDescFilter },
+    { key: "providerAsc", label: "Proveedor (asc)", sort: providerAscFilter },
+    { key: "categoryAsc", label: "Categoría (Asc)", sort: categoryAscFilter },
+    { key: "categoryDesc", label: "Categoría (desc)", sort: categoryDescFilter },
+  ];
+
+  const handleToggle = (option: (typeof options)[number]) => {
+    if (selected === option.key) {
+      setSelected(null);
+      return;
+    }
+    setSelected(option.key);
+    option.sort();
+  };
+
   console.log(items);
-  
 
   return (
-    <div>
+    <div className="relative">
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
         aria-expanded={open}
-        className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-[#CDE8E5]/60 dark:hover:bg-[#616F39]/40`}
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-[#CDE8E5]/60 dark:hover:bg-[#616F39]/40"
       >
         <Icon size={20} className="shrink-0" />
         <span className="flex-1 truncate text-left">{label}</span>
@@ -93,64 +120,20 @@ export default function SortBy({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.18 }}
-            className=" flex absolute flex-col mt-1 space-y-1 overflow-hidden border-l bg-[#000000] z-19 border-[#CDE8E5] pl-3 dark:border-[#616F39]"
+            className="absolute z-20 mt-1 flex max-h-64 min-w-52 flex-col space-y-1 overflow-y-auto rounded-xl border border-[#CDE8E5] bg-white p-2 dark:border-[#616F39] dark:bg-black"
           >
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={dateFilter}
-            >
-              Fecha (desc)
-            </motion.button>
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={importDescFilter}
-            >
-              Importe (desc)
-            </motion.button>
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={importAscFilter}
-            >
-              Importe (asc)
-            </motion.button>
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={providerDescFilter}
-            >
-              Proveedor (desc)
-            </motion.button>
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={providerAscFilter}
-            >
-              Proveedor (asc)
-            </motion.button>
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={categoryAscFilter}
-            >
-              Categoría (Asc)
-            </motion.button>
-            <motion.button
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={categoryDescFilter}
-            >
-              Categoría (desc)
-            </motion.button>
+            {options.map((option) => (
+              <li key={option.key}>
+                <label className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-[#CDE8E5]/60 dark:hover:bg-[#616F39]/40">
+                  <input
+                    type="checkbox"
+                    checked={selected === option.key}
+                    onChange={() => handleToggle(option)}
+                  />
+                  {option.label}
+                </label>
+              </li>
+            ))}
           </motion.ul>
         )}
       </AnimatePresence>

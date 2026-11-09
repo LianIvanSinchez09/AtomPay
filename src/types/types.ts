@@ -19,7 +19,11 @@ export type SortByProps = {
   setInvoiceState: (invoices: Invoice[]) => void;
 };
 
-
+export type filterByProps = {
+  label: string;
+  items: Invoice[];
+  setInvoiceState: (invoices: Invoice[]) => void;
+};
 
 export interface SyncResult {
   discovered: number;

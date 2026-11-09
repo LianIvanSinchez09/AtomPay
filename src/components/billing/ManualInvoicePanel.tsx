@@ -75,6 +75,9 @@ export default function ManualInvoicePanel({
     {}
   );
 
+  console.log(services);
+  
+
   const creating = serviceChoice === NEW_SERVICE;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -184,7 +187,7 @@ export default function ManualInvoicePanel({
                 Elegí un servicio
               </option>
 
-              {Object.entries(grouped).map(([category, list]) => (
+              {Object.entries(grouped).map(([category, list]) => (                
                 <optgroup key={category} label={category}>
                   {list.map((service) => (
                     <option key={service.id} value={service.id}>

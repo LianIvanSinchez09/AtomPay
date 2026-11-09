@@ -10,6 +10,10 @@ import {
   Settings2,
 } from "lucide-react";
 import "./billing.css";
+import {
+  getServices,
+  uploadManualInvoice,
+} from "../../services/billingService";
 import type { DisplayCategory, Invoice } from "../../types/types";
 import { deleteInvoice, moveInvoice } from "../../services/billingService";
 import {
@@ -42,6 +46,24 @@ export default function ManageinvoicesPanel({
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [services, setServices] = useState<BillableService[]>([]);
+
+  const loadServices = async () => {
+    try {
+      setServices(await getServices());
+      setServicesError(null);
+    } catch (requestError) {
+      setServicesError(errorMessage(requestError));
+    }
+  };
+
+  useEffect(() => {
+    void loadServices();
+  }, []);
+
+  console.log(services);
+  
+
 
   useEffect(() => {
     if (!feedback) return;
@@ -111,7 +133,7 @@ export default function ManageinvoicesPanel({
     if (input.length > 0) {
       setInvoiceState(checkProps(input));
     } else {
-      resetFilter()
+      resetFilter();
     }
   };
 
@@ -122,7 +144,7 @@ export default function ManageinvoicesPanel({
       transition={{ duration: 0.2 }}
       className="mt-8 overflow-hidden rounded-2xl p-2  border-[#CDE8E5] bg-white shadow-sm dark:border-[#FFFF] dark:bg-[#000000]"
     >
-      <div className="flex flex-col justify-between gap-3 border-b border-[#CDE8E5] p-5 dark:border-[#FFFF] md:flex-row md:items-center md:p-6">
+      <div className="flex flex-col gap-5 justify-between border-b border-[#CDE8E5] p-5 dark:border-[#FFFF] md:flex-row md:items-center md:p-6">
         <div>
           <p className="mt-1 text-sm opacity-70">
             Cada comprobante está asociado a una categoría. Si quedó en la
@@ -133,15 +155,12 @@ export default function ManageinvoicesPanel({
             nuevos de esa dirección van a ir directo a la categoría que elijas.
           </p>
         </div>
-        <input
-          placeholder="Buscar..."
-          onChange={(e) => search(e.target.value)}
-        />
-
+      <div className="flex">
         <FilterBy
           label="Filtrar por"
           icon={Settings2}
           items={invoices}
+          services={services}
           setInvoiceState={setInvoiceState}
         />
         <SortBy
@@ -150,7 +169,12 @@ export default function ManageinvoicesPanel({
           items={invoiceState}
           setInvoiceState={setInvoiceState}
         />
-
+        <input
+          placeholder="Buscar..."
+          className="bg-[#181d1c] rounded-4xl p-2 w-full" 
+          onChange={(e) => search(e.target.value)}
+        />
+      </div>
         <div className="flex shrink-0 flex-wrap items-center gap-2 self-start md:self-auto">
           <span className="rounded-full bg-[#EEF7FF] px-3 py-1 text-xs font-semibold dark:bg-black/20">
             {invoiceState.length}{" "}
