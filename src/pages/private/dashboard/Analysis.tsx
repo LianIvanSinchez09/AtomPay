@@ -240,7 +240,7 @@ export default function Analysis() {
 
             {/* FACTURAS RECIENTES */}
             <section className="mt-6">
-              <RecentInvoices invoices={data.recentInvoices} />
+              <RecentInvoices initialInvoices={data.recentInvoices} />
             </section>
 
             <p className="mt-6 text-center text-xs text-slate-400 dark:text-gray-500">

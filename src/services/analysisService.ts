@@ -1,5 +1,9 @@
 import { api } from "./api";
-import type { AnalysisPayload } from "../types/analysis";
+import type {
+  AnalysisInvoiceFilters,
+  AnalysisInvoicePage,
+  AnalysisPayload,
+} from "../types/analysis";
 
 /**
  * Análisis de gastos del usuario: AtomScore, evolución mensual, distribución
@@ -11,4 +15,20 @@ export async function getAnalysis(): Promise<AnalysisPayload> {
   const { data } = await api.get<{ analysis: AnalysisPayload }>("/analysis");
 
   return data.analysis;
+}
+
+/**
+ * Facturas del análisis con filtros de fecha, estado y texto. Se pagina para
+ * que la tabla "Facturas recientes" no traiga todo de una.
+ */
+export async function getAnalysisInvoices(
+  filters: AnalysisInvoiceFilters = {},
+  signal?: AbortSignal
+): Promise<AnalysisInvoicePage> {
+  const { data } = await api.get<AnalysisInvoicePage>(
+    "/analysis/invoices",
+    { params: filters, signal }
+  );
+
+  return data;
 }

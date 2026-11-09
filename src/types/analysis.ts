@@ -31,6 +31,26 @@ export interface Invoice {
   status: InvoiceStatus;
 }
 
+/** Filtros de la tabla "Facturas recientes" del análisis. */
+export interface AnalysisInvoiceFilters {
+  from?: string;
+  to?: string;
+  status?: InvoiceStatus | "";
+  search?: string;
+  service?: string;
+  category?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface AnalysisInvoicePage {
+  invoices: Invoice[];
+  total: number;
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+}
+
 export type FinancialInsightType =
   | "up"
   | "down"
