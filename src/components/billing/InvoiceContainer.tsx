@@ -1,19 +1,10 @@
 import React from "react";
 import Invoice from "./Invoice";
-import type { Invoice as InvoiceType, DisplayCategory } from "../../types/billing"; // ajustá la ruta
+import type { InvoiceContainerProps ,Invoice as InvoiceType, DisplayCategory } from "../../types/billing"; // ajustá la ruta
 
-type Props = {
-  invoices: InvoiceType[];
-  categories: DisplayCategory[];
-  busyId: string | null;
-  confirmDeleteId: string | null;
-  onMove: (invoice: InvoiceType, category: string) => void;
-  onDelete: (invoice: InvoiceType) => void;
-  onAskDelete: (id: string) => void;
-  onCancelDelete: () => void;
-};
 
-const InvoiceContainer = ({ invoices, categories, ...rest }: Props) => {
+
+const InvoiceContainer = ({ invoices, categories, ...rest }: InvoiceContainerProps) => {
   return (
     <div className="max-h-128 overflow-auto">
       <table className="w-full min-w-208 border-collapse text-left">

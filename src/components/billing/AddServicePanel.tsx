@@ -23,17 +23,11 @@ const inputClass =
 
 const labelClass = "block text-xs font-semibold opacity-70";
 
-type Props = {
-  categories: ServiceCategory[];
-  sources: ServiceSource[];
-  onChanged: () => Promise<unknown> | void;
-};
-
 export default function AddServicePanel({
   categories,
   sources,
   onChanged,
-}: Props) {
+}: AddServicePanelProps) {
   const [name, setName] = useState("");
   const [sender, setSender] = useState("");
   const [keywords, setKeywords] = useState("");

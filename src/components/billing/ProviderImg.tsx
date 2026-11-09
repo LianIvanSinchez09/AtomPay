@@ -2,6 +2,7 @@ import ualaLogo from "../../assets/providers/uala-logo-provider.webp";
 import mercadoPagoLogo from "../../assets/providers/mercadopago-logo-provider.webp";
 import spotifyLogo from "../../assets/providers/spotifyLogo.webp";
 import mercadoLibreLogo from "../../assets/providers/mercadoLibreLogo.png";
+import type { ProviderImgProps } from "../../types/types";
 
 const logos: Record<string, string> = {
   Uala: ualaLogo,
@@ -10,9 +11,7 @@ const logos: Record<string, string> = {
   "Mercado Libre": mercadoLibreLogo,
 };
 
-type Props = { provider?: string | null };
-
-const ProviderImg = ({ provider }: Props) => {
+const ProviderImg = ({ provider }: ProviderImgProps) => {
   const name = provider?.trim() || "?";
   const logo = provider ? logos[provider] : undefined;
 

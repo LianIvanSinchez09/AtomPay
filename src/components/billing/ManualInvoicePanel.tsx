@@ -19,11 +19,7 @@ import {
 } from "../../services/billingService";
 import { dateFormat, moneyFormat } from "../../utils/billingFormat";
 import { errorMessage } from "../../services/apiError";
-
-type Props = {
-  categories: ServiceCategory[];
-  onCreated: () => Promise<unknown> | void;
-};
+import type { ManualInvoicePanel } from "../../types/types";
 
 const MAX_MB = 10;
 const NEW_SERVICE = "__new";

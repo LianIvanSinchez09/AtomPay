@@ -1,19 +1,8 @@
 import React from "react";
 import { Loader2, Mail, Trash2 } from "lucide-react";
 import { dateFormat, moneyFormat, sourceLabels } from "../../utils/billingFormat";
-import type { Invoice as InvoiceType, DisplayCategory } from "../../types/billing"; // ajustá la ruta
 import ProviderImg from "./ProviderImg";
-
-type Props = {
-  invoice: InvoiceType;
-  categories: DisplayCategory[];
-  busyId: string | null;
-  confirmDeleteId: string | null;
-  onMove: (invoice: InvoiceType, category: string) => void;
-  onDelete: (invoice: InvoiceType) => void;
-  onAskDelete: (id: string) => void;
-  onCancelDelete: () => void;
-};
+import type { Invoice } from "../../types/types";
 
 const Invoice = ({
   invoice,
@@ -24,7 +13,7 @@ const Invoice = ({
   onDelete,
   onAskDelete,
   onCancelDelete,
-}: Props) => {
+}: Invoice) => {
   const isBusy = busyId === invoice.id;
   const isConfirming = confirmDeleteId === invoice.id;
   return (

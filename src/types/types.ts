@@ -12,6 +12,48 @@ export interface GmailAccount {
   updatedAt: string;
 }
 
+export type ManualInvoicePanel = {
+  categories: ServiceCategory[];
+  onCreated: () => Promise<unknown> | void;
+};
+
+export ProviderImgProps = { provider?: string | null };
+
+export type Invoice = {
+  invoice: InvoiceType;
+  categories: DisplayCategory[];
+  busyId: string | null;
+  confirmDeleteId: string | null;
+  onMove: (invoice: InvoiceType, category: string) => void;
+  onDelete: (invoice: InvoiceType) => void;
+  onAskDelete: (id: string) => void;
+  onCancelDelete: () => void;
+};
+
+export type AddServicePanelProps = {
+  categories: ServiceCategory[];
+  sources: ServiceSource[];
+  onChanged: () => Promise<unknown> | void;
+};
+
+export type ManageinvoicesPanelProps = {
+  invoice: Invoice[];
+  categories: DisplayCategory[];
+  onChanged: () => Promise<unknown> | void;
+};
+
+
+export type InvoiceContainerProps = {
+  invoices: InvoiceType[];
+  categories: DisplayCategory[];
+  busyId: string | null;
+  confirmDeleteId: string | null;
+  onMove: (invoice: InvoiceType, category: string) => void;
+  onDelete: (invoice: InvoiceType) => void;
+  onAskDelete: (id: string) => void;
+  onCancelDelete: () => void;
+};
+
 export type SortByProps = {
   label: string;
   icon: LucideIcon;

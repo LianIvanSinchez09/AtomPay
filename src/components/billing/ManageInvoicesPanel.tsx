@@ -26,12 +26,7 @@ import SortBy from "../Filters/SortBy";
 import FilterBy from "../Filters/FilterBy";
 import InvoiceContainer from "./InvoiceContainer";
 import { source } from "motion/react-client";
-
-type Props = {
-  invoice: Invoice[];
-  categories: DisplayCategory[];
-  onChanged: () => Promise<unknown> | void;
-};
+import type { ManageinvoicesPanelProps } from "../../types/types";
 
 /**
  * Listado de comprobantes: cambiar de categoría, abrir el mail original o
@@ -41,7 +36,7 @@ export default function ManageinvoicesPanel({
   invoices,
   categories,
   onChanged,
-}: Props) {
+}: ManageinvoicesPanelProps) {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
