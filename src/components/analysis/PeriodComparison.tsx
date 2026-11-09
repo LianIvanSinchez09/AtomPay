@@ -1,23 +1,39 @@
 import { motion } from "motion/react";
-import { ArrowDown, ArrowUp, CalendarDays } from "lucide-react";
+import { ArrowDown, ArrowUp, CalendarDays, Minus } from "lucide-react";
+
+import type { InvoiceStatus } from "../../types/types";
+import { moneyFormat } from "../../utils/billingFormat";
 
 interface Props {
   current: number;
   previous: number;
+  currency: string;
+  statusBreakdown?: {
+    status: InvoiceStatus;
+    count: number;
+    amount: number;
+  }[];
 }
+
+const STATUS_DOT: Record<InvoiceStatus, string> = {
+  Pagado: "bg-[#4D869C] dark:bg-[#A7D129]",
+  Pendiente: "bg-yellow-400",
+  Vencido: "bg-red-500",
+};
 
 export default function PeriodComparison({
   current,
   previous,
+  currency,
+  statusBreakdown,
 }: Props) {
   const difference = current - previous;
 
   const percentage =
-    previous === 0
-      ? 0
-      : Math.round((difference / previous) * 100);
+    previous === 0 ? null : Math.round((difference / previous) * 100);
 
   const increased = difference > 0;
+  const unchanged = difference === 0;
 
   return (
     <motion.div
@@ -53,7 +69,7 @@ export default function PeriodComparison({
           </p>
 
           <p className="mt-1 text-xl font-bold text-slate-900 dark:text-white">
-            ${current.toLocaleString("es-AR")}
+            {moneyFormat(current, currency)}
           </p>
         </div>
 
@@ -63,29 +79,75 @@ export default function PeriodComparison({
           </p>
 
           <p className="mt-1 text-xl font-bold text-slate-900 dark:text-white">
-            ${previous.toLocaleString("es-AR")}
+            {moneyFormat(previous, currency)}
           </p>
         </div>
       </div>
 
       <div
         className={`mt-5 flex items-center gap-2 text-sm font-semibold ${
-          increased
-            ? "text-red-500"
-            : "text-[#4D869C] dark:text-[#A7D129]"
+          unchanged
+            ? "text-slate-500 dark:text-gray-400"
+            : increased
+              ? "text-red-500"
+              : "text-[#4D869C] dark:text-[#A7D129]"
         }`}
       >
-        {increased ? (
+        {unchanged ? (
+          <Minus size={18} />
+        ) : increased ? (
           <ArrowUp size={18} />
         ) : (
           <ArrowDown size={18} />
         )}
 
         <span>
-          {Math.abs(percentage)}%{" "}
-          {increased ? "más" : "menos"} que el período anterior
+          {percentage === null
+            ? previous === 0
+              ? "Sin gastos el mes anterior para comparar"
+              : "Sin variación"
+            : `${Math.abs(percentage)}% ${
+                increased ? "más" : "menos"
+              } que el período anterior`}
         </span>
       </div>
+
+      {statusBreakdown && statusBreakdown.length > 0 && (
+        <div className="mt-6 border-t border-gray-100 pt-4 dark:border-[#3E432E]">
+          <h3 className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">
+            Estado de los pagos
+          </h3>
+
+          <div className="space-y-2">
+            {statusBreakdown.map((item) => (
+              <div
+                key={item.status}
+                className="flex items-center justify-between gap-3 text-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`h-2.5 w-2.5 rounded-full ${
+                      STATUS_DOT[item.status]
+                    }`}
+                  />
+
+                  <span className="text-slate-600 dark:text-gray-300">
+                    {item.status}
+                  </span>
+
+                  <span className="text-xs text-slate-400 dark:text-gray-500">
+                    ({item.count})
+                  </span>
+                </div>
+
+                <span className="font-semibold text-slate-900 dark:text-white">
+                  {moneyFormat(item.amount, currency)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
