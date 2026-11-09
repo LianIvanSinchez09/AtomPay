@@ -3,6 +3,8 @@ import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
+  CheckCircle2,
+  Info,
   Minus,
 } from "lucide-react";
 
@@ -12,34 +14,34 @@ interface Props {
   insights: FinancialInsight[];
 }
 
-export default function FinancialInsights({ insights }: Props) {
-  const getIcon = (type: FinancialInsight["type"]) => {
-    if (type === "up") {
-      return (
-        <ArrowUp
-          size={18}
-          className="text-red-500"
-        />
-      );
-    }
-
-    if (type === "down") {
+const getIcon = (type: FinancialInsight["type"]) => {
+  switch (type) {
+    case "up":
+      return <ArrowUp size={18} className="text-red-500" />;
+    case "down":
       return (
         <ArrowDown
           size={18}
           className="text-[#4D869C] dark:text-[#A7D129]"
         />
       );
-    }
+    case "warning":
+      return <AlertTriangle size={18} className="text-orange-500" />;
+    case "positive":
+      return (
+        <CheckCircle2
+          size={18}
+          className="text-[#4D869C] dark:text-[#A7D129]"
+        />
+      );
+    case "stable":
+      return <Minus size={18} className="text-slate-500" />;
+    default:
+      return <Info size={18} className="text-slate-500" />;
+  }
+};
 
-    return (
-      <Minus
-        size={18}
-        className="text-slate-500"
-      />
-    );
-  };
-
+export default function FinancialInsights({ insights }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -58,43 +60,44 @@ export default function FinancialInsights({ insights }: Props) {
 
         <div>
           <h2 className="font-bold text-slate-900 dark:text-white">
-            Insights financieros
+            Observaciones y recomendaciones
           </h2>
 
           <p className="text-sm text-slate-500 dark:text-gray-400">
-            Información relevante sobre tus gastos.
+            Información relevante detectada en tus gastos.
           </p>
         </div>
       </div>
 
-      <div className="space-y-4">
-        {insights.map((insight, index) => (
-          <motion.div
-            key={insight.title}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.3,
-              delay: index * 0.1,
-            }}
-            className="flex gap-4 rounded-xl bg-[#EEF7FF] p-4 dark:bg-[#3E432E]"
-          >
-            <div className="mt-0.5">
-              {getIcon(insight.type)}
-            </div>
+      {insights.length > 0 ? (
+        <div className="space-y-4">
+          {insights.map((insight, index) => (
+            <motion.div
+              key={`${insight.title}-${index}`}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.08 }}
+              className="flex gap-4 rounded-xl bg-[#EEF7FF] p-4 dark:bg-[#3E432E]"
+            >
+              <div className="mt-0.5">{getIcon(insight.type)}</div>
 
-            <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">
-                {insight.title}
-              </h3>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">
+                  {insight.title}
+                </h3>
 
-              <p className="mt-1 text-sm text-slate-600 dark:text-gray-300">
-                {insight.description}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+                <p className="mt-1 text-sm text-slate-600 dark:text-gray-300">
+                  {insight.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-sm text-slate-500 dark:text-gray-400">
+          No hay observaciones por ahora.
+        </p>
+      )}
     </motion.div>
   );
 }
