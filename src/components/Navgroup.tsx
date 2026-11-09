@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import NavItem from "./NavItem/NavItem";
@@ -8,53 +9,46 @@ export default function NavGroup({
   itemsCenter,
   items,
   layoutId,
+  fill = true,
+  gap = "gap-10",
 }: NavGroupProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const height = fill ? "h-full" : "";
 
-
-  
   return (
-    <div className="flex h-full flex-col gap-2">
+    <div className={`flex ${height} flex-col gap-2`}>
       {itemsCenter ? (
         <div
-          className={`flex h-full items-center justify-center flex-col gap-10 text-sm`}
+          className={`flex ${height} flex-col items-center justify-center ${gap} text-sm`}
         >
-          {items.map((item) => {
-            const active = location.pathname === item.path;
-
-            return (
-              <NavItem
-                itemsCenter={itemsCenter}
-                key={item.label}
-                flexCol={true}
-                label={item.label}
-                icon={item.icon}
-                active={active}
-                onClick={() => navigate(item.path)}
-                layoutId={layoutId}
-              />
-            );
-          })}
+          {items.map((item) => (
+            <NavItem
+              key={item.label}
+              itemsCenter={itemsCenter}
+              flexCol={true}
+              label={item.label}
+              icon={item.icon}
+              active={location.pathname === item.path}
+              onClick={() => navigate(item.path)}
+              layoutId={layoutId}
+            />
+          ))}
         </div>
       ) : (
-        <div className={`flex flex-col gap-10 h-full text-sm`}>
-          {items.map((item) => {
-            const active = location.pathname === item.path;
-
-            return (
-              <NavItem
-                itemsCenter={itemsCenter}
-                key={item.label}
-                flexCol={false}
-                label={item.label}
-                icon={item.icon}
-                active={active}
-                onClick={() => navigate(item.path)}
-                layoutId={layoutId}
-              />
-            );
-          })}
+        <div className={`flex ${height} flex-col ${gap} text-sm`}>
+          {items.map((item) => (
+            <NavItem
+              key={item.label}
+              itemsCenter={itemsCenter}
+              flexCol={false}
+              label={item.label}
+              icon={item.icon}
+              active={location.pathname === item.path}
+              onClick={() => navigate(item.path)}
+              layoutId={layoutId}
+            />
+          ))}
         </div>
       )}
     </div>

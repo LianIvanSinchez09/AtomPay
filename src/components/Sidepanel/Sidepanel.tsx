@@ -1,6 +1,18 @@
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Sidepanel.css";
+import Dropdown from  "../Dropdown.tsx"
+import NavGroup from "../Navgroup";
+import {
+  BarChart3,
+  Receipt,
+  Settings2,
+  Sparkles,
+  Bell,
+  Settings,
+  LogOut,
+} from "lucide-react";
+
 
 import type { SidepanelProps, customWidth } from "../../types/types";
 import { useState } from "react";
@@ -18,6 +30,24 @@ export default function Sidepanel({
     lg: "w-96",
     xl: "w-120",
   };
+
+  const serviceItemsSecondary: serviceItems[] = [
+  {
+    label: "Notificaciones",
+    icon: Bell,
+    path: "/dashboard/atomcito",
+  },
+  {
+    label: "Atomcito",
+    icon: Sparkles,
+    path: "/dashboard/atomcito",
+  },
+  {
+    label: "Ajustes",
+    icon: Settings,
+    path: "/dashboard/atomcito",
+  },
+];
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(hoverExpand);
 

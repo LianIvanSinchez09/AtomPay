@@ -19,11 +19,7 @@ import {
 } from "../../services/billingService";
 import { dateFormat, moneyFormat } from "../../utils/billingFormat";
 import { errorMessage } from "../../services/apiError";
-
-type Props = {
-  categories: ServiceCategory[];
-  onCreated: () => Promise<unknown> | void;
-};
+import type { ManualInvoicePanel } from "../../types/types";
 
 const MAX_MB = 10;
 const NEW_SERVICE = "__new";
@@ -74,6 +70,9 @@ export default function ManualInvoicePanel({
     },
     {}
   );
+
+  console.log(services);
+  
 
   const creating = serviceChoice === NEW_SERVICE;
 
@@ -132,7 +131,7 @@ export default function ManualInvoicePanel({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
-      className="mt-8 overflow-hidden rounded-2xl border border-[#CDE8E5] bg-white shadow-sm dark:border-[#616F39] dark:bg-[#3E432E]"
+      className="mt-8 overflow-hidden rounded-2xl border border-[#CDE8E5] bg-white shadow-sm dark:border-[#ffffff] dark:bg-[#3E432E]"
     >
       <div className="border-b border-[#CDE8E5] p-5 dark:border-[#616F39] md:p-6">
         <h2 className="text-xl font-bold">Cargar factura manualmente</h2>
@@ -184,7 +183,7 @@ export default function ManualInvoicePanel({
                 Elegí un servicio
               </option>
 
-              {Object.entries(grouped).map(([category, list]) => (
+              {Object.entries(grouped).map(([category, list]) => (                
                 <optgroup key={category} label={category}>
                   {list.map((service) => (
                     <option key={service.id} value={service.id}>

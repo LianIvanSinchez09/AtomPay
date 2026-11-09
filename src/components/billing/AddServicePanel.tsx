@@ -23,21 +23,11 @@ const inputClass =
 
 const labelClass = "block text-xs font-semibold opacity-70";
 
-type Props = {
-  categories: ServiceCategory[];
-  sources: ServiceSource[];
-  onChanged: () => Promise<unknown> | void;
-};
-
-/**
- * Alta de un servicio que la app no conoce: se busca por el mail del
- * proveedor y/o por palabras clave del asunto.
- */
 export default function AddServicePanel({
   categories,
   sources,
   onChanged,
-}: Props) {
+}: AddServicePanelProps) {
   const [name, setName] = useState("");
   const [sender, setSender] = useState("");
   const [keywords, setKeywords] = useState("");

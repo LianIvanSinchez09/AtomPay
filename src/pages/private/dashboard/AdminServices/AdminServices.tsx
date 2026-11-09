@@ -17,30 +17,26 @@ import type {
   DisplayCategory,
   Invoice,
   ServiceSource,
-} from "../../../types/types";
+} from "../../../../types/types";
 
-import AddServicePanel from "../../../components/billing/AddServicePanel";
-import ManualInvoicePanel from "../../../components/billing/ManualInvoicePanel";
-import ManageInvoicesPanel from "../../../components/billing/ManageInvoicesPanel";
+import AddServicePanel from "../../../../components/billing/AddServicePanel";
+import ManualInvoicePanel from "../../../../components/billing/ManualInvoicePanel";
+import ManageInvoicesPanel from "../../../../components/billing/ManageInvoicesPanel";
 import {
   getBillingOverview,
   getCategories,
   getServiceSources,
-} from "../../../services/billingService";
-import { serviceCategories as baseCategories } from "../../../data/serviceCategories";
-import { dateFormat } from "../../../utils/billingFormat";
-import { errorMessage } from "../../../services/apiError";
-
-/** Solo puede haber un panel abierto a la vez. */
+} from "../../../../services/billingService";
+import { serviceCategories as baseCategories } from "../../../../data/serviceCategories";
+import { dateFormat } from "../../../../utils/billingFormat";
+import { errorMessage } from "../../../../services/apiError";
+import TogglePanelButton from "./TogglePanelButton";
 type PanelKind = "add-service" | "manager" | "upload";
-
 export default function AdminServices() {
   const [panel, setPanel] = useState<PanelKind | null>(null);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [sources, setSources] = useState<ServiceSource[]>([]);
-  const [categoryRows, setCategoryRows] = useState<CategoryRecord[]>(
-    []
-  );
+  const [categoryRows, setCategoryRows] = useState<CategoryRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,12 +44,11 @@ export default function AdminServices() {
     try {
       setError(null);
 
-      const [billingInvoices, billingSources, categories] =
-        await Promise.all([
-          getBillingOverview(),
-          getServiceSources(),
-          getCategories(),
-        ]);
+      const [billingInvoices, billingSources, categories] = await Promise.all([
+        getBillingOverview(),
+        getServiceSources(),
+        getCategories(),
+      ]);
 
       setInvoices(billingInvoices);
       setSources(billingSources);
@@ -73,12 +68,8 @@ export default function AdminServices() {
     setPanel((current) => (current === next ? null : next));
   };
 
-  // Categorías para el selector del administrador de comprobantes.
   const categoryOrder = new Map(
-    baseCategories.map((category, index) => [
-      category.name,
-      index,
-    ])
+    baseCategories.map((category, index) => [category.name, index]),
   );
 
   const displayedCategories: DisplayCategory[] = Array.from(
@@ -87,20 +78,16 @@ export default function AdminServices() {
         ? categoryRows.map((category) => category.name)
         : baseCategories.map((category) => category.name)),
       ...invoices.map((invoice) => invoice.category),
-    ])
+    ]),
   )
     .sort(
       (a, b) =>
         (categoryOrder.get(a) ?? 99) - (categoryOrder.get(b) ?? 99) ||
-        a.localeCompare(b)
+        a.localeCompare(b),
     )
     .map((name) => {
-      const known = baseCategories.find(
-        (category) => category.name === name
-      );
-      const stored = categoryRows.find(
-        (category) => category.name === name
-      );
+      const known = baseCategories.find((category) => category.name === name);
+      const stored = categoryRows.find((category) => category.name === name);
 
       return {
         id: stored?.id ?? null,
@@ -110,18 +97,17 @@ export default function AdminServices() {
           known?.description ??
           "Categoría personalizada",
         icon: known?.icon ?? Folder,
-        invoiceCount: invoices.filter(
-          (invoice) => invoice.category === name
-        ).length,
+        invoiceCount: invoices.filter((invoice) => invoice.category === name)
+          .length,
       };
     });
 
   const withoutAmount = invoices.filter(
-    (invoice) => invoice.amount <= 0
+    (invoice) => invoice.amount <= 0,
   ).length;
 
   const lastManual = invoices.find((invoice) =>
-    invoice.source?.startsWith("manual")
+    invoice.source?.startsWith("manual"),
   );
 
   return (
@@ -142,8 +128,8 @@ export default function AdminServices() {
           </h1>
 
           <p className="mt-3 max-w-2xl text-sm opacity-70 md:text-base">
-            Sumá proveedores, organizá tus comprobantes o cargá una
-            factura a mano. Todo lo que detecta el escaneo cae acá.
+            Sumá proveedores, organizá tus comprobantes o cargá una factura a
+            mano. Todo lo que detecta el escaneo cae acá.
           </p>
         </header>
 
@@ -165,18 +151,10 @@ export default function AdminServices() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <motion.button
-              type="button"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0 }}
-              onClick={() => togglePanel("add-service")}
-              aria-expanded={panel === "add-service"}
-              className={`rounded-2xl border p-5 text-left shadow-sm transition-colors ${
-                panel === "add-service"
-                  ? "border-[#4D869C] bg-[#CDE8E5] dark:border-[#A7D129] dark:bg-[#3E432E]"
-                  : "border-[#CDE8E5] bg-white hover:bg-[#F7FCFF] dark:border-[#616F39] dark:bg-[#3E432E] dark:hover:bg-[#484D35]"
-              }`}
+            <TogglePanelButton
+              fn={togglePanel}
+              param={"add-service"}
+              panel={panel}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
@@ -204,31 +182,17 @@ export default function AdminServices() {
               </div>
 
               <p className="mt-4 text-sm opacity-70">
-                Sumá un proveedor por su mail o palabras clave para que
-                el escaneo empiece a detectarlo.
+                Sumá un proveedor por su mail o palabras clave para que el
+                escaneo empiece a detectarlo.
               </p>
 
               <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
                 <p className="text-xs opacity-65">Detección</p>
-                <p className="mt-1 font-bold">
-                  Mail o palabras clave
-                </p>
+                <p className="mt-1 font-bold">Mail o palabras clave</p>
               </div>
-            </motion.button>
+            </TogglePanelButton>
 
-            <motion.button
-              type="button"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.04 }}
-              onClick={() => togglePanel("manager")}
-              aria-expanded={panel === "manager"}
-              className={`rounded-2xl border p-5 text-left shadow-sm transition-colors ${
-                panel === "manager"
-                  ? "border-[#4D869C] bg-[#CDE8E5] dark:border-[#A7D129] dark:bg-[#3E432E]"
-                  : "border-[#CDE8E5] bg-white hover:bg-[#F7FCFF] dark:border-[#616F39] dark:bg-[#3E432E] dark:hover:bg-[#484D35]"
-              }`}
-            >
+            <TogglePanelButton fn={togglePanel} param={"manager"} panel={panel}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-[#EEF7FF] p-3 dark:bg-[#616F39]">
@@ -236,15 +200,10 @@ export default function AdminServices() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold">
-                      Administrar comprobantes
-                    </h3>
+                    <h3 className="font-bold">Administrar comprobantes</h3>
                     <p className="mt-1 text-xs opacity-65">
                       {loading ? (
-                        <Loader2
-                          size={14}
-                          className="animate-spin"
-                        />
+                        <Loader2 size={14} className="animate-spin" />
                       ) : (
                         <>
                           {invoices.length}{" "}
@@ -266,29 +225,17 @@ export default function AdminServices() {
               </div>
 
               <p className="mt-4 text-sm opacity-70">
-                Mové cada comprobante de categoría, abrí el mail
-                original o eliminalo del listado.
+                Mové cada comprobante de categoría, abrí el mail original o
+                eliminalo del listado.
               </p>
 
               <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
                 <p className="text-xs opacity-65">Sin importe</p>
                 <p className="mt-1 font-bold">{withoutAmount}</p>
               </div>
-            </motion.button>
+            </TogglePanelButton>
 
-            <motion.button
-              type="button"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08 }}
-              onClick={() => togglePanel("upload")}
-              aria-expanded={panel === "upload"}
-              className={`rounded-2xl border p-5 text-left shadow-sm transition-colors ${
-                panel === "upload"
-                  ? "border-[#4D869C] bg-[#CDE8E5] dark:border-[#A7D129] dark:bg-[#3E432E]"
-                  : "border-[#CDE8E5] bg-white hover:bg-[#F7FCFF] dark:border-[#616F39] dark:bg-[#3E432E] dark:hover:bg-[#484D35]"
-              }`}
-            >
+            <TogglePanelButton fn={togglePanel} param={"upload"} panel={panel}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-[#EEF7FF] p-3 dark:bg-[#616F39]">
@@ -297,9 +244,7 @@ export default function AdminServices() {
 
                   <div>
                     <h3 className="font-bold">Cargar factura</h3>
-                    <p className="mt-1 text-xs opacity-65">
-                      PDF o imagen
-                    </p>
+                    <p className="mt-1 text-xs opacity-65">PDF o imagen</p>
                   </div>
                 </div>
 
@@ -312,19 +257,17 @@ export default function AdminServices() {
               </div>
 
               <p className="mt-4 text-sm opacity-70">
-                Subí un comprobante, elegí a qué servicio pertenece y
-                la app lee importe, fechas y número.
+                Subí un comprobante, elegí a qué servicio pertenece y la app lee
+                importe, fechas y número.
               </p>
 
               <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
                 <p className="text-xs opacity-65">Última carga</p>
                 <p className="mt-1 font-bold">
-                  {lastManual
-                    ? dateFormat(lastManual.issueDate)
-                    : "—"}
+                  {lastManual ? dateFormat(lastManual.issueDate) : "—"}
                 </p>
               </div>
-            </motion.button>
+            </TogglePanelButton>
           </div>
         </section>
 
@@ -372,11 +315,10 @@ export default function AdminServices() {
             <p className="font-semibold">Cómo se organiza todo</p>
             <p className="mt-1 text-sm opacity-70">
               Los servicios propios se suman al escaneo de Gmail. Los
-              comprobantes se guardan con la categoría del servicio, y
-              podés moverlos a otra cuando haga falta (el remitente se
-              recuerda para los próximos). La carga manual lee el
-              archivo al instante: no se guarda, solo los datos
-              extraídos.
+              comprobantes se guardan con la categoría del servicio, y podés
+              moverlos a otra cuando haga falta (el remitente se recuerda para
+              los próximos). La carga manual lee el archivo al instante: no se
+              guarda, solo los datos extraídos.
             </p>
           </div>
         </div>
