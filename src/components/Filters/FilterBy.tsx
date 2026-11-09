@@ -16,6 +16,11 @@ export default function FilterBy({
 }: Props) {
   const [open, setOpen] = useState(false);
 
+  const filterNoImport = () => {
+    const noImport = [...items].filter((item) => item.amount === 0)
+  }
+
+
   return (
     <div>
       <button

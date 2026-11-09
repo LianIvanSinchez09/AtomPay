@@ -5,14 +5,12 @@ import { AlertCircle, Loader2 } from "lucide-react";
 type Props = {
   title: string;
   description: string;
-  /** Dato resumido que antes aparecía en la tarjeta (ej. "3 sin importe"). */
   badge?: ReactNode;
   error?: string | null;
   loading?: boolean;
   children: ReactNode;
 };
 
-/** Marco común de las páginas de "Administrar Servicios". */
 export default function AdminPageLayout({
   title,
   description,

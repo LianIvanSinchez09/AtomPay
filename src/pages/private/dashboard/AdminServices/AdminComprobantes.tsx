@@ -21,7 +21,6 @@ export default function AdminComprobantes() {
           categories={displayedCategories}
           onChanged={loadAll}
           />
-          <FilterBy/>
       </AdminPageLayout>
     </>
   );

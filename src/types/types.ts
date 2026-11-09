@@ -12,6 +12,13 @@ export interface GmailAccount {
   updatedAt: string;
 }
 
+export type SortByProps = {
+  label: string;
+  icon: LucideIcon;
+  items: Invoice[];
+  setInvoiceState: (invoices: Invoice[]) => void;
+};
+
 
 
 export interface SyncResult {

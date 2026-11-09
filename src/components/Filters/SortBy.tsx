@@ -2,20 +2,15 @@ import { useState } from "react";
 import { ChevronDown, type LucideIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Invoice } from "../../types/types";
+import type { SortByProps } from "../../types/types";
 
-type Props = {
-  label: string;
-  icon: LucideIcon;
-  items: Invoice[];
-  setInvoiceState: (invoices: Invoice[]) => void;
-};
 
 export default function SortBy({
   label,
   icon: Icon,
   items = [],
   setInvoiceState,
-}: Props) {
+}: SortByProps) {
   const [open, setOpen] = useState(false);
 
   const dateFilter = () => {
@@ -73,6 +68,7 @@ export default function SortBy({
   };
 
   console.log(items);
+  
 
   return (
     <div>
