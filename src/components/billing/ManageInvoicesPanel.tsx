@@ -7,6 +7,7 @@ import {
   Loader2,
   Mail,
   Trash2,
+  Settings2,
 } from "lucide-react";
 import "./billing.css";
 import type { DisplayCategory, Invoice } from "../../types/types";
@@ -18,12 +19,12 @@ import {
 } from "../../utils/billingFormat";
 import { errorMessage } from "../../services/apiError";
 import SortBy from "../Filters/SortBy";
+import FilterBy from "../Filters/FilterBy";
 import InvoiceContainer from "./InvoiceContainer";
 import { source } from "motion/react-client";
-import FilterBy from "../Filters/FilterBy";
 
 type Props = {
-  invoices: Invoice[];
+  invoice: Invoice[];
   categories: DisplayCategory[];
   onChanged: () => Promise<unknown> | void;
 };
@@ -32,7 +33,7 @@ type Props = {
  * Listado de comprobantes: cambiar de categoría, abrir el mail original o
  * eliminar el comprobante. Eliminar no borra el mail.
  */
-export default function ManageInvoicesPanel({
+export default function ManageinvoicesPanel({
   invoices,
   categories,
   onChanged,
@@ -91,6 +92,29 @@ export default function ManageInvoicesPanel({
     }
   };
 
+  const [invoiceState, setInvoiceState] = useState<Invoice[]>(invoices);
+  const invoiceCopy = [...invoices];
+  const resetFilter = () => setInvoiceState(invoiceCopy);
+
+  const checkProps = (input: string) => {
+    const q = input.trim().toLowerCase();
+    return invoiceCopy.filter((invoice) =>
+      Object.values(invoice).some(
+        (value) =>
+          (typeof value === "string" || typeof value === "number") &&
+          String(value).toLowerCase().includes(q),
+      ),
+    );
+  };
+
+  const search = (input: string) => {
+    if (input.length > 0) {
+      setInvoiceState(checkProps(input));
+    } else {
+      resetFilter()
+    }
+  };
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 12 }}
@@ -109,23 +133,38 @@ export default function ManageInvoicesPanel({
             nuevos de esa dirección van a ir directo a la categoría que elijas.
           </p>
         </div>
-        <FilterBy />
+        <input
+          placeholder="Buscar..."
+          onChange={(e) => search(e.target.value)}
+        />
+
+        <FilterBy
+          label="Filtrar por"
+          icon={Settings2}
+          items={invoices}
+          setInvoiceState={setInvoiceState}
+        />
+        <SortBy
+          label="Ordenar por"
+          icon={Settings2}
+          items={invoiceState}
+          setInvoiceState={setInvoiceState}
+        />
 
         <div className="flex shrink-0 flex-wrap items-center gap-2 self-start md:self-auto">
           <span className="rounded-full bg-[#EEF7FF] px-3 py-1 text-xs font-semibold dark:bg-black/20">
-            {invoices.length}{" "}
-            {invoices.length === 1 ? "comprobante" : "comprobantes"}
+            {invoiceState.length}{" "}
+            {invoiceState.length === 1 ? "comprobante" : "comprobantes"}
           </span>
 
-          {invoices.filter((invoice) => invoice.amount <= 0).length > 0 && (
+          {invoiceState.filter((invoice) => invoice.amount <= 0).length > 0 && (
             <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
-              {invoices.filter((invoice) => invoice.amount <= 0).length} sin
+              {invoiceState.filter((invoice) => invoice.amount <= 0).length} sin
               importe
             </span>
           )}
         </div>
       </div>
-      {/* <FilterBy text={"test"}/> */}
       {actionError && (
         <div className="flex items-start gap-2 border-b border-red-200 bg-red-50 px-5 py-3 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-300">
           <AlertCircle size={16} className="mt-0.5 shrink-0" />
@@ -140,7 +179,7 @@ export default function ManageInvoicesPanel({
         </div>
       )}
 
-      {invoices.length === 0 ? (
+      {invoiceState.length === 0 ? (
         <div className="p-8 text-center">
           <FileText size={32} className="mx-auto mb-3 opacity-50" />
           <p className="font-semibold">
@@ -153,11 +192,14 @@ export default function ManageInvoicesPanel({
         </div>
       ) : (
         <InvoiceContainer
-          invoices={invoices}
+          invoices={invoiceState}
           busyId={busyId}
-          confirmDelete={confirmDeleteId}
-          sourceLabels={sourceLabels}
+          confirmDeleteId={confirmDeleteId}
           categories={categories}
+          onMove={handleMove}
+          onDelete={handleDelete}
+          onAskDelete={setConfirmDeleteId}
+          onCancelDelete={() => setConfirmDeleteId(null)}
         />
       )}
     </motion.section>
