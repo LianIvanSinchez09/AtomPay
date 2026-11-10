@@ -56,8 +56,6 @@ export default function ManageinvoicesPanel({
     void loadServices();
   }, []);
 
-  console.log(services);
-  
 
 
   useEffect(() => {

@@ -40,7 +40,7 @@ const adminServiceChildren: NavDropdownChild[] = [
 ];
 
 const serviceItemsSecondary: serviceItems[] = [
-  { label: "Notificaciones", icon: Bell, path: "/dashboard/atomcito" },
+  { label: "Notificaciones", icon: Bell, path: "/dashboard/notifications" },
   { label: "Atomcito", icon: Sparkles, path: "/dashboard/atomcito" },
   { label: "Ajustes", icon: Settings, path: "/dashboard/atomcito" },
 ];
