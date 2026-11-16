@@ -17,7 +17,7 @@ export default function NotificationsLoader() {
   
   const [items, setItems] = useState<NotificationItem[]>([]);
 
-  useNotifications(setItems, setLoading)
+  useNotifications(setItems, setLoading, setError, error)
   
   const unreadCount = useMemo(
     () => items.filter((item) => !item.read).length,

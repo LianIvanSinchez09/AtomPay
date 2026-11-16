@@ -24,8 +24,6 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   Pagos: CreditCard,
 };
 
-const SECTIONS_BASE = "/dashboard";
-
 function timeAgo(iso: string): string {
   const date = new Date(iso);
   const diffSeconds = (date.getTime() - Date.now()) / 1000;

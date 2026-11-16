@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { getNotifications } from "../services/notificationService";
-
+import { errorMessage } from "../services/apiError";
 
 export function useNotifications(setnotificationState, setLoading, setError) {
   useEffect(() => {
