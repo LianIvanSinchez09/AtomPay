@@ -12,6 +12,17 @@ export interface GmailAccount {
   updatedAt: string;
 }
 
+export type NotificationsContextValue = {
+  items: NotificationItem[];
+  loading: boolean;
+  error: string | null;
+  unreadCount: number;
+  refetch: () => Promise<void>;
+  markAsRead: (id: string) => Promise<void>;
+  markAllAsRead: () => Promise<void>;
+  remove: (id: string) => Promise<void>;
+};
+
 export type ManualInvoicePanel = {
   categories: ServiceCategory[];
   onCreated: () => Promise<unknown> | void;

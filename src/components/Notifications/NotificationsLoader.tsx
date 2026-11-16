@@ -8,29 +8,17 @@ import {
 } from "../../services/notificationService";
 import { errorMessage } from "../../services/apiError";
 import type { NotificationItem } from "../types/notification";
+import { useNotifications } from "../../hooks/useNotifications";
 
 export default function NotificationsLoader() {
-  const [items, setItems] = useState<NotificationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [onlyUnread, setOnlyUnread] = useState(false);
+  
+  const [items, setItems] = useState<NotificationItem[]>([]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    getNotifications({signal: controller.signal })
-    
-    .then(setItems)
-      .catch((err) => {
-        if (!controller.signal.aborted) setError(errorMessage(err));
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
-      });
-
-    return () => controller.abort();
-  }, []);
-
+  useNotifications(setItems, setLoading)
+  
   const unreadCount = useMemo(
     () => items.filter((item) => !item.read).length,
     [items]
