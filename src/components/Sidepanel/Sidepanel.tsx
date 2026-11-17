@@ -16,6 +16,7 @@ import {
 
 import type { SidepanelProps, customWidth } from "../../types/types";
 import { useState } from "react";
+import HomeButton from "../HomeButton/HomeButton.tsx";
 
 export default function Sidepanel({
   width,
@@ -72,6 +73,7 @@ export default function Sidepanel({
     ${currentWidth}
     shrink-0
     flex
+    gap-2
     flex-col
     font-sans
     bg-[#4D869C]
@@ -99,17 +101,7 @@ export default function Sidepanel({
         `}
       >
         {mainTitle ? (
-          <Link
-            to="/dashboard"
-            className="
-              m-5
-              font-bold
-              transition-opacity
-              hover:opacity-80
-            "
-          >
-            <span className="text-2xl hover:text-[#A7D129]">AtomPay</span>
-          </Link>
+            <HomeButton/>
         ) : (
           <div className="m-5">
             <Menu size={25} />

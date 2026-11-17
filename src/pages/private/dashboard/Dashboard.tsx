@@ -6,8 +6,8 @@ export default function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="h-dvh flex overflow-hidden bg-[#EEF7FF] dark:bg-black">
-      <aside className="shrink-0 h-full">
+    <div className="h-dvh  flex overflow-hidden bg-[#EEF7FF] dark:bg-black">
+      <aside className="shrink-0 h-full ">
         <ToolBar
           collapsed={sidebarCollapsed}
           onCollapsedChange={setSidebarCollapsed}
