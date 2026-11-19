@@ -12,7 +12,7 @@ import {
 
 const PATH = "/dashboard/notifications";
 
-const SCAN_INTERVAL_MS = 10 * 60 * 1000;
+const SCAN_INTERVAL_MS = 35 * 60 * 1000;
 const CHECK_EVERY_MS = 30 * 1000;
 
 const NotificationsButton = () => {
