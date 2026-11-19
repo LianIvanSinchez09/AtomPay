@@ -3,7 +3,6 @@ import NotificationCard from "./Notification";
 import {
   deleteNotification,
   getNotifications,
-  markAllNotificationsAsRead,
   markNotificationAsRead,
 } from "../../services/notificationService";
 import { errorMessage } from "../../services/apiError";
@@ -50,16 +49,7 @@ export default function NotificationsLoader() {
   }, []);
 
   const handleReadAll = useCallback(async () => {
-    const previous = items;
 
-    setItems((current) => current.map((item) => ({ ...item, read: true })));
-
-    try {
-      await markAllNotificationsAsRead();
-    } catch (err) {
-      setItems(previous);
-      setError(errorMessage(err));
-    }
   }, [items]);
 
   const handleDelete = useCallback(async (id: string) => {
@@ -97,15 +87,6 @@ export default function NotificationsLoader() {
             className="underline-offset-2 hover:underline"
           >
             {onlyUnread ? "Ver todas" : "Solo no leídas"}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleReadAll}
-            disabled={unreadCount === 0}
-            className="underline-offset-2 hover:underline disabled:opacity-40 disabled:hover:no-underline"
-          >
-            Marcar todas como leídas
           </button>
         </div>
       </header>

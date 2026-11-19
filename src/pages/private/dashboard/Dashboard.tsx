@@ -1,9 +1,20 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import ToolBar from "../../../components/Sidebar/Toolbar";
+import { updateNotifications } from "../../../services/notificationService";
+import { getNotifications } from "../../../services/notificationService";
+
 
 export default function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [notification, setNotifications] = useState([])
+
+
+  const id = setInterval(() => {
+    console.log("Running scan...");
+    
+    if (document.visibilityState === "visible") void updateNotifications();
+  }, 1*60*1000);
 
   return (
     <div className="h-dvh  flex overflow-hidden bg-[#EEF7FF] dark:bg-black">
