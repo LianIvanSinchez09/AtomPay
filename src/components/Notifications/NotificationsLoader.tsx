@@ -48,10 +48,6 @@ export default function NotificationsLoader() {
     }
   }, []);
 
-  const handleReadAll = useCallback(async () => {
-
-  }, [items]);
-
   const handleDelete = useCallback(async (id: string) => {
     try {
       await deleteNotification(id);

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell } from "lucide-react";
 
 import NavItem from "../NavItem/NavItem";
 import { useNotifications } from "../../hooks/useNotifications";
-import { useAuth } from "../../context/AuthContext";
 
 import type { NotificationItem } from "../../types/notification";
 
@@ -15,19 +15,28 @@ import {
 
 const PATH = "/dashboard/notifications";
 
+const SCAN_INTERVAL_MS = 10 * 60 * 1000;
+const CHECK_EVERY_MS = 30 * 1000;
+
 const NotificationsButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const [items, setItems] = useState<NotificationItem[]>([]);
   const [, setLoading] = useState(true);
   const [, setError] = useState<string | null>(null);
 
+  const lastScan = useRef<Date>(new Date());
+  const scanning = useRef(false);
+
+  const refetchNotifications = useNotifications(
+    setItems,
+    setLoading,
+    setError
+  );
+
   const unreadCount = items.filter((item) => !item.read).length;
   const badge = unreadCount > 99 ? "99+" : unreadCount;
-
-  useNotifications(setItems, setLoading, setError);
 
   const handleCount = async () => {
     const previous = items;
@@ -47,21 +56,26 @@ const NotificationsButton = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) return;
-
     const interval = setInterval(async () => {
+      if (!localStorage.getItem("token")) return;
       if (document.visibilityState !== "visible") return;
-
+      if (scanning.current) return;
+      if (lastScan.current.getTime() < SCAN_INTERVAL_MS) return;
+      scanning.current = true;
       try {
         const data = await updateNotifications();
         console.log("Scan result:", data);
+        await refetchNotifications();
+        lastScan.current = new Date();
       } catch (error) {
         console.error("Error running notification scan:", error);
+      } finally {
+        scanning.current = false;
       }
-    }, 10 * 60 * 1000);
+    }, CHECK_EVERY_MS);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [refetchNotifications]);
 
   return (
     <div className="relative">
@@ -74,7 +88,7 @@ const NotificationsButton = () => {
         layoutId="active-nav-pill"
       />
 
-      {badge > 0 && (
+      {unreadCount > 0 && (
         <span
           aria-label={`${unreadCount} notificaciones sin leer`}
           className="pointer-events-none absolute left-5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#616F39] font-bold leading-none text-white"

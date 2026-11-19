@@ -6,8 +6,6 @@ import { useNotificationScan } from '../../hooks/useNotificationScan';
 
 const Notifications = () => {
 
-  useNotificationScan()
-
   return (
     <div>
       <NotificationsLoader/>
