@@ -17,10 +17,10 @@ export default function NavGroup({
   const height = fill ? "h-full" : "";
 
   return (
-    <div className={`flex ${height} flex-col gap-2`}>
+    <div className={`flex ${height} flex-col`}>
       {itemsCenter ? (
         <div
-          className={`flex ${height} flex-col items-center justify-center ${gap} text-sm`}
+          className={`flex ${height} flex-col items-center justify-center ${gap} text-xl`}
         >
           {items.map((item) => (
             <NavItem
@@ -36,7 +36,7 @@ export default function NavGroup({
           ))}
         </div>
       ) : (
-        <div className={`flex ${height} flex-col ${gap} text-sm`}>
+        <div className={`flex ${height} flex-col ${gap} text-2xl`}>
           {items.map((item) => (
             <NavItem
               key={item.label}

@@ -94,9 +94,6 @@ export default function SortBy({
     setSelected(option.key);
     option.sort();
   };
-
-  console.log(items);
-
   return (
     <div className="relative">
       <button

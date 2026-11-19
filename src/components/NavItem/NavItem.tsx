@@ -1,7 +1,7 @@
 import { NavItemProps } from "../../types/types";
 // import MotionButton from "../MotionButton";
 import { motion } from "motion/react";
-import "./NavItem.css"
+import "./NavItem.css";
 
 export default function NavItem({
   label,
@@ -19,15 +19,14 @@ export default function NavItem({
       className={`
         relative
         flex
-        ${flexCol ? "flex-col" : null}
+${flexCol ? "flex-col" : ""}
         w-full
         items-center
         justify-center
-        gap-3
         rounded-xl
         px-4
         py-3
-
+        gap-2
         text-white
 
         transition-all
@@ -37,7 +36,6 @@ export default function NavItem({
         hover:text-[#A7D129]
       `}
     >
-      {/* Indicador de opción activa */}
       {active && (
         <motion.div
           layoutId={layoutId}
@@ -55,13 +53,8 @@ export default function NavItem({
         />
       )}
 
-      {/* Icono */}
-      <Icon
-        size={22}
-        className="relative z-10 shrink-0"
-      />
+      <Icon size={22} className="relative z-10 shrink-0" />
 
-      {/* Texto */}
       <motion.span
         initial={false}
         animate={{
@@ -75,6 +68,7 @@ export default function NavItem({
           z-10
           overflow-hidden
           whitespace-nowrap
+          text-base
         `}
       >
         {label}

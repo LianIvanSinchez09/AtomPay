@@ -5,6 +5,20 @@
   position: relative;
   max-height: 100%;
 }
+
+.logoPaused .orbit1,
+.logoPaused .orbit1Back,
+.logoPaused .orbit2,
+.logoPaused .orbit3,
+.logoPaused .orbit3Back,
+.logoPaused .orbit4FHalf,
+.logoPaused .orbit4SHalf,
+.logoPaused .orbit4SHalfBack {
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+}
+
+
 /* con "FHalf" me refiero a "First Half" */
 .orbit1,
 .orbit3,
