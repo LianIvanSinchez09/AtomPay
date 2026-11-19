@@ -1,7 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
-/** Lo que devuelve GET /api/gmail/accounts (nunca incluye los tokens). */
+export interface ScanNotificationsResponse {
+  skipped: boolean;
+  created: number;
+}
 export interface GmailAccount {
   id: string;
   provider: string;

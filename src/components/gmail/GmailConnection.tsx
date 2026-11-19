@@ -152,6 +152,8 @@ export default function GmailConnection({
     }
   }, []);
 
+
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 12 }}
