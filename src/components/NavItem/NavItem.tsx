@@ -10,8 +10,11 @@ export default function NavItem({
   active,
   onClick,
   layoutId,
+  children,
+  gap = 2
 }: NavItemProps) {
   return (
+    <>
     <button
       type="button"
       onClick={onClick}
@@ -26,7 +29,7 @@ ${flexCol ? "flex-col" : ""}
         rounded-xl
         px-4
         py-3
-        gap-2
+        ${gap}
         text-white
 
         transition-all
@@ -55,6 +58,8 @@ ${flexCol ? "flex-col" : ""}
 
       <Icon size={22} className="relative z-10 shrink-0" />
 
+      {children}
+
       <motion.span
         initial={false}
         animate={{
@@ -74,5 +79,6 @@ ${flexCol ? "flex-col" : ""}
         {label}
       </motion.span>
     </button>
+    </>
   );
 }

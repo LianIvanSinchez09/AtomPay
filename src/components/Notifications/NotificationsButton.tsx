@@ -2,12 +2,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell } from "lucide-react";
-
 import NavItem from "../NavItem/NavItem";
 import { useNotifications } from "../../hooks/useNotifications";
-
 import type { NotificationItem } from "../../types/notification";
-
 import {
   updateNotifications,
   markAllNotificationsAsRead,
@@ -64,7 +61,7 @@ const NotificationsButton = () => {
       scanning.current = true;
       try {
         const data = await updateNotifications();
-        console.log("Scan result:", data);
+        // console.log("scan result:", data);
         await refetchNotifications();
         lastScan.current = new Date();
       } catch (error) {
@@ -78,7 +75,7 @@ const NotificationsButton = () => {
   }, [refetchNotifications]);
 
   return (
-    <div className="relative">
+    <div className="flex">
       <NavItem
         label="Notificaciones"
         icon={Bell}
@@ -86,16 +83,17 @@ const NotificationsButton = () => {
         active={location.pathname === PATH}
         onClick={handleCount}
         layoutId="active-nav-pill"
-      />
-
-      {unreadCount > 0 && (
-        <span
-          aria-label={`${unreadCount} notificaciones sin leer`}
-          className="pointer-events-none absolute left-5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#616F39] font-bold leading-none text-white"
-        >
-          {badge}
-        </span>
-      )}
+        gap={0}
+      >
+        {unreadCount > 0 && (
+          <span
+            aria-label={`${unreadCount} notificaciones sin leer`}
+            className="pointer-events-none relative bottom-2 h-4 min-w-4 items-center rounded-full bg-[#616F39] font-bold leading-none text-white"
+          >
+            {badge}
+          </span>
+        )}
+      </NavItem>
     </div>
   );
 };
