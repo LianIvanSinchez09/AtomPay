@@ -81,14 +81,14 @@ const NotificationsButton = () => {
         layoutId="active-nav-pill"
         gap={2}
       >
+      {unreadCount > 0 && (
       <span
         aria-label={`${unreadCount} notificaciones sin leer`}
         className="pointer-events-none absolute h-4 min-w-4 items-center rounded-full bg-[#616F39] font-bold leading-none text-white"
       >
         {badge}
       </span>
-      {/* {unreadCount > 0 && ( */}
-      {/* )} */}
+      )}
       </NavItem>
     </div>
   );
