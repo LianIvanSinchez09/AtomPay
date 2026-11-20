@@ -17,18 +17,17 @@ import type {
   FinancialInsightKind,
   FinancialInsightSeverity,
 } from "../../types/analysis";
+import type {
+  FilterOption,
+  FinancialInsightsProps,
+  InsightFilter,
+} from "../../types/analysisComponents";
 import {
   insightKind,
   insightKindLabel,
   insightSeverity,
   insightSeverityMeta,
 } from "./analysisMeta";
-
-interface Props {
-  insights: FinancialInsight[];
-}
-
-type InsightFilter = "all" | "anomalies" | "increases" | "savings";
 
 const anomalyKinds: FinancialInsightKind[] = [
   "tariff_hike",
@@ -43,7 +42,7 @@ const severityWeight: Record<FinancialInsightSeverity, number> = {
   info: 1,
 };
 
-const tabs: { key: InsightFilter; label: string }[] = [
+const tabs: FilterOption<InsightFilter>[] = [
   { key: "all", label: "Todos" },
   { key: "anomalies", label: "Anomalías" },
   { key: "increases", label: "Aumentos" },
@@ -106,7 +105,9 @@ function iconFor(
   }
 }
 
-export default function FinancialInsights({ insights }: Props) {
+export default function FinancialInsights({
+  insights,
+}: FinancialInsightsProps) {
   const [filter, setFilter] = useState<InsightFilter>("all");
 
   const normalized = useMemo(

@@ -1,7 +1,12 @@
 import { motion } from "motion/react";
 import { Gauge, Info } from "lucide-react";
 
-import type { ConsumptionAnalysisSummary } from "../../types/analysis";
+import type {
+  ConsumptionBreakdownProps,
+  ConsumptionCellProps,
+  ConsumptionVerdict,
+  ConsumptionVerdictInput,
+} from "../../types/analysisComponents";
 import {
   formatMoney,
   formatNumber,
@@ -9,21 +14,7 @@ import {
   formatUnitPrice,
 } from "./analysisMeta";
 
-interface Props {
-  consumption: ConsumptionAnalysisSummary;
-  currency: string;
-}
-
-type Verdict = {
-  label: string;
-  badge: string;
-};
-
-function verdictFor(item: {
-  consumptionVariation: number | null;
-  priceVariation: number | null;
-  amountVariation: number | null;
-}): Verdict {
+function verdictFor(item: ConsumptionVerdictInput): ConsumptionVerdict {
   const consumption = item.consumptionVariation ?? 0;
   const price = item.priceVariation ?? 0;
 
@@ -69,7 +60,7 @@ function verdictFor(item: {
 export default function ConsumptionBreakdown({
   consumption,
   currency,
-}: Props) {
+}: ConsumptionBreakdownProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -207,15 +198,7 @@ export default function ConsumptionBreakdown({
   );
 }
 
-function Cell({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint: string;
-}) {
+function Cell({ label, value, hint }: ConsumptionCellProps) {
   return (
     <div>
       <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-gray-500">

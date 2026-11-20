@@ -10,12 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import type { MonthlyExpense } from "../../types/analysis";
-
-interface Props {
-  data: MonthlyExpense[];
-  currency?: string;
-}
+import type { ExpenseEvolutionChartProps } from "../../types/analysisComponents";
 
 const money = (value: number, currency: string) =>
   new Intl.NumberFormat("es-AR", {
@@ -35,7 +30,7 @@ const compact = (value: number, currency: string) =>
 export default function ExpenseEvolutionChart({
   data,
   currency = "ARS",
-}: Props) {
+}: ExpenseEvolutionChartProps) {
   const hasData = data.some((month) => month.amount > 0);
 
   return (

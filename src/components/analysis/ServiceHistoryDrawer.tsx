@@ -7,7 +7,10 @@ import {
   X,
 } from "lucide-react";
 
-import type { ServiceAnomaly, ServiceTrendAnalysis } from "../../types/analysis";
+import type {
+  DrawerStatProps,
+  ServiceHistoryDrawerProps,
+} from "../../types/analysisComponents";
 import ServiceHistoryChart from "./ServiceHistoryChart";
 import {
   anomalySeverityMeta,
@@ -19,19 +22,12 @@ import {
   trendMeta,
 } from "./analysisMeta";
 
-interface Props {
-  trend: ServiceTrendAnalysis;
-  anomalies: ServiceAnomaly[];
-  currency: string;
-  onClose: () => void;
-}
-
 export default function ServiceHistoryDrawer({
   trend,
   anomalies,
   currency,
   onClose,
-}: Props) {
+}: ServiceHistoryDrawerProps) {
   const meta = trendMeta[trend.trend];
   const serviceAnomalies = anomalies.filter(
     (anomaly) => anomaly.service === trend.service
@@ -289,12 +285,7 @@ function Stat({
   value,
   hint,
   tone = "neutral",
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-  tone?: "neutral" | "positive" | "negative";
-}) {
+}: DrawerStatProps) {
   const toneClass =
     tone === "positive"
       ? "text-emerald-600 dark:text-emerald-400"

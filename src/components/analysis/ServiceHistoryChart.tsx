@@ -9,19 +9,12 @@ import {
   YAxis,
 } from "recharts";
 
-import type { ServiceTrendAnalysis } from "../../types/analysis";
+import type { ServiceHistoryChartProps } from "../../types/analysisComponents";
 import {
   formatCompactMoney,
   formatMoney,
   formatNumber,
 } from "./analysisMeta";
-
-interface Props {
-  trend: ServiceTrendAnalysis;
-  currency: string;
-  /** Altura del contenedor (clase de Tailwind). */
-  heightClass?: string;
-}
 
 /**
  * Compara el importe facturado (barras) con el consumo físico (línea) de los
@@ -31,7 +24,7 @@ export default function ServiceHistoryChart({
   trend,
   currency,
   heightClass = "h-72",
-}: Props) {
+}: ServiceHistoryChartProps) {
   const hasConsumption = trend.history.some(
     (point) => point.consumption !== null && point.consumption > 0
   );

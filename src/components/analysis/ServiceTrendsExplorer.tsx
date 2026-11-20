@@ -16,8 +16,13 @@ import {
 import type {
   ServiceAnomaly,
   ServiceAnomalySeverity,
-  ServiceTrendAnalysis,
 } from "../../types/analysis";
+import type {
+  FilterOption,
+  MiniStatProps,
+  ServiceTrendsExplorerProps,
+  TrendFilter,
+} from "../../types/analysisComponents";
 import ServiceHistoryChart from "./ServiceHistoryChart";
 import {
   anomalySeverityMeta,
@@ -29,26 +34,13 @@ import {
   trendMeta,
 } from "./analysisMeta";
 
-type TrendFilter =
-  | "all"
-  | "anomaly"
-  | "increasing"
-  | "decreasing"
-  | "stable";
-
-interface Props {
-  trends: ServiceTrendAnalysis[];
-  anomalies: ServiceAnomaly[];
-  currency: string;
-}
-
 const severityWeight: Record<ServiceAnomalySeverity, number> = {
   high: 3,
   medium: 2,
   low: 1,
 };
 
-const filters: { key: TrendFilter; label: string }[] = [
+const filters: FilterOption<TrendFilter>[] = [
   { key: "all", label: "Todos" },
   { key: "anomaly", label: "Con anomalía" },
   { key: "increasing", label: "En aumento" },
@@ -60,7 +52,7 @@ export default function ServiceTrendsExplorer({
   trends,
   anomalies,
   currency,
-}: Props) {
+}: ServiceTrendsExplorerProps) {
   const [filter, setFilter] = useState<TrendFilter>("all");
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -408,7 +400,7 @@ export default function ServiceTrendsExplorer({
   );
 }
 
-function MiniStat({ label, value }: { label: string; value: string }) {
+function MiniStat({ label, value }: MiniStatProps) {
   return (
     <div className="rounded-lg border border-[#CDE8E5] bg-[#EEF7FF]/60 p-3 dark:border-[#3E432E] dark:bg-[#3E432E]/40">
       <p className="text-xs font-medium text-slate-500 dark:text-gray-400">

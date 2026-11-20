@@ -5,26 +5,18 @@ import {
   ShieldCheck,
   TrendingDown,
   TrendingUp,
-  type LucideIcon,
 } from "lucide-react";
 
 import type {
   AnalysisFactor,
   AnalysisScore,
 } from "../../types/analysis";
+import type {
+  AtomScoreLevelStyle,
+  AtomScoreProps,
+} from "../../types/analysisComponents";
 
-interface Props {
-  score: AnalysisScore;
-}
-
-interface LevelStyle {
-  icon: LucideIcon;
-  color: string;
-  bg: string;
-  border: string;
-}
-
-const LEVEL_STYLES: Record<AnalysisScore["level"], LevelStyle> = {
+const LEVEL_STYLES: Record<AnalysisScore["level"], AtomScoreLevelStyle> = {
   Excelente: {
     icon: CheckCircle2,
     color: "text-[#4D869C] dark:text-[#A7D129]",
@@ -75,7 +67,7 @@ const IMPACT_STYLES: Record<
   },
 };
 
-export default function AtomScore({ score }: Props) {
+export default function AtomScore({ score }: AtomScoreProps) {
   const safeScore = Math.min(100, Math.max(0, score.value));
   const style = LEVEL_STYLES[score.level];
   const StatusIcon = style.icon;

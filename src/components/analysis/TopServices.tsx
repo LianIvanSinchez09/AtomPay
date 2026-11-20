@@ -11,28 +11,16 @@ import {
   YAxis,
 } from "recharts";
 
-import type {
-  ServiceAnomaly,
-  ServiceExpense,
-  ServiceTrendAnalysis,
-} from "../../types/analysis";
+import type { TopServicesProps, TopServicesBarClickEntry } from "../../types/analysisComponents";
 import ServiceHistoryDrawer from "./ServiceHistoryDrawer";
 import { formatMoney } from "./analysisMeta";
-
-interface Props {
-  data: ServiceExpense[];
-  currency: string;
-  /** Historial por servicio para el drawer de detalle. */
-  trends?: ServiceTrendAnalysis[];
-  anomalies?: ServiceAnomaly[];
-}
 
 export default function TopServices({
   data,
   currency,
   trends = [],
   anomalies = [],
-}: Props) {
+}: TopServicesProps) {
   const [selected, setSelected] = useState<string | null>(null);
 
   const hasData = data.length > 0 && data.some((item) => item.amount > 0);
@@ -105,10 +93,7 @@ export default function TopServices({
                     radius={[0, 6, 6, 0]}
                     className="cursor-pointer"
                     onClick={(entry: unknown) => {
-                      const record = entry as {
-                        payload?: ServiceExpense;
-                        service?: string;
-                      };
+                      const record = entry as TopServicesBarClickEntry;
 
                       const service =
                         record.payload?.service ?? record.service;

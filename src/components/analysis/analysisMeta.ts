@@ -6,12 +6,13 @@ import type {
   ServiceAnomalyType,
   ServiceTrend,
 } from "../../types/analysis";
+import type {
+  SeverityBadgeMeta,
+  TrendMeta,
+} from "../../types/analysisComponents";
 
 /** Etiquetas y estilos de cada estado de tendencia. */
-export const trendMeta: Record<
-  ServiceTrend,
-  { label: string; badge: string; dot: string }
-> = {
+export const trendMeta: Record<ServiceTrend, TrendMeta> = {
   increasing: {
     label: "En aumento",
     badge:
@@ -54,7 +55,7 @@ export const anomalyTypeLabel: Record<ServiceAnomalyType, string> = {
 
 export const anomalySeverityMeta: Record<
   ServiceAnomalySeverity,
-  { label: string; badge: string }
+  SeverityBadgeMeta
 > = {
   high: {
     label: "Prioridad alta",
@@ -75,7 +76,7 @@ export const anomalySeverityMeta: Record<
 
 export const insightSeverityMeta: Record<
   FinancialInsightSeverity,
-  { label: string; badge: string }
+  SeverityBadgeMeta
 > = {
   critical: {
     label: "Prioridad alta",
