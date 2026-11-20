@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell } from "lucide-react";
@@ -26,11 +25,7 @@ const NotificationsButton = () => {
   const lastScan = useRef<Date>(new Date());
   const scanning = useRef(false);
 
-  const refetchNotifications = useNotifications(
-    setItems,
-    setLoading,
-    setError
-  );
+  const refetchNotifications = useNotifications(setItems, setLoading, setError);
 
   const unreadCount = items.filter((item) => !item.read).length;
   const badge = unreadCount > 99 ? "99+" : unreadCount;
@@ -38,9 +33,7 @@ const NotificationsButton = () => {
   const handleCount = async () => {
     const previous = items;
 
-    setItems((current) =>
-      current.map((item) => ({ ...item, read: true }))
-    );
+    setItems((current) => current.map((item) => ({ ...item, read: true })));
 
     try {
       await markAllNotificationsAsRead();
@@ -58,6 +51,9 @@ const NotificationsButton = () => {
       if (document.visibilityState !== "visible") return;
       if (scanning.current) return;
       if (lastScan.current.getTime() < SCAN_INTERVAL_MS) return;
+      if (!JSON.parse(localStorage.getItem("user")).googleId) return;
+      // console.log("Running scan");
+      
       scanning.current = true;
       try {
         const data = await updateNotifications();
@@ -75,7 +71,7 @@ const NotificationsButton = () => {
   }, [refetchNotifications]);
 
   return (
-    <div className="flex">
+    <div className="flex gap-3">
       <NavItem
         label="Notificaciones"
         icon={Bell}
@@ -83,16 +79,16 @@ const NotificationsButton = () => {
         active={location.pathname === PATH}
         onClick={handleCount}
         layoutId="active-nav-pill"
-        gap={0}
+        gap={2}
       >
-        {unreadCount > 0 && (
-          <span
-            aria-label={`${unreadCount} notificaciones sin leer`}
-            className="pointer-events-none relative bottom-2 h-4 min-w-4 items-center rounded-full bg-[#616F39] font-bold leading-none text-white"
-          >
-            {badge}
-          </span>
-        )}
+      <span
+        aria-label={`${unreadCount} notificaciones sin leer`}
+        className="pointer-events-none absolute h-4 min-w-4 items-center rounded-full bg-[#616F39] font-bold leading-none text-white"
+      >
+        {badge}
+      </span>
+      {/* {unreadCount > 0 && ( */}
+      {/* )} */}
       </NavItem>
     </div>
   );
