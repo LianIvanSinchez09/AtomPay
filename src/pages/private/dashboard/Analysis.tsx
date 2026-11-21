@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   AlertCircle,
   AlertTriangle,
+  Calculator,
   FileText,
   Loader2,
   Receipt,
@@ -184,14 +185,23 @@ export default function Analysis() {
                       {highAnomalies[0].suggestion}
                     </p>
 
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-red-700/70 dark:text-red-300/70">
+                      Simulá el impacto de cancelar o ajustar
+                    </p>
+
+                    <div className="mt-1 flex flex-wrap gap-2">
                       {highAnomalies.map((anomaly, index) => (
-                        <span
+                        <Link
                           key={`${anomaly.service}-${anomaly.type}-${index}`}
-                          className="rounded-full border border-red-200 bg-white/70 px-2.5 py-1 text-xs font-semibold text-red-700 dark:border-red-900 dark:bg-black/30 dark:text-red-300"
+                          to={`/dashboard/simulator?service=${encodeURIComponent(
+                            anomaly.service
+                          )}`}
+                          title={`${anomalyTypeLabel[anomaly.type]}: ${anomaly.description}`}
+                          className="flex items-center gap-1 rounded-full border border-red-200 bg-white/70 px-2.5 py-1 text-xs font-semibold text-red-700 transition hover:border-red-400 hover:bg-white dark:border-red-900 dark:bg-black/30 dark:text-red-300 dark:hover:border-red-700"
                         >
-                          {anomaly.service}: {anomalyTypeLabel[anomaly.type]}
-                        </span>
+                          <Calculator size={12} />
+                          Simular {anomaly.service}
+                        </Link>
                       ))}
                     </div>
                   </div>
