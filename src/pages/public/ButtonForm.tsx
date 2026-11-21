@@ -9,6 +9,9 @@ const ButtonForm = ({ fn, param, text }: ButtonFormProps) => {
   const handleCheck = () => {
     fn(param)
   }
+  const logKey = (e) => {
+    console.log(e.keyCode);
+  }
   return (
     <button
       type="button"

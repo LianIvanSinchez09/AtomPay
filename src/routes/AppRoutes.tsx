@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "../pages/public/Home/Home";
 import Login from "../pages/public/Login/Login.tsx";
-import Register from "../pages/public/Register";
+import Register from "../pages/public/Register/Register.tsx";
 import AdminAddService from "../pages/private/dashboard/AdminServices/AdminAddService.tsx";
 import AdminComprobante from "../pages/private/dashboard/AdminServices/AdminComprobantes.tsx";
 import AdminUploadInvoice from "../pages/private/dashboard/AdminServices/AdminUploadInvoice.tsx";

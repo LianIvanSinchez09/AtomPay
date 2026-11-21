@@ -15,11 +15,11 @@ import {
   Mail,
   User,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { api } from "../../services/api";
-import FieldShell from "./FieldShell";
-import ButtonForm from "./ButtonForm";
-import ExpenseEvolutionChart from "../../components/analysis/ExpenseEvolutionChart.tsx";
+import { useAuth } from "../../../context/AuthContext.tsx";
+import { api } from "../../../services/api";
+import FieldShell from "../Home/FieldShell/FieldShell.tsx";
+import ButtonForm from "../ButtonForm.tsx";
+import ExpenseEvolutionChart from "../../../components/analysis/ExpenseEvolutionChart.tsx";
 import type { MonthlyExpense } from "../../types/types";
 
 const previewData: MonthlyExpense[] = [
@@ -39,7 +39,11 @@ const registerSchema = z
       .string()
       .trim()
       .min(1, "Ingresá tu nombre.")
-      .max(100, "El nombre no puede superar los 100 caracteres."),
+      .max(20, "El nombre no puede superar los 100 caracteres.")
+      .regex(
+      /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s'-]+$/,
+      "El nombre no puede contener @, números ni símbolos especiales"
+    ),
     email: z
       .string()
       .trim()
@@ -125,6 +129,7 @@ const Register = () => {
               <input
                 id="name"
                 type="text"
+                onKeyDown={(e) => (e.key === "Enter" ? check(["name"]) : null)}
                 autoComplete="name"
                 placeholder="Tu nombre"
                 aria-invalid={!!errors.name}
@@ -147,6 +152,7 @@ const Register = () => {
               <input
                 id="email"
                 type="email"
+                onKeyDown={(e) => (e.key === "Enter" ? check(["email"]) : null)}
                 autoComplete="email"
                 placeholder="tucorreo@ejemplo.com"
                 aria-invalid={!!errors.email}
@@ -168,6 +174,7 @@ const Register = () => {
             >
               <input
                 id="password"
+                onKeyDown={(e) => (e.key === "Enter" ? check(["password"]) : null)}
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder="Mínimo 8 caracteres"
@@ -202,6 +209,7 @@ const Register = () => {
             >
               <input
                 id="confirmPassword"
+                onKeyDown={(e) => (e.key === "Enter" ? handleSubmit() : null)}
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder="Repetí tu contraseña"
