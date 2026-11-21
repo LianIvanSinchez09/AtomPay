@@ -2,18 +2,8 @@ import { motion } from "motion/react";
 import { ArrowDown, ArrowUp, CalendarDays, Minus } from "lucide-react";
 
 import type { InvoiceStatus } from "../../types/types";
+import type { PeriodComparisonProps } from "../../types/analysisComponents";
 import { moneyFormat } from "../../utils/billingFormat";
-
-interface Props {
-  current: number;
-  previous: number;
-  currency: string;
-  statusBreakdown?: {
-    status: InvoiceStatus;
-    count: number;
-    amount: number;
-  }[];
-}
 
 const STATUS_DOT: Record<InvoiceStatus, string> = {
   Pagado: "bg-[#4D869C] dark:bg-[#A7D129]",
@@ -26,7 +16,7 @@ export default function PeriodComparison({
   previous,
   currency,
   statusBreakdown,
-}: Props) {
+}: PeriodComparisonProps) {
   const difference = current - previous;
 
   const percentage =

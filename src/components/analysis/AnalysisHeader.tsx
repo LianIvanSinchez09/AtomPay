@@ -1,11 +1,7 @@
 import { motion } from "motion/react";
 import { BarChart3, Loader2, RefreshCw } from "lucide-react";
 
-interface Props {
-  updatedAt?: string;
-  onRefresh?: () => void;
-  loading?: boolean;
-}
+import type { AnalysisHeaderProps } from "../../types/analysisComponents";
 
 const formatUpdatedAt = (value: string) =>
   new Intl.DateTimeFormat("es-AR", {
@@ -17,7 +13,7 @@ export default function AnalysisHeader({
   updatedAt,
   onRefresh,
   loading = false,
-}: Props) {
+}: AnalysisHeaderProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -15 }}

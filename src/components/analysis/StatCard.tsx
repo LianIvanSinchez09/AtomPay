@@ -1,15 +1,5 @@
 import { motion } from "motion/react";
-import type { LucideIcon } from "lucide-react";
-
-interface StatCardProps {
-  title: string;
-  value: string;
-  description?: string;
-  icon: LucideIcon;
-  /** Variación porcentual. Para gastos, subir es negativo. */
-  trend?: number | null;
-  delay?: number;
-}
+import type { StatCardProps } from "../../types/analysisComponents";
 
 export default function StatCard({
   title,
