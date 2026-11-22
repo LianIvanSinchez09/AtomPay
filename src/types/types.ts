@@ -1,6 +1,26 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+export interface FormListStep {
+  id: string;
+  label: string;
+  description?: string;
+  hasError?: boolean;
+  disabled?: boolean;
+}
+
+export interface FormListProps {
+  steps: FormListStep[];
+  currentStep: number;
+  onStepChange?: (index: number) => void;
+  canNavigateTo?: (index: number) => boolean;
+  ariaLabel?: string;
+  className?: string;
+}
+
+export type Status = "complete" | "current" | "upcoming";
+
+
 export interface ScanNotificationsResponse {
   skipped: boolean;
   created: number;
@@ -13,6 +33,11 @@ export interface GmailAccount {
   lastSyncAt: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ButtonFormProps {
+  fn: () => void;
+  text: string;
 }
 
 export type NotificationsContextValue = {

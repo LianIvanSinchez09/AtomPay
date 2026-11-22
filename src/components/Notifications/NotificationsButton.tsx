@@ -52,12 +52,12 @@ const NotificationsButton = () => {
       if (scanning.current) return;
       if (lastScan.current.getTime() < SCAN_INTERVAL_MS) return;
       if (!JSON.parse(localStorage.getItem("user")).googleId) return;
-      // console.log("Running scan");
+      console.log("Running scan");
       
       scanning.current = true;
       try {
         const data = await updateNotifications();
-        // console.log("scan result:", data);
+        console.log("scan result:", data);
         await refetchNotifications();
         lastScan.current = new Date();
       } catch (error) {

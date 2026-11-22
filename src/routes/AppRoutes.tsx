@@ -13,7 +13,7 @@ import Analysis from "../pages/private/dashboard/Analysis";
 import Billing from "../pages/private/dashboard/Billing";
 import AdminServices from "../pages/private/dashboard/AdminServices/AdminServices.tsx";
 import Atomcito from "../pages/private/dashboard/Atomcito.tsx";
-
+import VerifyEmail from "../pages/private/VerifyEmail.tsx";
 
 
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
@@ -26,7 +26,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route
           path="/dashboard"
           element={

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { GoogleLogin } from "@react-oauth/google";
@@ -18,9 +18,11 @@ import {
 import { useAuth } from "../../../context/AuthContext.tsx";
 import { api } from "../../../services/api";
 import FieldShell from "../Home/FieldShell/FieldShell.tsx";
-import ButtonForm from "../ButtonForm.tsx";
+import ButtonForm from "./ButtonForm.tsx";
 import ExpenseEvolutionChart from "../../../components/analysis/ExpenseEvolutionChart.tsx";
 import type { MonthlyExpense } from "../../types/types";
+import { FormBody } from "./FormBody.tsx";
+
 
 const previewData: MonthlyExpense[] = [
   { month: "Ene", amount: 82000 },
@@ -39,11 +41,7 @@ const registerSchema = z
       .string()
       .trim()
       .min(1, "Ingresá tu nombre.")
-      .max(20, "El nombre no puede superar los 100 caracteres.")
-      .regex(
-      /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s'-]+$/,
-      "El nombre no puede contener @, números ni símbolos especiales"
-    ),
+      .max(100, "El nombre no puede superar los 100 caracteres."),
     email: z
       .string()
       .trim()
@@ -59,6 +57,14 @@ const registerSchema = z
     message: "Las contraseñas no coinciden.",
     path: ["confirmPassword"],
   });
+
+const STEP_FIELDS: (keyof RegisterFormData)[][] = [
+  ["name"],
+  ["email"],
+  ["password", "confirmPassword"],
+];
+
+const LAST_STEP = STEP_FIELDS.length - 1;
 
 const inputBase =
   "w-full rounded-lg border bg-white py-2.5 pl-10 text-sm text-neutral-900 outline-none transition-colors placeholder:text-neutral-400 focus:ring-2 dark:bg-black dark:text-white dark:placeholder:text-neutral-500";
@@ -94,6 +100,7 @@ const Register = () => {
     register,
     handleSubmit,
     trigger,
+    setFocus,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -108,132 +115,26 @@ const Register = () => {
   const [step, setStep] = useState(0);
   const [status, setStatus] = useState(false);
 
-  const Stepper = ({ step }) => {
-    const check = async (fields: (keyof RegisterFormData)[]) => {
-      const isValid = await trigger(fields, { shouldFocus: true });
-      if (isValid) {
-        setStep((s) => s + 1);
-      }
-    };
-
-    return (
-      <motion.div className="flex flex-col gap-5">
-        {step === 0 && (
-          <>
-            <FieldShell
-              id="name"
-              label="Nombre"
-              icon={<User className="h-4 w-4" />}
-              error={errors.name?.message}
-            >
-              <input
-                id="name"
-                type="text"
-                onKeyDown={(e) => (e.key === "Enter" ? check(["name"]) : null)}
-                autoComplete="name"
-                placeholder="Tu nombre"
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? "name-error" : undefined}
-                className={inputClass(!!errors.name)}
-                {...register("name")}
-              />
-            </FieldShell>
-            <ButtonForm fn={check} param={["name"]} text="Continuar" />
-          </>
-        )}
-        {step === 1 && (
-          <>
-            <FieldShell
-              id="email"
-              label="Correo electrónico"
-              icon={<Mail className="h-4 w-4" />}
-              error={errors.email?.message}
-            >
-              <input
-                id="email"
-                type="email"
-                onKeyDown={(e) => (e.key === "Enter" ? check(["email"]) : null)}
-                autoComplete="email"
-                placeholder="tucorreo@ejemplo.com"
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? "email-error" : undefined}
-                className={inputClass(!!errors.email)}
-                {...register("email")}
-              />
-            </FieldShell>
-            <ButtonForm fn={check} param={["email"]} text="Continuar" />
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <FieldShell
-              id="password"
-              label="Contraseña"
-              icon={<Lock className="h-4 w-4" />}
-              error={errors.password?.message}
-            >
-              <input
-                id="password"
-                onKeyDown={(e) => (e.key === "Enter" ? check(["password"]) : null)}
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                placeholder="Mínimo 8 caracteres"
-                aria-invalid={!!errors.password}
-                aria-describedby={
-                  errors.password ? "password-error" : undefined
-                }
-                className={inputClass(!!errors.password, "pr-11")}
-                {...register("password")}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                aria-label={
-                  showPassword ? "Ocultar contraseñas" : "Mostrar contraseñas"
-                }
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-neutral-400 transition-colors hover:text-neutral-700 focus-visible:outline focus-visible:outline-[#4D869C] dark:hover:text-white dark:focus-visible:outline-[#A7D129]"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </FieldShell>
-
-            <FieldShell
-              id="confirmPassword"
-              label="Repetir contraseña"
-              icon={<Lock className="h-4 w-4" />}
-              error={errors.confirmPassword?.message}
-            >
-              <input
-                id="confirmPassword"
-                onKeyDown={(e) => (e.key === "Enter" ? handleSubmit() : null)}
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                placeholder="Repetí tu contraseña"
-                aria-invalid={!!errors.confirmPassword}
-                aria-describedby={
-                  errors.confirmPassword ? "confirmPassword-error" : undefined
-                }
-                className={inputClass(!!errors.confirmPassword)}
-                {...register("confirmPassword")}
-              />
-            </FieldShell>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full rounded-lg bg-black py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4D869C] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#bde43a] dark:focus-visible:outline-[#A7D129]"
-            >
-              {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
-            </button>
-          </>
-        )}
-      </motion.div>
-    );
+  const check = async (fields: (keyof RegisterFormData)[]) => {
+    const fromStep = step;
+    const isValid = await trigger(fields, { shouldFocus: true });
+    if (isValid) {
+      setStep((current) =>
+        current === fromStep ? Math.min(current + 1, LAST_STEP) : current,
+      );
+    }
   };
+
+  useEffect(() => {
+    const first = STEP_FIELDS[step]?.[0];
+    if (step > 0 && first) setFocus(first);
+  }, [step, setFocus]);
+
+  const STEPS = [
+    { id: "name", label: "Nombre" },
+    { id: "email", label: "Correo electrónico" },
+    { id: "password", label: "Contraseña" },
+  ];
 
   const completeRegister = (
     user: Parameters<typeof registerUser>[0],
@@ -261,7 +162,7 @@ const Register = () => {
         password: data.password,
       });
 
-      completeRegister(response.data.user, response.data.token);
+      setMessage(response.data.message);
     } catch (error) {
       console.error("Error durante el registro:", error);
 
@@ -363,12 +264,15 @@ const Register = () => {
               Empezá a gestionar tus gastos con AtomPay.
             </p>
 
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              noValidate
-              className="mt-8 space-y-4"
-            >
-              <Stepper step={step} />
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8">
+              <FormBody
+                errors={errors}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+                inputClass={inputClass}
+                register={register}
+                isSubmitting={isSubmitting}
+              />
             </form>
 
             <div className="my-6 flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">

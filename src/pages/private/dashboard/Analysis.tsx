@@ -41,7 +41,7 @@ export default function Analysis() {
     setError(null);
 
     try {
-      setData(await getAnalysis());
+      setData(await getAnalysis());      
     } catch (err) {
       setError(errorMessage(err));
     } finally {
@@ -55,6 +55,8 @@ export default function Analysis() {
   }, [load]);
 
   const variation = data?.summary.variationPercent ?? null;
+  console.log(data);
+  
 
   return (
     <main className="min-h-screen bg-[#EEF7FF] px-4 py-6 dark:bg-[#000000] md:px-8 lg:px-10">
