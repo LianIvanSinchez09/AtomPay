@@ -140,7 +140,6 @@ const Register = () => {
     user: Parameters<typeof registerUser>[0],
     token: string,
   ) => {
-    registerUser(user, token);
 
     localStorage.setItem("token", token);
 
@@ -162,7 +161,11 @@ const Register = () => {
         password: data.password,
       });
 
-      setMessage(response.data.message);
+      console.log(response);
+      
+
+      setMessage(response.data[0].message);
+      registerUser(response.data[1], response.data[1].token);
     } catch (error) {
       console.error("Error durante el registro:", error);
 
