@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import {
   Activity,
   AlertTriangle,
+  Calculator,
   ChevronDown,
   ChevronUp,
   Gauge,
@@ -370,6 +372,16 @@ export default function ServiceTrendsExplorer({
                                   />
                                   {anomaly.suggestion}
                                 </p>
+
+                                <Link
+                                  to={`/dashboard/simulator?service=${encodeURIComponent(
+                                    trend.service
+                                  )}`}
+                                  className="mt-2 inline-flex items-center gap-1 rounded-full border border-[#CDE8E5] bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 transition hover:border-[#4D869C] hover:text-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300 dark:hover:border-[#A7D129] dark:hover:text-[#A7D129]"
+                                >
+                                  <Calculator size={11} />
+                                  Simular impacto de {trend.service}
+                                </Link>
                               </div>
                             );
                           })}
