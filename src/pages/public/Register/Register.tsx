@@ -139,13 +139,6 @@ const Register = () => {
     user: Parameters<typeof registerUser>[0],
     token: string,
   ) => {
-    registerUser(user, token);
-
-    setMessage("¡Registro exitoso! Redirigiendo al Dashboard...");
-
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 1200);
   };
 
   const onSubmit = async (data: RegisterFormData) => {
@@ -162,7 +155,9 @@ const Register = () => {
       console.log(response);
 
       setMessage(response.data[0].message);
-      completeRegister(response.data[1], response.data[1].token);
+      registerUser(response.data[1], response.data[1].token);
+
+      // completeRegister(response.data[1], response.data[1].token);
     } catch (error) {
       console.error("Error durante el registro:", error);
 
