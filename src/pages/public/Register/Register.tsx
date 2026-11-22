@@ -23,7 +23,6 @@ import ExpenseEvolutionChart from "../../../components/analysis/ExpenseEvolution
 import type { MonthlyExpense } from "../../types/types";
 import { FormBody } from "./FormBody.tsx";
 
-
 const previewData: MonthlyExpense[] = [
   { month: "Ene", amount: 82000 },
   { month: "Feb", amount: 95000 },
@@ -140,8 +139,7 @@ const Register = () => {
     user: Parameters<typeof registerUser>[0],
     token: string,
   ) => {
-
-    localStorage.setItem("token", token);
+    registerUser(user, token);
 
     setMessage("¡Registro exitoso! Redirigiendo al Dashboard...");
 
@@ -162,10 +160,9 @@ const Register = () => {
       });
 
       console.log(response);
-      
 
       setMessage(response.data[0].message);
-      registerUser(response.data[1], response.data[1].token);
+      completeRegister(response.data[1], response.data[1].token);
     } catch (error) {
       console.error("Error durante el registro:", error);
 
@@ -181,6 +178,8 @@ const Register = () => {
       const response = await api.post("/auth/google/register", {
         idToken: credential,
       });
+
+      console.log(response);
 
       completeRegister(response.data.user, response.data.token);
     } catch (error) {

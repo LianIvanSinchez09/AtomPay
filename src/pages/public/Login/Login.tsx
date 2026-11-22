@@ -81,6 +81,9 @@ const Login = () => {
         password: data.password,
       });
 
+      console.log(response);
+      
+
       completeLogin(response.data.user, response.data.token);
     } catch (error) {
       if (

@@ -51,7 +51,6 @@ const NotificationsButton = () => {
       if (document.visibilityState !== "visible") return;
       if (scanning.current) return;
       if (lastScan.current.getTime() < SCAN_INTERVAL_MS) return;
-      if (!JSON.parse(localStorage.getItem("user")).googleId) return;
       console.log("Running scan");
       
       scanning.current = true;
@@ -81,14 +80,20 @@ const NotificationsButton = () => {
         layoutId="active-nav-pill"
         gap={2}
       >
-      {/* {unreadCount > 0 && ( */}
+      {unreadCount > 0 && (
       <span
         aria-label={`${unreadCount} notificaciones sin leer`}
-        className="pointer-events-none flex rounded-4xl justify-center absolute min-w-4 items-center bg-[#616F39] font-bold leading-none text-white"
+        className="pointer-events-none flex justify-center absolute items-center bg-[#616F39] font-bold leading-none text-white"
+        style={
+          {
+            borderRadius: "50px",
+            width: "20px",
+          }
+        }
       >
         {badge}
       </span>
-      {/* )} */}
+      )}
       </NavItem>
     </div>
   );

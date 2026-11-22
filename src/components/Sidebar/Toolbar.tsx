@@ -8,6 +8,7 @@ import {
   Building2,
   Upload,
   Settings2Icon,
+  UserCircle,
 } from "lucide-react";
 import Sidepanel from "../Sidepanel/Sidepanel";
 import NavGroup from "../Navgroup";
@@ -91,12 +92,16 @@ export default function ToolBar({ collapsed }: ToolBarProps) {
           {user && (
             <div className="mt-auto border-t border-[#CDE8E5] p-4 dark:border-[#616F39]">
               <div className="flex items-center gap-3">
-                <img
-                  src={user.avatarUrl ?? undefined}
-                  alt={user.name}
-                  className="h-9 w-9 shrink-0 rounded-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
+                {user.avatarUrl ? (
+                  <img
+                    src={user.avatarUrl ?? undefined}
+                    alt={user.name}
+                    className="h-9 w-9 shrink-0 rounded-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <UserCircle className="h-10 w-10 shrink-0 dark:text-[#CDE8E5]" />
+                )}
 
                 {!collapsed && (
                   <div className="min-w-0 flex-1">
