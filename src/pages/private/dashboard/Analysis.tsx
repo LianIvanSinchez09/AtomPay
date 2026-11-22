@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   AlertCircle,
+  AlertTriangle,
+  Calculator,
   FileText,
   Loader2,
   Receipt,
@@ -16,9 +18,12 @@ import ExpenseEvolutionChart from "../../../components/analysis/ExpenseEvolution
 import AtomScore from "../../../components/analysis/AtomScore";
 import CategoryExpenses from "../../../components/analysis/CategoryExpenses";
 import TopServices from "../../../components/analysis/TopServices";
+import ConsumptionBreakdown from "../../../components/analysis/ConsumptionBreakdown";
+import ServiceTrendsExplorer from "../../../components/analysis/ServiceTrendsExplorer";
 import FinancialInsights from "../../../components/analysis/FinancialInsights";
 import RecentInvoices from "../../../components/analysis/RecentInvoices";
 import PeriodComparison from "../../../components/analysis/PeriodComparison";
+import { anomalyTypeLabel } from "../../../components/analysis/analysisMeta";
 
 import { getAnalysis } from "../../../services/analysisService";
 import { errorMessage } from "../../../services/apiError";
@@ -57,6 +62,11 @@ export default function Analysis() {
   const variation = data?.summary.variationPercent ?? null;
   console.log(data);
   
+  const anomalies = data?.anomalies ?? [];
+  const trends = data?.trends ?? [];
+  const highAnomalies = anomalies.filter(
+    (anomaly) => anomaly.severity === "high"
+  );
 
   return (
     <main className="min-h-screen bg-[#EEF7FF] px-4 py-6 dark:bg-[#000000] md:px-8 lg:px-10">
@@ -153,6 +163,54 @@ export default function Analysis() {
 
         {data && data.hasData && (
           <>
+            {/* BANNER DE ALERTA INMEDIATA */}
+            {highAnomalies.length > 0 && (
+              <section className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950/50">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle
+                    size={20}
+                    className="mt-0.5 shrink-0 text-red-500"
+                  />
+
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-semibold text-red-800 dark:text-red-300">
+                      {highAnomalies.length === 1
+                        ? "Detectamos una anomalía de prioridad alta"
+                        : `Detectamos ${highAnomalies.length} anomalías de prioridad alta`}
+                    </h2>
+
+                    <p className="mt-1 text-sm text-red-700/90 dark:text-red-300/90">
+                      {highAnomalies[0].description}
+                    </p>
+
+                    <p className="mt-1 text-sm font-medium text-red-800 dark:text-red-200">
+                      {highAnomalies[0].suggestion}
+                    </p>
+
+                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-red-700/70 dark:text-red-300/70">
+                      Simulá el impacto de cancelar o ajustar
+                    </p>
+
+                    <div className="mt-1 flex flex-wrap gap-2">
+                      {highAnomalies.map((anomaly, index) => (
+                        <Link
+                          key={`${anomaly.service}-${anomaly.type}-${index}`}
+                          to={`/dashboard/simulator?service=${encodeURIComponent(
+                            anomaly.service
+                          )}`}
+                          title={`${anomalyTypeLabel[anomaly.type]}: ${anomaly.description}`}
+                          className="flex items-center gap-1 rounded-full border border-red-200 bg-white/70 px-2.5 py-1 text-xs font-semibold text-red-700 transition hover:border-red-400 hover:bg-white dark:border-red-900 dark:bg-black/30 dark:text-red-300 dark:hover:border-red-700"
+                        >
+                          <Calculator size={12} />
+                          Simular {anomaly.service}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* ESTADÍSTICAS */}
             <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
@@ -219,6 +277,27 @@ export default function Analysis() {
 
               <TopServices
                 data={data.services}
+                currency={data.currency}
+                trends={trends}
+                anomalies={anomalies}
+              />
+            </section>
+
+            {/* CONSUMO VS. IMPORTE */}
+            {data.consumption && (
+              <section className="mt-6">
+                <ConsumptionBreakdown
+                  consumption={data.consumption}
+                  currency={data.currency}
+                />
+              </section>
+            )}
+
+            {/* TENDENCIAS E HISTORIAL POR SERVICIO */}
+            <section className="mt-6">
+              <ServiceTrendsExplorer
+                trends={trends}
+                anomalies={anomalies}
                 currency={data.currency}
               />
             </section>

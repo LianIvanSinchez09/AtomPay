@@ -13,18 +13,15 @@ import {
 
 import type { Invoice } from "../../types/analysis";
 import type { InvoiceStatus } from "../../types/types";
+import type {
+  RangePreset,
+  RecentInvoicesProps,
+} from "../../types/analysisComponents";
 import { getAnalysisInvoices } from "../../services/analysisService";
 import { errorMessage } from "../../services/apiError";
 import { dateFormat, moneyFormat } from "../../utils/billingFormat";
 
-interface Props {
-  /** Primeras facturas del análisis, para pintar algo mientras se filtra. */
-  initialInvoices?: Invoice[];
-}
-
 const PAGE_SIZE = 10;
-
-type RangePreset = "all" | "month" | "quarter" | "year" | "custom";
 
 const RANGE_OPTIONS: { value: RangePreset; label: string }[] = [
   { value: "all", label: "Todo" },
@@ -80,7 +77,9 @@ function presetRange(range: RangePreset): { from?: string; to?: string } {
 const inputStyles =
   "rounded-xl border border-[#CDE8E5] bg-white text-sm text-slate-900 outline-none transition focus:border-[#4D869C] focus:ring-2 focus:ring-[#4D869C]/20 dark:border-[#616F39] dark:bg-[#3E432E] dark:text-white";
 
-export default function RecentInvoices({ initialInvoices = [] }: Props) {
+export default function RecentInvoices({
+  initialInvoices = [],
+}: RecentInvoicesProps) {
   const [invoices, setInvoices] = useState<Invoice[]>(initialInvoices);
   const [total, setTotal] = useState(initialInvoices.length);
   const [loading, setLoading] = useState(false);

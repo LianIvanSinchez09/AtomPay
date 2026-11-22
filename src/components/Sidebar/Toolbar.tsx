@@ -9,6 +9,7 @@ import {
   Upload,
   Settings2Icon,
   UserCircle,
+  SlidersHorizontal,
 } from "lucide-react";
 import Sidepanel from "../Sidepanel/Sidepanel";
 import NavGroup from "../Navgroup";
@@ -24,6 +25,7 @@ const ADMIN_BASE = "/dashboard/admin-servicios";
 
 const serviceItems: serviceItems[] = [
   { label: "Análisis", icon: BarChart3, path: "/dashboard/analysis" },
+  { label: "Simulador", icon: SlidersHorizontal, path: "/dashboard/simulator" },
   { label: "Facturación", icon: Receipt, path: "/dashboard/billing" },
 ];
 

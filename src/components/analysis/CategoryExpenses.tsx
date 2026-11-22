@@ -8,12 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 
-import type { CategoryExpense } from "../../types/analysis";
-
-interface Props {
-  data: CategoryExpense[];
-  currency: string;
-}
+import type { CategoryExpensesProps } from "../../types/analysisComponents";
 
 const COLORS = [
   "#4D869C",
@@ -30,7 +25,10 @@ const money = (value: number, currency: string) =>
     maximumFractionDigits: 0,
   }).format(value);
 
-export default function CategoryExpenses({ data, currency }: Props) {
+export default function CategoryExpenses({
+  data,
+  currency,
+}: CategoryExpensesProps) {
   const hasData = data.length > 0 && data.some((item) => item.value > 0);
 
   return (

@@ -81,7 +81,7 @@ export interface NotificationItem {
   };
 }
 
-export ProviderImgProps = { provider?: string | null };
+export type ProviderImgProps = { provider?: string | null };
 
 export type Invoice = {
   invoice: InvoiceType;

@@ -10,6 +10,7 @@ import Notifications from "../pages/private/Notifications.tsx";
 
 import Dashboard from "../pages/private/dashboard/Dashboard";
 import Analysis from "../pages/private/dashboard/Analysis";
+import Simulator from "../pages/private/dashboard/Simulator";
 import Billing from "../pages/private/dashboard/Billing";
 import AdminServices from "../pages/private/dashboard/AdminServices/AdminServices.tsx";
 import Atomcito from "../pages/private/dashboard/Atomcito.tsx";
@@ -38,6 +39,7 @@ const AppRoutes = () => {
           <Route index element={<Navigate to="analysis" replace />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="analysis" element={<Analysis />} />
+          <Route path="simulator" element={<Simulator />} />
           <Route path="billing" element={<Billing />} />
           <Route path="admin-services" element={<AdminServices />} />
           <Route path="admin-servicios/agregar" element={<AdminAddService />} />
