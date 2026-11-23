@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { X } from "lucide-react";
 
 import type { SimulatorModalShellProps } from "../../types/simulatorComponents";
+import { tr } from "../../i18n/translate";
 
 /**
  * Contenedor común de los modales del simulador.
@@ -80,7 +81,7 @@ export default function ModalShell({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Cerrar"
+            aria-label={tr("Cerrar")}
             className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-[#3E432E] dark:hover:text-white"
           >
             <X size={18} />

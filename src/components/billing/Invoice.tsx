@@ -1,8 +1,9 @@
 import React from "react";
 import { Loader2, Mail, Trash2 } from "lucide-react";
-import { dateFormat, moneyFormat, sourceLabels } from "../../utils/billingFormat";
+import { dateFormat, moneyFormat, getSourceLabel } from "../../utils/billingFormat";
 import ProviderImg from "./ProviderImg";
 import type { Invoice } from "../../types/types";
+import { tr } from "../../i18n/translate";
 
 const Invoice = ({
   invoice,
@@ -23,7 +24,7 @@ const Invoice = ({
           <span className="font-semibold">{invoice.service}</span>
           {invoice.source && (
             <span className="text-xs opacity-60">
-              {sourceLabels[invoice.source] ?? invoice.source}
+              {getSourceLabel(invoice.source)}
             </span>
           )}
         </div>
@@ -37,7 +38,7 @@ const Invoice = ({
         {invoice.amount > 0 ? (
           moneyFormat(invoice.amount, invoice.currency)
         ) : (
-          <span className="opacity-60">Sin importe</span>
+          <span className="opacity-60">{tr("Sin importe")}</span>
         )}
       </td>
 
@@ -47,7 +48,7 @@ const Invoice = ({
             <ProviderImg provider={invoice.provider}/>
           </span>
           <span className="truncate text-sm opacity-80">
-            {invoice.provider || "Sin proveedor"}
+            {invoice.provider || tr("Sin proveedor")}
           </span>
         </div>
       </td>
@@ -57,12 +58,14 @@ const Invoice = ({
           value={invoice.category}
           disabled={isBusy}
           onChange={(e) => onMove(invoice, e.target.value)}
-          aria-label={`Cambiar la categoría de ${invoice.service}`}
+          aria-label={tr("Cambiar la categoría de {service}", {
+            service: invoice.service,
+          })}
           className="max-w-44 rounded-xl border border-[#CDE8E5] bg-white px-3 py-2 text-sm text-[#4D869C] outline-none transition-colors focus:border-[#4D869C] disabled:cursor-wait disabled:opacity-50 dark:border-[#616F39] dark:bg-black/20 dark:text-white"
         >
           {categories.map((category) => (
             <option key={category.name} value={category.name}>
-              {category.name}
+              {tr(category.name)}
             </option>
           ))}
         </select>
@@ -75,12 +78,10 @@ const Invoice = ({
               href={invoice.emailUrl}
               target="_blank"
               rel="noopener noreferrer"
-              title="Abrir el mail original en Gmail"
+              title={tr("Abrir el mail original en Gmail")}
               className="inline-flex items-center gap-1.5 rounded-xl border border-[#4D869C] px-3 py-2 text-xs font-semibold transition-colors hover:bg-[#EEF7FF] dark:border-[#A7D129] dark:hover:bg-black/30"
             >
-              <Mail size={14} />
-              Abrir correo
-            </a>
+              <Mail size={14} />{" "}{tr("Abrir correo")}{" "}</a>
           )}
 
           {isConfirming ? (
@@ -95,17 +96,13 @@ const Invoice = ({
                   <Loader2 size={14} className="animate-spin" />
                 ) : (
                   <Trash2 size={14} />
-                )}
-                Confirmar
-              </button>
+                )}{" "}{tr("Confirmar")}{" "}</button>
               <button
                 type="button"
                 onClick={onCancelDelete}
                 disabled={isBusy}
                 className="rounded-xl border border-[#CDE8E5] px-3 py-2 text-xs font-semibold transition-colors hover:bg-[#EEF7FF] disabled:opacity-60 dark:border-[#616F39] dark:hover:bg-black/20"
-              >
-                Cancelar
-              </button>
+              >{" "}{tr("Cancelar")}{" "}</button>
             </>
           ) : (
             <button
@@ -114,9 +111,7 @@ const Invoice = ({
               disabled={isBusy}
               className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-[#CDE8E5] px-3 py-2 text-xs font-semibold transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:opacity-60 dark:border-[#616F39] dark:hover:border-red-900/40 dark:hover:bg-red-900/20 dark:hover:text-red-300"
             >
-              <Trash2 size={14} />
-              Eliminar
-            </button>
+              <Trash2 size={14} />{" "}{tr("Eliminar")}{" "}</button>
           )}
         </div>
       </td>

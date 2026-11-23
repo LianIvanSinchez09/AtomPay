@@ -19,6 +19,7 @@ import {
   formatSimulationMoney,
   formatSimulationPercent,
 } from "./simulatorMeta";
+import { tr } from "../../i18n/translate";
 
 /**
  * Barra superior de impacto en tiempo real.
@@ -46,14 +47,10 @@ export default function SimulationMetricsHeader({
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-gray-500">
-            Impacto en tiempo real
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-gray-500">{" "}{tr("Impacto en tiempo real")}{" "}</p>
 
           <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-gray-500">
-              Hoy
-            </span>
+            <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-gray-500">{" "}{tr("Hoy")}{" "}</span>
 
             <span className="text-sm font-medium text-slate-500 line-through dark:text-gray-400">
               {formatSimulationMoney(
@@ -74,18 +71,14 @@ export default function SimulationMetricsHeader({
               )}
             </h2>
 
-            <span className="text-sm text-slate-400 dark:text-gray-500">
-              /mes
-            </span>
+            <span className="text-sm text-slate-400 dark:text-gray-500">{" "}{tr("/mes")}{" "}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {calculating && (
             <span className="flex items-center gap-1 text-xs text-slate-400 dark:text-gray-500">
-              <Loader2 size={13} className="animate-spin" />
-              Calculando...
-            </span>
+              <Loader2 size={13} className="animate-spin" />{" "}{tr("Calculando...")}{" "}</span>
           )}
 
           <span
@@ -96,11 +89,14 @@ export default function SimulationMetricsHeader({
             }`}
           >
             {hasSavings
-              ? `Ahorrás ${formatSimulationMoney(
-                  simulation.horizonDifference,
-                  base.currency
-                )} en ${formatHorizonLabel(simulation.horizonMonths)}`
-              : "Todavía sin ahorro"}
+              ? tr("Ahorrás {money} en {horizon}", {
+                  money: formatSimulationMoney(
+                    simulation.horizonDifference,
+                    base.currency
+                  ),
+                  horizon: formatHorizonLabel(simulation.horizonMonths),
+                })
+              : tr("Todavía sin ahorro")}
           </span>
         </div>
       </div>
@@ -108,14 +104,12 @@ export default function SimulationMetricsHeader({
       <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Metric
           icon={<TrendingDown size={16} />}
-          label="Ahorro mensual"
+          label={tr("Ahorro mensual")}
           value={formatSimulationMoney(
             simulation.monthlyDifference,
             base.currency
           )}
-          hint={`${formatSimulationPercent(
-            simulation.savingsPercent
-          )} del gasto actual`}
+          hint={tr("{percent} del gasto actual", { percent: formatSimulationPercent(simulation.savingsPercent) })}
         />
 
         <Metric
@@ -131,18 +125,18 @@ export default function SimulationMetricsHeader({
 
         <Metric
           icon={<Gauge size={16} />}
-          label="Impacto en AtomScore"
+          label={tr("Impacto en AtomScore")}
           value={
             simulation.scoreImpact > 0
               ? `+${simulation.scoreImpact} pts`
               : "0 pts"
           }
-          hint="Estimado sobre estabilidad y diversificación"
+          hint={tr("Estimado sobre estabilidad y diversificación")}
         />
 
         <Metric
           icon={<BadgePercent size={16} />}
-          label="Gasto del período"
+          label={tr("Gasto del período")}
           value={formatSimulationMoney(
             simulation.simulatedHorizonExpense,
             base.currency
@@ -160,7 +154,7 @@ export default function SimulationMetricsHeader({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(progress)}
-          aria-label="Porcentaje de ahorro sobre el gasto actual"
+          aria-label={tr("Porcentaje de ahorro sobre el gasto actual")}
           className="h-2 overflow-hidden rounded-full bg-[#EEF7FF] dark:bg-[#3E432E]"
         >
           <motion.div
@@ -173,10 +167,8 @@ export default function SimulationMetricsHeader({
 
         <p className="mt-2 text-xs text-slate-400 dark:text-gray-500">
           {hasSavings
-            ? `Recortás el ${simulation.savingsPercent.toFixed(
-                1
-              )}% de tu gasto mensual estimado.`
-            : "Activá un cambio en algún servicio para ver el impacto."}
+            ? tr("Recortás el {percent}% de tu gasto mensual estimado.", { percent: simulation.savingsPercent.toFixed(1) })
+            : tr("Activá un cambio en algún servicio para ver el impacto.")}
         </p>
       </div>
     </motion.section>

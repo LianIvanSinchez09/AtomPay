@@ -21,6 +21,7 @@ import FieldShell from "./FieldShell";
 import ButtonForm from "./ButtonForm";
 import ExpenseEvolutionChart from "../../components/analysis/ExpenseEvolutionChart.tsx";
 import type { MonthlyExpense } from "../../types/types";
+import { tr } from "../../i18n/translate";
 
 const previewData: MonthlyExpense[] = [
   { month: "Ene", amount: 82000 },
@@ -38,21 +39,21 @@ const registerSchema = z
     name: z
       .string()
       .trim()
-      .min(1, "Ingresá tu nombre.")
+      .min(1, tr("Ingresá tu nombre."))
       .max(100, "El nombre no puede superar los 100 caracteres."),
     email: z
       .string()
       .trim()
-      .min(1, "Ingresá tu correo electrónico.")
-      .email("Ingresá un correo electrónico válido."),
+      .min(1, tr("Ingresá tu correo electrónico."))
+      .email(tr("Ingresá un correo electrónico válido.")),
     password: z
       .string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres.")
-      .max(72, "La contraseña no puede superar los 72 caracteres."),
-    confirmPassword: z.string().min(1, "Repetí tu contraseña."),
+      .min(8, tr("La contraseña debe tener al menos 8 caracteres."))
+      .max(72, tr("La contraseña no puede superar los 72 caracteres.")),
+    confirmPassword: z.string().min(1, tr("Repetí tu contraseña.")),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Las contraseñas no coinciden.",
+    message: tr("Las contraseñas no coinciden."),
     path: ["confirmPassword"],
   });
 
@@ -71,13 +72,13 @@ const inputClass = (hasError: boolean, paddingRight = "pr-3") =>
 const getRegisterErrorMessage = (error: unknown) => {
   if (axios.isAxiosError(error)) {
     if (!error.response) {
-      return "No se pudo conectar con el servidor.";
+      return tr("No se pudo conectar con el servidor.");
     }
 
-    return error.response.data?.message ?? "Error desconocido del servidor.";
+    return error.response.data?.message ?? tr("Error desconocido del servidor.");
   }
 
-  return "No se pudo completar el registro.";
+  return tr("No se pudo completar el registro.");
 };
 
 const Register = () => {
@@ -118,7 +119,7 @@ const Register = () => {
           <>
             <FieldShell
               id="name"
-              label="Nombre"
+              label={tr("Nombre")}
               icon={<User className="h-4 w-4" />}
               error={errors.name?.message}
             >
@@ -126,21 +127,21 @@ const Register = () => {
                 id="name"
                 type="text"
                 autoComplete="name"
-                placeholder="Tu nombre"
+                placeholder={tr("Tu nombre")}
                 aria-invalid={!!errors.name}
                 aria-describedby={errors.name ? "name-error" : undefined}
                 className={inputClass(!!errors.name)}
                 {...register("name")}
               />
             </FieldShell>
-            <ButtonForm fn={check} param={["name"]} text="Continuar" />
+            <ButtonForm fn={check} param={["name"]} text={tr("Continuar")} />
           </>
         )}
         {step === 1 && (
           <>
             <FieldShell
               id="email"
-              label="Correo electrónico"
+              label={tr("Correo electrónico")}
               icon={<Mail className="h-4 w-4" />}
               error={errors.email?.message}
             >
@@ -148,21 +149,21 @@ const Register = () => {
                 id="email"
                 type="email"
                 autoComplete="email"
-                placeholder="tucorreo@ejemplo.com"
+                placeholder={tr("tucorreo@ejemplo.com")}
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? "email-error" : undefined}
                 className={inputClass(!!errors.email)}
                 {...register("email")}
               />
             </FieldShell>
-            <ButtonForm fn={check} param={["email"]} text="Continuar" />
+            <ButtonForm fn={check} param={["email"]} text={tr("Continuar")} />
           </>
         )}
         {step === 2 && (
           <>
             <FieldShell
               id="password"
-              label="Contraseña"
+              label={tr("Contraseña")}
               icon={<Lock className="h-4 w-4" />}
               error={errors.password?.message}
             >
@@ -170,7 +171,7 @@ const Register = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder="Mínimo 8 caracteres"
+                placeholder={tr("Mínimo 8 caracteres")}
                 aria-invalid={!!errors.password}
                 aria-describedby={
                   errors.password ? "password-error" : undefined
@@ -182,7 +183,7 @@ const Register = () => {
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
                 aria-label={
-                  showPassword ? "Ocultar contraseñas" : "Mostrar contraseñas"
+                  showPassword ? tr("Ocultar contraseñas") : tr("Mostrar contraseñas")
                 }
                 className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-neutral-400 transition-colors hover:text-neutral-700 focus-visible:outline focus-visible:outline-[#4D869C] dark:hover:text-white dark:focus-visible:outline-[#A7D129]"
               >
@@ -196,7 +197,7 @@ const Register = () => {
 
             <FieldShell
               id="confirmPassword"
-              label="Repetir contraseña"
+              label={tr("Repetir contraseña")}
               icon={<Lock className="h-4 w-4" />}
               error={errors.confirmPassword?.message}
             >
@@ -204,7 +205,7 @@ const Register = () => {
                 id="confirmPassword"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder="Repetí tu contraseña"
+                placeholder={tr("Repetí tu contraseña")}
                 aria-invalid={!!errors.confirmPassword}
                 aria-describedby={
                   errors.confirmPassword ? "confirmPassword-error" : undefined
@@ -219,7 +220,7 @@ const Register = () => {
               disabled={isSubmitting}
               className="w-full rounded-lg bg-black py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4D869C] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#bde43a] dark:focus-visible:outline-[#A7D129]"
             >
-              {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
+              {isSubmitting ? tr("Creando cuenta...") : tr("Crear cuenta")}
             </button>
           </>
         )}
@@ -235,7 +236,7 @@ const Register = () => {
 
     localStorage.setItem("token", token);
 
-    setMessage("¡Registro exitoso! Redirigiendo al Dashboard...");
+    setMessage(tr("¡Registro exitoso! Redirigiendo al Dashboard..."));
 
     setTimeout(() => {
       navigate("/dashboard");
@@ -347,13 +348,9 @@ const Register = () => {
             transition={{ duration: 0.4 }}
             className="mx-auto my-auto w-full max-w-sm py-10"
           >
-            <h1 className="text-3xl font-semibold text-neutral-900 dark:text-white">
-              Crear una cuenta
-            </h1>
+            <h1 className="text-3xl font-semibold text-neutral-900 dark:text-white">{" "}{tr("Crear una cuenta")}{" "}</h1>
 
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              Empezá a gestionar tus gastos con AtomPay.
-            </p>
+            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{" "}{tr("Empezá a gestionar tus gastos con AtomPay.")}{" "}</p>
 
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -364,9 +361,7 @@ const Register = () => {
             </form>
 
             <div className="my-6 flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
-              o
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
+              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />{" "}{tr("o")}{" "}<span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
             </div>
 
             <div className="flex w-full justify-center">
@@ -374,28 +369,25 @@ const Register = () => {
                 onSuccess={(response) => {
                   if (!response.credential) {
                     setErrorMessage(
-                      "Google no devolvió las credenciales necesarias.",
+                      tr("Google no devolvió las credenciales necesarias."),
                     );
                     return;
                   }
                   handleGoogleRegister(response.credential);
                 }}
                 onError={() => {
-                  setErrorMessage("No se pudo autenticar con Google.");
+                  setErrorMessage(tr("No se pudo autenticar con Google."));
                 }}
                 useOneTap={false}
                 text="signup_with"
               />
             </div>
 
-            <p className="mt-8 text-center text-sm text-neutral-600 dark:text-neutral-400">
-              ¿Ya tenés una cuenta?{" "}
+            <p className="mt-8 text-center text-sm text-neutral-600 dark:text-neutral-400">{" "}{tr("¿Ya tenés una cuenta?")}{" "}
               <Link
                 to="/login"
                 className="font-semibold text-[#4D869C] hover:underline dark:text-[#A7D129]"
-              >
-                Iniciá sesión
-              </Link>
+              >{" "}{tr("Iniciá sesión")}{" "}</Link>
             </p>
           </motion.div>
         </section>
@@ -413,13 +405,8 @@ const Register = () => {
             </div>
 
             <div className="mt-8 text-center">
-              <h2 className="text-3xl font-semibold leading-tight">
-                Todas tus facturas. En un solo lugar.
-              </h2>
-              <p className="mt-4 text-sm text-white/80">
-                Conectá tu Gmail y AtomPay se encarga de encontrar, ordenar y
-                analizar tus gastos recurrentes.
-              </p>
+              <h2 className="text-3xl font-semibold leading-tight">{" "}{tr("Todas tus facturas. En un solo lugar.")}{" "}</h2>
+              <p className="mt-4 text-sm text-white/80">{" "}{tr("Conectá tu Gmail y AtomPay se encarga de encontrar, ordenar y analizar tus gastos recurrentes.")}{" "}</p>
             </div>
           </div>
         </aside>

@@ -29,6 +29,7 @@ import { getAnalysis } from "../../../services/analysisService";
 import { errorMessage } from "../../../services/apiError";
 import type { AnalysisPayload } from "../../../types/analysis";
 import { moneyFormat } from "../../../utils/billingFormat";
+import { tr } from "../../../i18n/translate";
 
 export default function Analysis() {
   const [data, setData] = useState<AnalysisPayload | null>(null);
@@ -85,9 +86,7 @@ export default function Analysis() {
               onClick={() => void load(true)}
               className="flex items-center gap-1 font-semibold underline-offset-2 hover:underline"
             >
-              <RefreshCw size={14} />
-              Reintentar
-            </button>
+              <RefreshCw size={14} />{" "}{tr("Reintentar")}{" "}</button>
           </div>
         )}
 
@@ -98,9 +97,7 @@ export default function Analysis() {
               className="animate-spin text-[#4D869C] dark:text-[#A7D129]"
             />
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Calculando tu análisis...
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Calculando tu análisis...")}{" "}</p>
           </div>
         )}
 
@@ -109,9 +106,7 @@ export default function Analysis() {
             <AlertCircle size={40} className="text-red-500" />
 
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-                No pudimos cargar el análisis
-              </h2>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("No pudimos cargar el análisis")}{" "}</h2>
 
               <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">
                 {error}
@@ -123,9 +118,7 @@ export default function Analysis() {
               onClick={() => void load()}
               className="flex items-center gap-2 rounded-xl bg-[#4D869C] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#3d6f83] dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
             >
-              <RefreshCw size={16} />
-              Reintentar
-            </button>
+              <RefreshCw size={16} />{" "}{tr("Reintentar")}{" "}</button>
           </div>
         )}
 
@@ -139,23 +132,15 @@ export default function Analysis() {
             </div>
 
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-                Todavía no hay datos para analizar
-              </h2>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("Todavía no hay datos para analizar")}{" "}</h2>
 
-              <p className="mt-1 max-w-md text-sm text-slate-500 dark:text-gray-400">
-                Conectá tu correo o cargá un comprobante para que AtomPay
-                empiece a calcular tu AtomScore, tus estadísticas y tus
-                recomendaciones.
-              </p>
+              <p className="mt-1 max-w-md text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Conectá tu correo o cargá un comprobante para que AtomPay empiece a calcular tu AtomScore, tus estadísticas y tus recomendaciones.")}{" "}</p>
             </div>
 
             <Link
               to="/dashboard/billing"
               className="rounded-xl bg-[#4D869C] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#3d6f83] dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
-            >
-              Ir a facturación
-            </Link>
+            >{" "}{tr("Ir a facturación")}{" "}</Link>
           </div>
         )}
 
@@ -173,8 +158,8 @@ export default function Analysis() {
                   <div className="min-w-0 flex-1">
                     <h2 className="font-semibold text-red-800 dark:text-red-300">
                       {highAnomalies.length === 1
-                        ? "Detectamos una anomalía de prioridad alta"
-                        : `Detectamos ${highAnomalies.length} anomalías de prioridad alta`}
+                        ? tr("Detectamos una anomalía de prioridad alta")
+                        : tr("Detectamos {count} anomalías de prioridad alta", { count: highAnomalies.length })}
                     </h2>
 
                     <p className="mt-1 text-sm text-red-700/90 dark:text-red-300/90">
@@ -185,9 +170,7 @@ export default function Analysis() {
                       {highAnomalies[0].suggestion}
                     </p>
 
-                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-red-700/70 dark:text-red-300/70">
-                      Simulá el impacto de cancelar o ajustar
-                    </p>
+                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-red-700/70 dark:text-red-300/70">{" "}{tr("Simulá el impacto de cancelar o ajustar")}{" "}</p>
 
                     <div className="mt-1 flex flex-wrap gap-2">
                       {highAnomalies.map((anomaly, index) => (
@@ -199,8 +182,7 @@ export default function Analysis() {
                           title={`${anomalyTypeLabel[anomaly.type]}: ${anomaly.description}`}
                           className="flex items-center gap-1 rounded-full border border-red-200 bg-white/70 px-2.5 py-1 text-xs font-semibold text-red-700 transition hover:border-red-400 hover:bg-white dark:border-red-900 dark:bg-black/30 dark:text-red-300 dark:hover:border-red-700"
                         >
-                          <Calculator size={12} />
-                          Simular {anomaly.service}
+                          <Calculator size={12} />{" "}{tr("Simular")}{" "}{anomaly.service}
                         </Link>
                       ))}
                     </div>
@@ -212,18 +194,18 @@ export default function Analysis() {
             {/* ESTADÍSTICAS */}
             <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
-                title="Gastos del mes"
+                title={tr("Gastos del mes")}
                 value={moneyFormat(
                   data.summary.currentMonth,
                   data.currency
                 )}
-                description={`${data.summary.invoiceCount} facturas registradas`}
+                description={tr("{count} facturas registradas", { count: data.summary.invoiceCount })}
                 icon={Wallet}
                 trend={variation}
               />
 
               <StatCard
-                title="Variación"
+                title={tr("Variación")}
                 value={
                   variation === null
                     ? "—"
@@ -231,29 +213,26 @@ export default function Analysis() {
                 }
                 description={
                   data.summary.previousMonth > 0
-                    ? `Mes anterior: ${moneyFormat(
-                        data.summary.previousMonth,
-                        data.currency
-                      )}`
-                    : "Sin mes anterior para comparar"
+                    ? tr("Mes anterior: {amount}", { amount: moneyFormat(data.summary.previousMonth, data.currency) })
+                    : tr("Sin mes anterior para comparar")
                 }
                 icon={TrendingUp}
               />
 
               <StatCard
-                title="Servicios activos"
+                title={tr("Servicios activos")}
                 value={String(data.summary.serviceCount)}
-                description="Servicios registrados"
+                description={tr("Servicios registrados")}
                 icon={Receipt}
               />
 
               <StatCard
-                title="Promedio por factura"
+                title={tr("Promedio por factura")}
                 value={moneyFormat(
                   data.summary.averageInvoice,
                   data.currency
                 )}
-                description="Durante este mes"
+                description={tr("Durante este mes")}
                 icon={Wallet}
               />
             </section>
@@ -322,8 +301,7 @@ export default function Analysis() {
               <RecentInvoices initialInvoices={data.recentInvoices} />
             </section>
 
-            <p className="mt-6 text-center text-xs text-slate-400 dark:text-gray-500">
-              Evolución de los últimos 6 meses · Análisis en {data.currency}.
+            <p className="mt-6 text-center text-xs text-slate-400 dark:text-gray-500">{" "}{tr("Evolución de los últimos 6 meses · Análisis en")}{" "}{data.currency}.
             </p>
           </>
         )}

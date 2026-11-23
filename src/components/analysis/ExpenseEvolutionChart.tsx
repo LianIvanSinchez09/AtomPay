@@ -11,6 +11,7 @@ import {
 } from "recharts";
 
 import type { ExpenseEvolutionChartProps } from "../../types/analysisComponents";
+import { tr } from "../../i18n/translate";
 
 const money = (value: number, currency: string) =>
   new Intl.NumberFormat("es-AR", {
@@ -42,12 +43,9 @@ export default function ExpenseEvolutionChart({
                  dark:border-[#3E432E] dark:bg-[#000000]"
     >
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-          Evolución de gastos
-        </h2>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("Evolución de gastos")}{" "}</h2>
 
-        <p className="text-sm text-slate-500 dark:text-gray-400">
-          Gastos totales durante los últimos meses en {currency}.
+        <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Gastos totales durante los últimos meses en")}{" "}{currency}.
         </p>
       </div>
 
@@ -71,8 +69,8 @@ export default function ExpenseEvolutionChart({
 
                   return [
                     money(Number(value), currency) +
-                      (count !== undefined ? ` · ${count} factura(s)` : ""),
-                    "Gastos",
+                      (count !== undefined ? tr(" · {count} factura(s)", { count }) : ""),
+                    tr("Gastos"),
                   ];
                 }}
               />
@@ -95,9 +93,7 @@ export default function ExpenseEvolutionChart({
             className="text-slate-300 dark:text-gray-600"
           />
 
-          <p className="text-sm text-slate-500 dark:text-gray-400">
-            Todavía no hay gastos en los últimos meses.
-          </p>
+          <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Todavía no hay gastos en los últimos meses.")}{" "}</p>
         </div>
       )}
     </motion.div>

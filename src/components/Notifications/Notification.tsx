@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { NotificationItem, NotificationCard } from "../../types/types";
 import { motion } from "motion/react";
+import { tr, getLocale, getCurrentLanguage } from "../../i18n/translate";
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
   Luz: Zap,
@@ -28,10 +29,10 @@ function timeAgo(iso: string): string {
   const date = new Date(iso);
   const diffSeconds = (date.getTime() - Date.now()) / 1000;
   if (Math.abs(diffSeconds) > 30 * 86400) {
-    return date.toLocaleDateString("es-AR");
+    return date.toLocaleDateString(getLocale());
   }
 
-  const rtf = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
+  const rtf = new Intl.RelativeTimeFormat(getCurrentLanguage(), { numeric: "auto" });
   const units: [Intl.RelativeTimeFormatUnit, number][] = [
     ["day", 86400],
     ["hour", 3600],
@@ -44,7 +45,7 @@ function timeAgo(iso: string): string {
     }
   }
 
-  return "ahora";
+  return tr("ahora");
 }
 
 export default function NotificationCard({
@@ -81,7 +82,7 @@ export default function NotificationCard({
               {!read && (
                 <span
                   role="img"
-                  aria-label="No leída"
+                  aria-label={tr("No leída")}
                   className="h-2 w-2 rounded-full bg-[#616F39]"
                 />
               )}
@@ -90,7 +91,7 @@ export default function NotificationCard({
                 <button
                   type="button"
                   onClick={() => onDelete(id)}
-                  aria-label="Eliminar notificación"
+                  aria-label={tr("Eliminar notificación")}
                   className="rounded p-0.5 hover:bg-black/10 dark:hover:bg-white/10"
                 >
                   <X size={14} />

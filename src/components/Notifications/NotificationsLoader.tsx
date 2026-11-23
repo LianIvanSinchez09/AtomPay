@@ -8,6 +8,7 @@ import {
 import { errorMessage } from "../../services/apiError";
 import type { NotificationItem } from "../types/notification";
 import { useNotifications } from "../../hooks/useNotifications";
+import { tr } from "../../i18n/translate";
 
 export default function NotificationsLoader() {
   const [loading, setLoading] = useState(true);
@@ -58,17 +59,15 @@ export default function NotificationsLoader() {
   }, []);
 
   if (loading) {
-    return <p className="p-4 text-sm opacity-70">Cargando notificaciones…</p>;
+    return <p className="p-4 text-sm opacity-70">{tr("Cargando notificaciones…")}</p>;
   }
 
   
 
   return (
-    <section aria-label="Notificaciones" className="space-y-3">
+    <section aria-label={tr("Notificaciones")} className="space-y-3">
       <header className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-base font-semibold">
-          Notificaciones
-          {unreadCount > 0 && (
+        <h2 className="text-base font-semibold">{" "}{tr("Notificaciones")}{" "}{unreadCount > 0 && (
             <span className="ml-2 rounded-full bg-[#616F39] px-2 py-0.5 text-xs font-semibold text-white">
               {unreadCount}
             </span>
@@ -82,7 +81,7 @@ export default function NotificationsLoader() {
             aria-pressed={onlyUnread}
             className="underline-offset-2 hover:underline"
           >
-            {onlyUnread ? "Ver todas" : "Solo no leídas"}
+            {onlyUnread ? tr("Ver todas") : tr("Solo no leídas")}
           </button>
         </div>
       </header>
@@ -95,7 +94,7 @@ export default function NotificationsLoader() {
 
       {visible.length === 0 ? (
         <p className="p-4 text-center text-sm opacity-70">
-          {onlyUnread ? "No tenés notificaciones sin leer." : "Todavía no tenés notificaciones."}
+          {onlyUnread ? tr("No tenés notificaciones sin leer.") : tr("Todavía no tenés notificaciones.")}
         </p>
       ) : (
         <ul className="space-y-2">

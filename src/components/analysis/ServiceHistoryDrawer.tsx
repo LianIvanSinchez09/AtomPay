@@ -70,7 +70,7 @@ export default function ServiceHistoryDrawer({
         <header className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-[#CDE8E5] bg-white/95 px-6 py-5 backdrop-blur dark:border-[#3E432E] dark:bg-[#0B0B0B]/95">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-gray-500">
-              Historial de servicio
+              {tr("Historial de servicio")}
             </p>
 
             <h2 className="mt-1 text-xl font-bold text-slate-900 dark:text-white">
@@ -86,7 +86,7 @@ export default function ServiceHistoryDrawer({
               </span>
 
               <span className="rounded-full border border-[#CDE8E5] px-2.5 py-1 text-xs font-medium text-slate-600 dark:border-[#3E432E] dark:text-gray-300">
-                {trend.category}
+                {tr(trend.category)}
               </span>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function ServiceHistoryDrawer({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Cerrar historial"
+            aria-label={tr("Cerrar historial")}
             className="rounded-xl p-2 text-slate-500 transition hover:bg-[#EEF7FF] hover:text-slate-900 dark:text-gray-400 dark:hover:bg-[#3E432E] dark:hover:text-white"
           >
             <X size={20} />
@@ -105,15 +105,15 @@ export default function ServiceHistoryDrawer({
           {/* RESUMEN */}
           <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Stat
-              label="Último importe"
+              label={tr("Último importe")}
               value={formatMoney(trend.currentAmount, currency)}
               hint={trend.lastMonth ?? undefined}
             />
 
             <Stat
-              label="Variación"
+              label={tr("Variación")}
               value={formatSignedPercent(trend.variationPercent)}
-              hint="vs. mes anterior"
+              hint={tr("vs. mes anterior")}
               tone={
                 trend.variationPercent === null
                   ? "neutral"
@@ -134,10 +134,10 @@ export default function ServiceHistoryDrawer({
               }
               hint={
                 trend.consumptionVariationPercent === null
-                  ? "sin dato previo"
-                  : `${formatSignedPercent(
-                      trend.consumptionVariationPercent
-                    )} vs. anterior`
+                  ? tr("sin dato previo")
+                  : tr("{variation} vs. anterior", {
+                    variation: formatSignedPercent(trend.consumptionVariationPercent),
+                  })
               }
             />
 
@@ -162,14 +162,14 @@ export default function ServiceHistoryDrawer({
           {/* DETALLE MENSUAL */}
           <section>
             <h3 className="mb-3 font-semibold text-slate-900 dark:text-white">
-              Detalle mes a mes
+              {tr("Detalle mes a mes")}
             </h3>
 
             <div className="overflow-hidden rounded-xl border border-[#CDE8E5] dark:border-[#3E432E]">
               <table className="w-full text-sm">
                 <thead className="bg-[#EEF7FF] text-left text-xs uppercase tracking-wide text-slate-500 dark:bg-[#3E432E] dark:text-gray-400">
                   <tr>
-                    <th className="px-3 py-2 font-semibold">Mes</th>
+                    <th className="px-3 py-2 font-semibold">{tr("Mes")}</th>
                     <th className="px-3 py-2 text-right font-semibold">
                       Importe
                     </th>
@@ -219,7 +219,7 @@ export default function ServiceHistoryDrawer({
           <section>
             <h3 className="mb-3 flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
               <Gauge size={18} className="text-[#4D869C] dark:text-[#A7D129]" />
-              Diagnóstico
+              {tr("Diagnóstico")}
             </h3>
 
             {serviceAnomalies.length > 0 ? (
@@ -269,8 +269,7 @@ export default function ServiceHistoryDrawer({
               </div>
             ) : (
               <p className="rounded-xl border border-[#CDE8E5] bg-[#EEF7FF]/60 p-4 text-sm text-slate-600 dark:border-[#3E432E] dark:bg-[#3E432E]/40 dark:text-gray-300">
-                No detectamos anomalías en este servicio. Su comportamiento es
-                consistente con los meses anteriores.
+                {tr("No detectamos anomalías en este servicio. Su comportamiento es consistente con los meses anteriores.")}
               </p>
             )}
           </section>

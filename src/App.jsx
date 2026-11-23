@@ -1,5 +1,4 @@
 import AppRoutes from "./routes/AppRoutes";
-import Footer from './components/Footer.tsx';
 
 
 const App = () => {

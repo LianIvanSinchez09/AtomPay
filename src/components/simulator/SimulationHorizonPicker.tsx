@@ -9,6 +9,7 @@ import {
   MAX_HORIZON_MONTHS,
   MIN_HORIZON_MONTHS,
 } from "./simulatorMeta";
+import { tr } from "../../i18n/translate";
 
 /**
  * Selector del plazo de la proyección.
@@ -34,12 +35,9 @@ export default function SimulationHorizonPicker({
           </span>
 
           <div>
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-              Plazo de la proyección
-            </h2>
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white">{" "}{tr("Plazo de la proyección")}{" "}</h2>
 
-            <p className="text-xs text-slate-500 dark:text-gray-400">
-              Ves el ahorro de {formatHorizonLabel(months)} · hasta{" "}
+            <p className="text-xs text-slate-500 dark:text-gray-400">{" "}{tr("Ves el ahorro de")}{" "}{formatHorizonLabel(months)}{" "}{tr("· hasta")}{" "}
               {formatHorizonEnd(months)}.
             </p>
           </div>
@@ -69,9 +67,7 @@ export default function SimulationHorizonPicker({
             <label
               htmlFor="simulation-horizon"
               className="text-[11px] font-medium uppercase tracking-wide text-slate-400 dark:text-gray-500"
-            >
-              Otro
-            </label>
+            >{" "}{tr("Otro")}{" "}</label>
 
             <input
               id="simulation-horizon"
@@ -85,13 +81,11 @@ export default function SimulationHorizonPicker({
               onChange={(event) =>
                 onChange(clampHorizonMonths(Number(event.target.value)))
               }
-              aria-label="Meses de la proyección"
+              aria-label={tr("Meses de la proyección")}
               className="w-16 rounded-lg border border-[#CDE8E5] bg-white px-2 py-1 text-right text-xs font-semibold text-slate-900 outline-none transition focus:border-[#4D869C] focus:ring-2 focus:ring-[#4D869C]/20 disabled:opacity-40 dark:border-[#616F39] dark:bg-[#3E432E] dark:text-white"
             />
 
-            <span className="text-xs text-slate-400 dark:text-gray-500">
-              meses
-            </span>
+            <span className="text-xs text-slate-400 dark:text-gray-500">{" "}{tr("meses")}{" "}</span>
           </div>
         </div>
       </div>

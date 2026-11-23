@@ -9,6 +9,7 @@ import {
   updateNotifications,
   markAllNotificationsAsRead,
 } from "../../services/notificationService";
+import { tr } from "../../i18n/translate";
 
 const PATH = "/dashboard/notifications";
 
@@ -77,7 +78,7 @@ const NotificationsButton = () => {
   return (
     <div className="flex">
       <NavItem
-        label="Notificaciones"
+        label={tr("Notificaciones")}
         icon={Bell}
         flexCol={false}
         active={location.pathname === PATH}
@@ -87,7 +88,7 @@ const NotificationsButton = () => {
       >
         {unreadCount > 0 && (
           <span
-            aria-label={`${unreadCount} notificaciones sin leer`}
+            aria-label={tr("{count} notificaciones sin leer", { count: unreadCount })}
             className="pointer-events-none relative bottom-2 h-4 min-w-4 items-center rounded-full bg-[#616F39] font-bold leading-none text-white"
           >
             {badge}

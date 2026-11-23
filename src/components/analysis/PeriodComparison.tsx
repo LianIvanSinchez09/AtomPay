@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUp, CalendarDays, Minus } from "lucide-react";
 import type { InvoiceStatus } from "../../types/types";
 import type { PeriodComparisonProps } from "../../types/analysisComponents";
 import { moneyFormat } from "../../utils/billingFormat";
+import { tr } from "../../i18n/translate";
 
 const STATUS_DOT: Record<InvoiceStatus, string> = {
   Pagado: "bg-[#4D869C] dark:bg-[#A7D129]",
@@ -42,21 +43,15 @@ export default function PeriodComparison({
         </div>
 
         <div>
-          <h2 className="font-bold text-slate-900 dark:text-white">
-            Comparación mensual
-          </h2>
+          <h2 className="font-bold text-slate-900 dark:text-white">{" "}{tr("Comparación mensual")}{" "}</h2>
 
-          <p className="text-sm text-slate-500 dark:text-gray-400">
-            Este mes vs. mes anterior
-          </p>
+          <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Este mes vs. mes anterior")}{" "}</p>
         </div>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4">
         <div className="rounded-xl bg-[#EEF7FF] p-4 dark:bg-[#3E432E]">
-          <p className="text-xs text-slate-500 dark:text-gray-400">
-            Este mes
-          </p>
+          <p className="text-xs text-slate-500 dark:text-gray-400">{" "}{tr("Este mes")}{" "}</p>
 
           <p className="mt-1 text-xl font-bold text-slate-900 dark:text-white">
             {moneyFormat(current, currency)}
@@ -64,9 +59,7 @@ export default function PeriodComparison({
         </div>
 
         <div className="rounded-xl bg-[#EEF7FF] p-4 dark:bg-[#3E432E]">
-          <p className="text-xs text-slate-500 dark:text-gray-400">
-            Mes anterior
-          </p>
+          <p className="text-xs text-slate-500 dark:text-gray-400">{" "}{tr("Mes anterior")}{" "}</p>
 
           <p className="mt-1 text-xl font-bold text-slate-900 dark:text-white">
             {moneyFormat(previous, currency)}
@@ -94,19 +87,21 @@ export default function PeriodComparison({
         <span>
           {percentage === null
             ? previous === 0
-              ? "Sin gastos el mes anterior para comparar"
-              : "Sin variación"
-            : `${Math.abs(percentage)}% ${
-                increased ? "más" : "menos"
-              } que el período anterior`}
+              ? tr("Sin gastos el mes anterior para comparar")
+              : tr("Sin variación")
+            : increased
+              ? tr("{percent}% más que el período anterior", {
+                  percent: Math.abs(percentage),
+                })
+              : tr("{percent}% menos que el período anterior", {
+                  percent: Math.abs(percentage),
+                })}
         </span>
       </div>
 
       {statusBreakdown && statusBreakdown.length > 0 && (
         <div className="mt-6 border-t border-gray-100 pt-4 dark:border-[#3E432E]">
-          <h3 className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">
-            Estado de los pagos
-          </h3>
+          <h3 className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">{" "}{tr("Estado de los pagos")}{" "}</h3>
 
           <div className="space-y-2">
             {statusBreakdown.map((item) => (

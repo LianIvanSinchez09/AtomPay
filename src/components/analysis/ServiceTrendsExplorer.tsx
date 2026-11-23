@@ -35,6 +35,7 @@ import {
   formatUnitPrice,
   trendMeta,
 } from "./analysisMeta";
+import { tr } from "../../i18n/translate";
 
 const severityWeight: Record<ServiceAnomalySeverity, number> = {
   high: 3,
@@ -43,11 +44,11 @@ const severityWeight: Record<ServiceAnomalySeverity, number> = {
 };
 
 const filters: FilterOption<TrendFilter>[] = [
-  { key: "all", label: "Todos" },
-  { key: "anomaly", label: "Con anomalía" },
-  { key: "increasing", label: "En aumento" },
-  { key: "decreasing", label: "En baja" },
-  { key: "stable", label: "Estables" },
+  { key: "all", label: tr("Todos") },
+  { key: "anomaly", label: tr("Con anomalía") },
+  { key: "increasing", label: tr("En aumento") },
+  { key: "decreasing", label: tr("En baja") },
+  { key: "stable", label: tr("Estables") },
 ];
 
 export default function ServiceTrendsExplorer({
@@ -130,19 +131,14 @@ export default function ServiceTrendsExplorer({
           </div>
 
           <div>
-            <h2 className="font-bold text-slate-900 dark:text-white">
-              Tendencias e historial por servicio
-            </h2>
+            <h2 className="font-bold text-slate-900 dark:text-white">{" "}{tr("Tendencias e historial por servicio")}{" "}</h2>
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Evolución de importes y consumo de los últimos 6 meses.
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Evolución de importes y consumo de los últimos 6 meses.")}{" "}</p>
           </div>
         </div>
 
         <span className="rounded-full border border-[#CDE8E5] px-3 py-1 text-xs font-semibold text-slate-600 dark:border-[#3E432E] dark:text-gray-300">
-          {counts.all} servicio(s)
-        </span>
+          {counts.all}{" "}{tr("servicio(s)")}{" "}</span>
       </div>
 
       {/* BUSCADOR Y FILTROS */}
@@ -157,7 +153,7 @@ export default function ServiceTrendsExplorer({
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Buscar servicio o categoría…"
+            placeholder={tr("Buscar servicio o categoría…")}
             className="w-full rounded-xl border border-[#CDE8E5] bg-[#EEF7FF]/60 py-2 pl-9 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#4D869C] dark:border-[#3E432E] dark:bg-[#3E432E]/40 dark:text-white dark:focus:border-[#A7D129]"
           />
         </div>
@@ -257,14 +253,12 @@ export default function ServiceTrendsExplorer({
                           }`}
                         >
                           <AlertTriangle size={11} />
-                          {serviceAnomalies.length} anomalía(s)
-                        </span>
+                          {serviceAnomalies.length}{" "}{tr("anomalía(s)")}{" "}</span>
                       )}
                     </span>
 
                     <span className="mt-1 block text-xs text-slate-500 dark:text-gray-400">
-                      {trend.category} · {trend.invoiceCount} factura(s)
-                      {trend.lastConsumption !== null &&
+                      {tr(trend.category)} · {trend.invoiceCount}{" "}{tr("factura(s)")}{" "}{trend.lastConsumption !== null &&
                         ` · ${formatNumber(trend.lastConsumption)} ${
                           trend.consumptionUnit ?? ""
                         }`}
@@ -287,8 +281,7 @@ export default function ServiceTrendsExplorer({
                               : "text-slate-400"
                       }`}
                     >
-                      {formatSignedPercent(trend.variationPercent)} vs. anterior
-                    </span>
+                      {formatSignedPercent(trend.variationPercent)}{" "}{tr("vs. anterior")}{" "}</span>
                   </span>
 
                   <span className="text-slate-400">
@@ -306,12 +299,12 @@ export default function ServiceTrendsExplorer({
 
                     <div className="mt-4 grid gap-3 sm:grid-cols-3">
                       <MiniStat
-                        label="Promedio histórico"
+                        label={tr("Promedio histórico")}
                         value={formatMoney(trend.averageAmount, currency)}
                       />
 
                       <MiniStat
-                        label="Precio unitario"
+                        label={tr("Precio unitario")}
                         value={
                           trend.unitPrice === null
                             ? "—"
@@ -322,7 +315,7 @@ export default function ServiceTrendsExplorer({
                       />
 
                       <MiniStat
-                        label="Variación de consumo"
+                        label={tr("Variación de consumo")}
                         value={formatSignedPercent(
                           trend.consumptionVariationPercent
                         )}
@@ -334,9 +327,7 @@ export default function ServiceTrendsExplorer({
                         <Gauge
                           size={16}
                           className="text-[#4D869C] dark:text-[#A7D129]"
-                        />
-                        Diagnóstico
-                      </h4>
+                        />{" "}{tr("Diagnóstico")}{" "}</h4>
 
                       {serviceAnomalies.length > 0 ? (
                         <div className="space-y-2">
@@ -379,18 +370,14 @@ export default function ServiceTrendsExplorer({
                                   )}`}
                                   className="mt-2 inline-flex items-center gap-1 rounded-full border border-[#CDE8E5] bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 transition hover:border-[#4D869C] hover:text-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300 dark:hover:border-[#A7D129] dark:hover:text-[#A7D129]"
                                 >
-                                  <Calculator size={11} />
-                                  Simular impacto de {trend.service}
+                                  <Calculator size={11} />{" "}{tr("Simular impacto de")}{" "}{trend.service}
                                 </Link>
                               </div>
                             );
                           })}
                         </div>
                       ) : (
-                        <p className="text-sm text-slate-500 dark:text-gray-400">
-                          Sin anomalías: el servicio se mantiene en línea con
-                          su historial.
-                        </p>
+                        <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Sin anomalías: el servicio se mantiene en línea con su historial.")}{" "}</p>
                       )}
                     </div>
                   </div>
@@ -403,9 +390,7 @@ export default function ServiceTrendsExplorer({
         <div className="mt-6 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[#CDE8E5] py-10 text-center dark:border-[#3E432E]">
           <Activity size={28} className="text-slate-300 dark:text-gray-600" />
 
-          <p className="text-sm text-slate-500 dark:text-gray-400">
-            No hay servicios que coincidan con el filtro.
-          </p>
+          <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("No hay servicios que coincidan con el filtro.")}{" "}</p>
         </div>
       )}
     </motion.section>

@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import type { Language, Theme } from "./settings";
 
 export interface ScanNotificationsResponse {
   skipped: boolean;
@@ -158,6 +159,10 @@ export type NavItemProps = {
   active: boolean;
   onClick: () => void;
   layoutId: string;
+  /** Contenido extra (p. ej. un badge de notificaciones). */
+  children?: ReactNode;
+  /** Separación interna entre icono y texto. */
+  gap?: number;
 };
 
 export type TransitionButtonProps = {
@@ -187,6 +192,15 @@ export type NavGroupProps = {
   itemsCenter?: boolean
   items: NavGroupItem[];
   layoutId: string;
+  /** Si ocupa todo el alto disponible. */
+  fill?: boolean;
+  /** Clases de separación entre ítems (p. ej. "gap-2"). */
+  gap?: string;
+};
+
+/** Props de la barra lateral (`components/Sidebar/Toolbar.tsx`). */
+export type ToolBarProps = {
+  collapsed: boolean;
 };
 
 export interface customWidth {
@@ -225,12 +239,18 @@ export interface User {
   email: string;
   name: string;
   avatarUrl: string | null;
+  /** Preferencia de idioma guardada en la cuenta (ver types/settings.ts). */
+  language?: Language;
+  /** Preferencia de tema guardada en la cuenta (ver types/settings.ts). */
+  theme?: Theme;
 }
 
 export interface AuthContextType {
   user: User | null;
   login: (userData: User, token: string) => void;
   register: (userData: User, token: string) => void;
+  /** Refresca el usuario en memoria y en localStorage (p. ej. al editar el perfil). */
+  updateUser: (userData: User) => void;
   logout: () => void;
   loading: boolean;
 }

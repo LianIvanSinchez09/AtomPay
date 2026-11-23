@@ -13,6 +13,7 @@ import {
   formatSignedPercent,
   formatUnitPrice,
 } from "./analysisMeta";
+import { tr } from "../../i18n/translate";
 
 function verdictFor(item: ConsumptionVerdictInput): ConsumptionVerdict {
   const consumption = item.consumptionVariation ?? 0;
@@ -20,7 +21,7 @@ function verdictFor(item: ConsumptionVerdictInput): ConsumptionVerdict {
 
   if (price > 10 && consumption <= 5) {
     return {
-      label: "Subió la tarifa",
+      label: tr("Subió la tarifa"),
       badge:
         "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300",
     };
@@ -28,7 +29,7 @@ function verdictFor(item: ConsumptionVerdictInput): ConsumptionVerdict {
 
   if (consumption > 10 && price <= 5) {
     return {
-      label: "Subió el consumo",
+      label: tr("Subió el consumo"),
       badge:
         "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
     };
@@ -36,7 +37,7 @@ function verdictFor(item: ConsumptionVerdictInput): ConsumptionVerdict {
 
   if (consumption > 10 && price > 10) {
     return {
-      label: "Subieron ambos",
+      label: tr("Subieron ambos"),
       badge:
         "border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-900 dark:bg-orange-950 dark:text-orange-300",
     };
@@ -44,14 +45,14 @@ function verdictFor(item: ConsumptionVerdictInput): ConsumptionVerdict {
 
   if ((item.amountVariation ?? 0) < -5) {
     return {
-      label: "Bajó el gasto",
+      label: tr("Bajó el gasto"),
       badge:
         "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300",
     };
   }
 
   return {
-    label: "Sin cambios relevantes",
+    label: tr("Sin cambios relevantes"),
     badge:
       "border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300",
   };
@@ -79,20 +80,14 @@ export default function ConsumptionBreakdown({
           </div>
 
           <div>
-            <h2 className="font-bold text-slate-900 dark:text-white">
-              Consumo vs. importe
-            </h2>
+            <h2 className="font-bold text-slate-900 dark:text-white">{" "}{tr("Consumo vs. importe")}{" "}</h2>
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              ¿La factura subió por consumir más o porque aumentó la tarifa?
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("¿La factura subió por consumir más o porque aumentó la tarifa?")}{" "}</p>
           </div>
         </div>
 
         <span className="rounded-full border border-[#CDE8E5] px-3 py-1 text-xs font-semibold text-slate-600 dark:border-[#3E432E] dark:text-gray-300">
-          {consumption.servicesWithConsumption} de {consumption.totalServices}{" "}
-          con consumo
-        </span>
+          {consumption.servicesWithConsumption}{" "}{tr("de")}{" "}{consumption.totalServices}{" "}{" "}{tr("con consumo")}{" "}</span>
       </div>
 
       {consumption.hasConsumption ? (
@@ -116,7 +111,7 @@ export default function ConsumptionBreakdown({
                     </p>
 
                     <p className="text-xs text-slate-500 dark:text-gray-400">
-                      {item.category} · último período: {item.lastMonth}
+                      {tr(item.category)}{" "}{tr("· último período:")}{" "}{item.lastMonth}
                     </p>
                   </div>
 
@@ -129,11 +124,11 @@ export default function ConsumptionBreakdown({
 
                 <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                   <Cell
-                    label="Consumo"
+                    label={tr("Consumo")}
                     value={`${formatNumber(item.current)} ${item.unit}`}
                     hint={
                       item.previous === null
-                        ? "sin período previo"
+                        ? tr("sin período previo")
                         : `${formatSignedPercent(
                             item.variationPercent
                           )} vs. ${formatNumber(item.previous)} ${item.unit}`
@@ -141,11 +136,11 @@ export default function ConsumptionBreakdown({
                   />
 
                   <Cell
-                    label="Importe"
+                    label={tr("Importe")}
                     value={formatMoney(item.amount, currency)}
                     hint={
                       item.previousAmount === null
-                        ? "sin período previo"
+                        ? tr("sin período previo")
                         : `${formatSignedPercent(
                             item.amountVariationPercent
                           )} vs. ${formatMoney(item.previousAmount, currency)}`
@@ -153,7 +148,7 @@ export default function ConsumptionBreakdown({
                   />
 
                   <Cell
-                    label="Precio unitario"
+                    label={tr("Precio unitario")}
                     value={
                       item.unitPrice === null
                         ? "—"
@@ -163,7 +158,7 @@ export default function ConsumptionBreakdown({
                     }
                     hint={
                       item.previousUnitPrice === null
-                        ? "sin período previo"
+                        ? tr("sin período previo")
                         : `${formatSignedPercent(
                             item.unitPriceVariationPercent
                           )} vs. ${formatUnitPrice(
@@ -174,9 +169,9 @@ export default function ConsumptionBreakdown({
                   />
 
                   <Cell
-                    label="Consumo promedio"
+                    label={tr("Consumo promedio")}
                     value={`${formatNumber(item.average)} ${item.unit}`}
-                    hint="histórico registrado"
+                    hint={tr("histórico registrado")}
                   />
                 </div>
               </div>
@@ -187,11 +182,7 @@ export default function ConsumptionBreakdown({
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-dashed border-[#CDE8E5] p-4 text-sm text-slate-500 dark:border-[#3E432E] dark:text-gray-400">
           <Info size={18} className="mt-0.5 shrink-0" />
 
-          <p>
-            Todavía no hay comprobantes con consumo físico (kWh, m³, GB…).
-            Cuando los servicios lo informen vas a poder distinguir si el
-            aumento viene del uso o de la tarifa.
-          </p>
+          <p>{" "}{tr("Todavía no hay comprobantes con consumo físico (kWh, m³, GB…). Cuando los servicios lo informen vas a poder distinguir si el aumento viene del uso o de la tarifa.")}{" "}</p>
         </div>
       )}
     </motion.div>

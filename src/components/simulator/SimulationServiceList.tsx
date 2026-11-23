@@ -7,6 +7,7 @@ import type {
   SimulationServiceListProps,
 } from "../../types/simulatorComponents";
 import ServiceSimulationCard from "./ServiceSimulationCard";
+import { tr } from "../../i18n/translate";
 
 const INITIAL_FILTERS: SimulationServiceFilters = {
   search: "",
@@ -92,13 +93,10 @@ export default function SimulationServiceList({
             <SlidersHorizontal
               size={17}
               className="text-[#4D869C] dark:text-[#A7D129]"
-            />
-            Ajuste por servicio
-          </h2>
+            />{" "}{tr("Ajuste por servicio")}{" "}</h2>
 
           <p className="text-xs text-slate-500 dark:text-gray-400">
-            {services.length} servicios activos · {changedCount} con cambios
-          </p>
+            {services.length}{" "}{tr("servicios activos ·")}{" "}{changedCount}{" "}{tr("con cambios")}{" "}</p>
         </div>
 
         {hasFilters && (
@@ -107,9 +105,7 @@ export default function SimulationServiceList({
             onClick={() => setFilters(INITIAL_FILTERS)}
             className="flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium text-slate-500 transition hover:bg-[#EEF7FF] hover:text-[#4D869C] dark:text-gray-400 dark:hover:bg-[#3E432E] dark:hover:text-[#A7D129]"
           >
-            <X size={13} />
-            Limpiar filtros
-          </button>
+            <X size={13} />{" "}{tr("Limpiar filtros")}{" "}</button>
         )}
       </div>
 
@@ -124,8 +120,8 @@ export default function SimulationServiceList({
             type="search"
             value={filters.search}
             onChange={(event) => patch({ search: event.target.value })}
-            placeholder="Buscar servicio, categoría o proveedor"
-            aria-label="Buscar servicios"
+            placeholder={tr("Buscar servicio, categoría o proveedor")}
+            aria-label={tr("Buscar servicios")}
             className="w-full rounded-xl border border-[#CDE8E5] bg-white py-2 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-[#4D869C] focus:ring-2 focus:ring-[#4D869C]/20 dark:border-[#616F39] dark:bg-[#3E432E] dark:text-white"
           />
         </div>
@@ -133,10 +129,10 @@ export default function SimulationServiceList({
         <select
           value={filters.category}
           onChange={(event) => patch({ category: event.target.value })}
-          aria-label="Filtrar por categoría"
+          aria-label={tr("Filtrar por categoría")}
           className="rounded-xl border border-[#CDE8E5] bg-white px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-[#4D869C] dark:border-[#616F39] dark:bg-[#3E432E] dark:text-white lg:w-52"
         >
-          <option value="">Todas las categorías</option>
+          <option value="">{tr("Todas las categorías")}</option>
 
           {categories.map((category) => (
             <option key={category} value={category}>
@@ -157,8 +153,7 @@ export default function SimulationServiceList({
               : "border-[#CDE8E5] bg-white text-slate-600 hover:border-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300"
           }`}
         >
-          <Filter size={13} />
-          Solo con cambios ({changedCount})
+          <Filter size={13} />{" "}{tr("Solo con cambios (")}{changedCount})
         </button>
 
         <button
@@ -170,24 +165,18 @@ export default function SimulationServiceList({
               ? "border-[#4D869C] bg-[#EEF7FF] text-[#4D869C] dark:border-[#A7D129] dark:bg-[#3E432E] dark:text-[#A7D129]"
               : "border-[#CDE8E5] bg-white text-slate-600 hover:border-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300"
           }`}
-        >
-          Solo no esenciales
-        </button>
+        >{" "}{tr("Solo no esenciales")}{" "}</button>
       </div>
 
       <div className="mt-4 grid gap-3">
         {services.length === 0 && (
           <div className="rounded-xl border border-dashed border-[#CDE8E5] p-8 text-center dark:border-[#616F39]">
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Todavía no tenés servicios activos para simular.
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Todavía no tenés servicios activos para simular.")}{" "}</p>
 
             <Link
               to="/dashboard/billing"
               className="mt-2 inline-block text-xs font-semibold text-[#4D869C] underline-offset-2 hover:underline dark:text-[#A7D129]"
-            >
-              Cargar o conectar comprobantes
-            </Link>
+            >{" "}{tr("Cargar o conectar comprobantes")}{" "}</Link>
           </div>
         )}
 
@@ -204,18 +193,14 @@ export default function SimulationServiceList({
 
         {services.length > 0 && filtered.length === 0 && (
           <div className="rounded-xl border border-dashed border-[#CDE8E5] p-8 text-center dark:border-[#616F39]">
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              No hay servicios que coincidan con los filtros.
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("No hay servicios que coincidan con los filtros.")}{" "}</p>
 
             {hasFilters && (
               <button
                 type="button"
                 onClick={() => setFilters(INITIAL_FILTERS)}
                 className="mt-2 text-xs font-semibold text-[#4D869C] underline-offset-2 hover:underline dark:text-[#A7D129]"
-              >
-                Ver todos los servicios
-              </button>
+              >{" "}{tr("Ver todos los servicios")}{" "}</button>
             )}
           </div>
         )}

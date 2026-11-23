@@ -1,33 +1,34 @@
 import type { SimulationAction } from "../../types/simulation";
 import type { SimulationActionMeta } from "../../types/simulatorComponents";
+import { tr, getLocale } from "../../i18n/translate";
 
 /** Etiquetas y estilos de cada acción del simulador. */
 export const simulationActionMeta: Record<SimulationAction, SimulationActionMeta> =
   {
     KEEP: {
-      label: "Mantener",
-      shortLabel: "Sin cambios",
+      label: tr("Mantener"),
+      shortLabel: tr("Sin cambios"),
       badge:
         "border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300",
       dot: "bg-slate-400",
     },
     CANCEL: {
-      label: "Cancelar / pausar",
-      shortLabel: "Cancelado",
+      label: tr("Cancelar / pausar"),
+      shortLabel: tr("Cancelado"),
       badge:
         "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300",
       dot: "bg-red-500",
     },
     DOWNGRADE: {
-      label: "Cambiar de plan",
-      shortLabel: "Plan más barato",
+      label: tr("Cambiar de plan"),
+      shortLabel: tr("Plan más barato"),
       badge:
         "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
       dot: "bg-amber-500",
     },
     MODIFY_AMOUNT: {
-      label: "Ajustar importe",
-      shortLabel: "Importe ajustado",
+      label: tr("Ajustar importe"),
+      shortLabel: tr("Importe ajustado"),
       badge:
         "border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-900 dark:bg-sky-950 dark:text-sky-300",
       dot: "bg-sky-500",
@@ -62,7 +63,7 @@ export function formatSimulationPercent(value: number | null): string {
 
 /** Fecha corta de un escenario guardado. */
 export function formatSimulationDate(value: string): string {
-  return new Intl.DateTimeFormat("es-AR", {
+  return new Intl.DateTimeFormat(getLocale(), {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -112,11 +113,11 @@ export function clampHorizonMonths(value: number): number {
 
 /** Etiqueta legible del horizonte: "6 meses", "un año", "2 años". */
 export function formatHorizonLabel(months: number): string {
-  if (months === 1) return "un mes";
-  if (months === 12) return "un año";
-  if (months === 24) return "2 años";
+  if (months === 1) return tr("un mes");
+  if (months === 12) return tr("un año");
+  if (months === 24) return tr("2 años");
 
-  return `${months} meses`;
+  return tr("{months} meses", { months });
 }
 
 /** Mes y año en que termina la proyección (ej. "nov 2026"). */
@@ -132,5 +133,5 @@ export function formatHorizonEnd(months: number): string {
 
 /** Nombre corto del horizonte para títulos de métricas. */
 export function formatHorizonTitle(months: number): string {
-  return months === 12 ? "Ahorro anual" : `Ahorro en ${months} meses`;
+  return months === 12 ? tr("Ahorro anual") : tr("Ahorro en {months} meses", { months });
 }

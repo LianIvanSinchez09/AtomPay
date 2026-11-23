@@ -1,14 +1,16 @@
+import { getLocale, tr } from "../i18n/translate";
+
 /** Formato y etiquetas compartidas por las tarjetas de facturación. */
 
 export const moneyFormat = (amount: number, currency: string) =>
-  new Intl.NumberFormat("es-AR", {
+  new Intl.NumberFormat(getLocale(), {
     style: "currency",
     currency,
     maximumFractionDigits: 2,
   }).format(amount);
 
 export const dateFormat = (date: string) =>
-  new Intl.DateTimeFormat("es-AR").format(
+  new Intl.DateTimeFormat(getLocale()).format(
     new Date(`${date}T12:00:00`)
   );
 
@@ -20,3 +22,9 @@ export const sourceLabels: Record<string, string> = {
   manual_pdf: "Carga manual (PDF)",
   manual_image: "Carga manual (foto)",
 };
+
+export const getSourceLabel = (source: string): string => {
+  const label = sourceLabels[source] ?? source;
+  return tr(label);
+};
+

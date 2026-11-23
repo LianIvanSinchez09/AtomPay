@@ -1,10 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Atompay</title>
+    <script>
+      // Aplica idioma y tema antes del primer paint para evitar parpadeos.
+      // Debe coincidir con PREFERENCES_STORAGE_KEY en src/types/settings.ts.
+      (function () {
+        try {
+          var raw = localStorage.getItem("atompay.preferences");
+          var preferences = raw ? JSON.parse(raw) : {};
+          var theme = preferences.theme === "light" ? "light" : "dark";
+          var language = preferences.language === "en" ? "en" : "es";
+
+          document.documentElement.classList.toggle("dark", theme === "dark");
+          document.documentElement.style.colorScheme = theme;
+          document.documentElement.lang = language;
+        } catch (error) {
+          /* Sin preferencias guardadas: quedan los valores por defecto. */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

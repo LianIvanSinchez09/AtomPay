@@ -16,13 +16,14 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { api } from "../../../services/api";
+import { tr } from "../../../i18n/translate";
 
 const loginSchema = z.object({
   email: z
     .string()
-    .min(1, "Ingresá tu correo electrónico.")
-    .email("Ingresá un correo electrónico válido."),
-  password: z.string().min(1, "Ingresá tu contraseña."),
+    .min(1, tr("Ingresá tu correo electrónico."))
+    .email(tr("Ingresá un correo electrónico válido.")),
+  password: z.string().min(1, tr("Ingresá tu contraseña.")),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -65,7 +66,7 @@ const Login = () => {
 
     localStorage.setItem("token", token);
 
-    setSuccessMessage("¡Inicio de sesión exitoso! Redirigiendo...");
+    setSuccessMessage(tr("¡Inicio de sesión exitoso! Redirigiendo..."));
 
     setTimeout(() => {
       navigate("/dashboard");
@@ -87,14 +88,14 @@ const Login = () => {
         axios.isAxiosError(error) &&
         (error.response?.status === 401 || error.response?.status === 404)
       ) {
-        setErrorMessage("Correo o contraseña incorrectos.");
+        setErrorMessage(tr("Correo o contraseña incorrectos."));
 
         return;
       }
 
       console.error("Error durante el login:", error);
 
-      setErrorMessage("No se pudo iniciar sesión. Intentá nuevamente.");
+      setErrorMessage(tr("No se pudo iniciar sesión. Intentá nuevamente."));
     }
   };
 
@@ -110,7 +111,7 @@ const Login = () => {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
         setErrorMessage(
-          "No existe una cuenta AtomPay asociada a esta cuenta de Google. Registrate primero.",
+          tr("No existe una cuenta AtomPay asociada a esta cuenta de Google. Registrate primero."),
         );
 
         return;
@@ -118,7 +119,7 @@ const Login = () => {
 
       console.error("Error durante el login:", error);
 
-      setErrorMessage("No se pudo iniciar sesión. Intentá nuevamente.");
+      setErrorMessage(tr("No se pudo iniciar sesión. Intentá nuevamente."));
     }
   };
 
@@ -191,13 +192,9 @@ const Login = () => {
             transition={{ duration: 0.4 }}
             className="mx-auto my-auto w-full max-w-sm py-10"
           >
-            <h1 className="text-3xl font-semibold text-neutral-900 dark:text-white">
-              Bienvenido de nuevo
-            </h1>
+            <h1 className="text-3xl font-semibold text-neutral-900 dark:text-white">{" "}{tr("Bienvenido de nuevo")}{" "}</h1>
 
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              Ingresá a tu cuenta para ver tus servicios, facturas y gastos.
-            </p>
+            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{" "}{tr("Ingresá a tu cuenta para ver tus servicios, facturas y gastos.")}{" "}</p>
 
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -208,9 +205,7 @@ const Login = () => {
                 <label
                   htmlFor="email"
                   className="mb-1.5 block text-sm font-medium text-neutral-900 dark:text-white"
-                >
-                  Correo electrónico
-                </label>
+                >{" "}{tr("Correo electrónico")}{" "}</label>
 
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
@@ -219,7 +214,7 @@ const Login = () => {
                     id="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="tucorreo@ejemplo.com"
+                    placeholder={tr("tucorreo@ejemplo.com")}
                     aria-invalid={!!errors.email}
                     aria-describedby={errors.email ? "email-error" : undefined}
                     className={`${inputBase} pr-3 ${
@@ -244,9 +239,7 @@ const Login = () => {
                 <label
                   htmlFor="password"
                   className="mb-1.5 block text-sm font-medium text-neutral-900 dark:text-white"
-                >
-                  Contraseña
-                </label>
+                >{" "}{tr("Contraseña")}{" "}</label>
 
                 <div className="relative">
                   <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
@@ -255,7 +248,7 @@ const Login = () => {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
-                    placeholder="Ingresá tu contraseña"
+                    placeholder={tr("Ingresá tu contraseña")}
                     aria-invalid={!!errors.password}
                     aria-describedby={
                       errors.password ? "password-error" : undefined
@@ -270,7 +263,7 @@ const Login = () => {
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
                     aria-label={
-                      showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                      showPassword ? tr("Ocultar contraseña") : tr("Mostrar contraseña")
                     }
                     className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-neutral-400 transition-colors hover:text-neutral-700 focus-visible:outline focus-visible:outline-[#4D869C] dark:hover:text-white dark:focus-visible:outline-[#A7D129]"
                   >
@@ -298,14 +291,12 @@ const Login = () => {
                 disabled={isSubmitting}
                 className="w-full rounded-lg bg-black py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#4D869C] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#bde43a] dark:focus-visible:outline-[#A7D129]"
               >
-                {isSubmitting ? "Ingresando..." : "Iniciar sesión"}
+                {isSubmitting ? tr("Ingresando...") : tr("Iniciar sesión")}
               </button>
             </form>
 
             <div className="my-6 flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
-              o
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
+              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />{" "}{tr("o")}{" "}<span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
             </div>
 
             <div className="flex w-full justify-center">
@@ -313,7 +304,7 @@ const Login = () => {
                 onSuccess={(response) => {
                   if (!response.credential) {
                     setErrorMessage(
-                      "Google no devolvió las credenciales necesarias.",
+                      tr("Google no devolvió las credenciales necesarias."),
                     );
                     return;
                   }
@@ -321,20 +312,17 @@ const Login = () => {
                   handleGoogleLogin(response.credential);
                 }}
                 onError={() => {
-                  setErrorMessage("No se pudo autenticar con Google.");
+                  setErrorMessage(tr("No se pudo autenticar con Google."));
                 }}
                 useOneTap={false}
               />
             </div>
 
-            <p className="mt-8 text-center text-sm text-neutral-600 dark:text-neutral-400">
-              ¿No tenés una cuenta?{" "}
+            <p className="mt-8 text-center text-sm text-neutral-600 dark:text-neutral-400">{" "}{tr("¿No tenés una cuenta?")}{" "}
               <Link
                 to="/register"
                 className="font-semibold text-[#4D869C] hover:underline dark:text-[#A7D129]"
-              >
-                Registrate
-              </Link>
+              >{" "}{tr("Registrate")}{" "}</Link>
             </p>
           </motion.div>
         </section>
@@ -350,14 +338,9 @@ const Login = () => {
           <motion.div
             className="my-auto max-w-lg"
           >
-            <h2 className="text-5xl font-semibold leading-tight">
-              Dejá de buscar facturas en tu correo.
-            </h2>
+            <h2 className="text-5xl font-semibold leading-tight">{" "}{tr("Dejá de buscar facturas en tu correo.")}{" "}</h2>
 
-            <p className="mt-6 text-lg text-white/80">
-              AtomPay encuentra tus facturas, controla tus suscripciones y te
-              muestra dónde podés ahorrar, sin que tengas que revisar tu correo.
-            </p>
+            <p className="mt-6 text-lg text-white/80">{" "}{tr("AtomPay encuentra tus facturas, controla tus suscripciones y te muestra dónde podés ahorrar, sin que tengas que revisar tu correo.")}{" "}</p>
           </motion.div>
         </aside>
       </div>

@@ -17,6 +17,7 @@ import {
   removeServiceSource,
 } from "../../services/billingService";
 import { errorMessage } from "../../services/apiError";
+import { tr } from "../../i18n/translate";
 
 const inputClass =
   "mt-2 w-full rounded-xl border border-[#CDE8E5] bg-white px-3 py-2 text-sm text-[#4D869C] outline-none transition-colors focus:border-[#4D869C] disabled:cursor-wait disabled:opacity-60 dark:border-[#616F39] dark:bg-black/20 dark:text-white";
@@ -44,13 +45,13 @@ export default function AddServicePanel({
     setFeedback(null);
 
     if (!name.trim()) {
-      setError("Poné el nombre del servicio.");
+      setError(tr("Poné el nombre del servicio."));
       return;
     }
 
     if (!sender.trim() && !keywords.trim()) {
       setError(
-        "Indicá el mail del proveedor o al menos una palabra clave."
+        tr("Indicá el mail del proveedor o al menos una palabra clave.")
       );
       return;
     }
@@ -68,11 +69,21 @@ export default function AddServicePanel({
       const pending = source.requeued ?? 0;
 
       setFeedback(
-        `"${source.name}" quedó agregado. Los próximos mails que coincidan van a aparecer en ${source.category}.` +
+        tr(
+          '"{name}" quedó agregado. Los próximos mails que coincidan van a aparecer en {category}.',
+          { name: source.name, category: source.category }
+        ) +
           (pending > 0
-            ? ` Además, ${pending} ${
-                pending === 1 ? "mail descartado vuelve" : "mails descartados vuelven"
-              } a la cola para el próximo escaneo.`
+            ? tr(
+                " Además, {count} {mails} a la cola para el próximo escaneo.",
+                {
+                  count: pending,
+                  mails:
+                    pending === 1
+                      ? tr("mail descartado vuelve")
+                      : tr("mails descartados vuelven"),
+                }
+              )
             : "")
       );
       setName("");
@@ -95,7 +106,10 @@ export default function AddServicePanel({
       await removeServiceSource(source.id);
       setConfirmId(null);
       setFeedback(
-        `Se quitó "${source.name}". Los comprobantes que ya estaban cargados no se tocan.`
+        tr(
+          'Se quitó "{name}". Los comprobantes que ya estaban cargados no se tocan.',
+          { name: source.name }
+        )
       );
       await onChanged();
     } catch (requestError) {
@@ -113,12 +127,8 @@ export default function AddServicePanel({
       className="mt-8 overflow-hidden rounded-2xl border border-[#CDE8E5] bg-white shadow-sm dark:border-[#616F39] dark:bg-[#3E432E]"
     >
       <div className="border-b border-[#CDE8E5] p-5 dark:border-[#616F39] md:p-6">
-        <h2 className="text-xl font-bold">Agregar servicio</h2>
-        <p className="mt-1 text-sm opacity-70">
-          Si un proveedor no aparece en la app, agregalo con su mail o
-          con palabras que vengan en el asunto. El escaneo lo va a
-          buscar igual que a los proveedores conocidos.
-        </p>
+        <h2 className="text-xl font-bold">{tr("Agregar servicio")}</h2>
+        <p className="mt-1 text-sm opacity-70">{" "}{tr("Si un proveedor no aparece en la app, agregalo con su mail o con palabras que vengan en el asunto. El escaneo lo va a buscar igual que a los proveedores conocidos.")}{" "}</p>
       </div>
 
       {error && (
@@ -140,9 +150,7 @@ export default function AddServicePanel({
           onSubmit={handleSubmit}
           className="space-y-4 lg:col-span-3"
         >
-          <label className={labelClass}>
-            Nombre del servicio
-            <input
+          <label className={labelClass}>{" "}{tr("Nombre del servicio")}{" "}<input
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="Cabify"
@@ -153,9 +161,8 @@ export default function AddServicePanel({
             />
           </label>
 
-          <label className={labelClass}>
-            Mail o dominio del proveedor{" "}
-            <span className="font-normal opacity-60">(opcional)</span>
+          <label className={labelClass}>{" "}{tr("Mail o dominio del proveedor")}{" "}
+            <span className="font-normal opacity-60">{tr("(opcional)")}</span>
             <input
               value={sender}
               onChange={(event) => setSender(event.target.value)}
@@ -166,24 +173,19 @@ export default function AddServicePanel({
             />
           </label>
 
-          <label className={labelClass}>
-            Palabras clave{" "}
-            <span className="font-normal opacity-60">
-              (opcional, separadas por coma)
-            </span>
+          <label className={labelClass}>{" "}{tr("Palabras clave")}{" "}
+            <span className="font-normal opacity-60">{" "}{tr("(opcional, separadas por coma)")}{" "}</span>
             <input
               value={keywords}
               onChange={(event) => setKeywords(event.target.value)}
-              placeholder="cabify, recibo de viaje"
+              placeholder={tr("cabify, recibo de viaje")}
               maxLength={200}
               disabled={saving}
               className={inputClass}
             />
           </label>
 
-          <label className={labelClass}>
-            Categoría
-            <select
+          <label className={labelClass}>{" "}{tr("Categoría")}{" "}<select
               value={category}
               onChange={(event) => setCategory(event.target.value)}
               disabled={saving}
@@ -208,25 +210,18 @@ export default function AddServicePanel({
               ) : (
                 <Plus size={16} />
               )}
-              {saving ? "Guardando…" : "Agregar servicio"}
+              {saving ? "Guardando…" : tr("Agregar servicio")}
             </button>
 
-            <p className="text-xs opacity-60">
-              Con mail o palabras clave alcanza.
-            </p>
+            <p className="text-xs opacity-60">{" "}{tr("Con mail o palabras clave alcanza.")}{" "}</p>
           </div>
         </form>
 
         <div className="lg:col-span-2">
-          <p className="text-xs font-semibold uppercase tracking-wide opacity-60">
-            Servicios propios
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wide opacity-60">{" "}{tr("Servicios propios")}{" "}</p>
 
           {sources.length === 0 ? (
-            <p className="mt-3 text-sm opacity-65">
-              Todavía no agregaste ninguno. Los proveedores conocidos
-              ya se buscan solos.
-            </p>
+            <p className="mt-3 text-sm opacity-65">{" "}{tr("Todavía no agregaste ninguno. Los proveedores conocidos ya se buscan solos.")}{" "}</p>
           ) : (
             <ul className="mt-3 space-y-2">
               {sources.map((source) => {
@@ -244,14 +239,13 @@ export default function AddServicePanel({
                           {source.name}
                         </p>
                         <p className="mt-0.5 text-xs opacity-65">
-                          {source.category}
+                          {tr(source.category)}
                           {source.sender
                             ? ` · ${source.sender}`
                             : ""}
                         </p>
                         {source.keywords && (
-                          <p className="mt-1 text-xs opacity-60">
-                            Palabras: {source.keywords}
+                          <p className="mt-1 text-xs opacity-60">{" "}{tr("Palabras:")}{" "}{source.keywords}
                           </p>
                         )}
                       </div>
@@ -271,9 +265,7 @@ export default function AddServicePanel({
                             onClick={() => setConfirmId(null)}
                             disabled={isRemoving}
                             className="rounded-lg border border-[#CDE8E5] px-2 py-1 text-xs font-semibold disabled:opacity-60 dark:border-[#616F39]"
-                          >
-                            No
-                          </button>
+                          >{" "}{tr("No")}{" "}</button>
                         </div>
                       ) : (
                         <button

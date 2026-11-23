@@ -14,6 +14,7 @@ import {
 } from "../../../../services/billingService";
 import { serviceCategories as baseCategories } from "../../../../data/serviceCategories";
 import { errorMessage } from "../../../../services/apiError";
+import { tr } from "../../../../i18n/translate";
 
 /**
  * Carga y deriva todo lo que antes vivía en AdminServices, para que
@@ -78,7 +79,7 @@ export function useAdminServicesData() {
           description:
             stored?.description ??
             known?.description ??
-            "Categoría personalizada",
+            tr("Categoría personalizada"),
           icon: known?.icon ?? Folder,
           invoiceCount: invoices.filter((invoice) => invoice.category === name)
             .length,

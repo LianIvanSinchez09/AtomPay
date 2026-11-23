@@ -2,6 +2,7 @@ import ManageInvoicesPanel from "../../../../components/billing/ManageInvoicesPa
 import { useAdminServicesData } from "./useAdminServicesData";
 import AdminPageLayout from "./AdminPageLayout";
 import FilterBy from "../../../../components/Filters/FilterBy";
+import { tr } from "../../../../i18n/translate";
 
 export default function AdminComprobantes() {
   const { invoices, displayedCategories, withoutAmount, loading, error, loadAll } =
@@ -10,8 +11,8 @@ export default function AdminComprobantes() {
   return (
     <>
       <AdminPageLayout
-        title="Administrar comprobantes"
-        description="Mové cada comprobante de categoría, abrí el mail original o eliminalo del listado."
+        title={tr("Administrar comprobantes")}
+        description={tr("Mové cada comprobante de categoría, abrí el mail original o eliminalo del listado.")}
         badge={`${withoutAmount} sin importe`}
         loading={loading}
         error={error}

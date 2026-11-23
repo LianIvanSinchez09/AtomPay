@@ -10,6 +10,7 @@ import {
   savingsPresets,
   simulationActionMeta,
 } from "./simulatorMeta";
+import { tr } from "../../i18n/translate";
 
 /**
  * Modal del modo "quiero ahorrar $X por mes".
@@ -51,26 +52,22 @@ export default function SavingsGoalModal({
       open={open}
       onClose={onClose}
       size="lg"
-      title="Meta de ahorro"
-      description="Decinos cuánto querés recortar por mes y armamos una combinación de servicios."
+      title={tr("Meta de ahorro")}
+      description={tr("Decinos cuánto querés recortar por mes y armamos una combinación de servicios.")}
       footer={
         <>
           <button
             type="button"
             onClick={onClose}
             className="rounded-xl border border-[#CDE8E5] px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#F7FCFF] dark:border-[#616F39] dark:text-gray-300 dark:hover:bg-[#3E432E]"
-          >
-            Cancelar
-          </button>
+          >{" "}{tr("Cancelar")}{" "}</button>
 
           <button
             type="button"
             onClick={onApply}
             disabled={changes.length === 0}
             className="rounded-xl bg-[#4D869C] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#3d6f83] disabled:cursor-not-allowed disabled:opacity-40 dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
-          >
-            Aplicar al simulador
-          </button>
+          >{" "}{tr("Aplicar al simulador")}{" "}</button>
         </>
       }
     >
@@ -85,9 +82,7 @@ export default function SavingsGoalModal({
           htmlFor="savings-goal"
           className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400"
         >
-          <Target size={13} />
-          Ahorro mensual deseado
-        </label>
+          <Target size={13} />{" "}{tr("Ahorro mensual deseado")}{" "}</label>
 
         <div className="mt-2 flex items-center gap-2">
           <span className="text-sm font-semibold text-slate-500 dark:text-gray-400">
@@ -115,9 +110,7 @@ export default function SavingsGoalModal({
               <Loader2 size={15} className="animate-spin" />
             ) : (
               <Sparkles size={15} />
-            )}
-            Calcular plan
-          </button>
+            )}{" "}{tr("Calcular plan")}{" "}</button>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2">
@@ -140,12 +133,7 @@ export default function SavingsGoalModal({
             onChange={(event) => setIncludeEssential(event.target.checked)}
             className="mt-0.5 h-4 w-4 accent-[#4D869C] dark:accent-[#A7D129]"
           />
-          <span>
-            Incluir servicios esenciales
-            <span className="block text-xs text-slate-400 dark:text-gray-500">
-              Por defecto solo se recortan servicios flexibles (streaming,
-              suscripciones, compras).
-            </span>
+          <span>{" "}{tr("Incluir servicios esenciales")}{" "}<span className="block text-xs text-slate-400 dark:text-gray-500">{" "}{tr("Por defecto solo se recortan servicios flexibles (streaming, suscripciones, compras).")}{" "}</span>
           </span>
         </label>
       </form>
@@ -173,18 +161,15 @@ export default function SavingsGoalModal({
                 : "Meta parcialmente alcanzable"}
             </p>
 
-            <span className="text-xs text-slate-500 dark:text-gray-400">
-              Objetivo:{" "}
+            <span className="text-xs text-slate-500 dark:text-gray-400">{" "}{tr("Objetivo:")}{" "}
               {formatSimulationMoney(
                 suggestion.targetMonthlySaving,
                 currency
-              )}{" "}
-              · Logrado:{" "}
+              )}{" "}{" "}{tr("· Logrado:")}{" "}
               {formatSimulationMoney(
                 suggestion.achievableMonthlySaving,
                 currency
-              )}{" "}
-              · Plazo:{" "}
+              )}{" "}{" "}{tr("· Plazo:")}{" "}
               {formatHorizonLabel(suggestion.simulation.horizonMonths)}
             </span>
           </div>
@@ -223,9 +208,7 @@ export default function SavingsGoalModal({
 
           <div className="mt-3 grid grid-cols-2 gap-2 text-center">
             <div className="rounded-lg bg-white p-2 dark:bg-black">
-              <p className="text-[11px] uppercase text-slate-400 dark:text-gray-500">
-                Ahorro mensual
-              </p>
+              <p className="text-[11px] uppercase text-slate-400 dark:text-gray-500">{" "}{tr("Ahorro mensual")}{" "}</p>
               <p className="font-bold text-[#4D869C] dark:text-[#A7D129]">
                 {formatSimulationMoney(
                   suggestion.simulation.monthlyDifference,
@@ -235,8 +218,7 @@ export default function SavingsGoalModal({
             </div>
 
             <div className="rounded-lg bg-white p-2 dark:bg-black">
-              <p className="text-[11px] uppercase text-slate-400 dark:text-gray-500">
-                Ahorro en {formatHorizonLabel(suggestion.simulation.horizonMonths)}
+              <p className="text-[11px] uppercase text-slate-400 dark:text-gray-500">{" "}{tr("Ahorro en")}{" "}{formatHorizonLabel(suggestion.simulation.horizonMonths)}
               </p>
               <p className="font-bold text-[#4D869C] dark:text-[#A7D129]">
                 {formatSimulationMoney(
@@ -244,8 +226,7 @@ export default function SavingsGoalModal({
                   currency
                 )}
               </p>
-              <p className="text-[10px] text-slate-400 dark:text-gray-500">
-                Hasta {formatHorizonEnd(suggestion.simulation.horizonMonths)}
+              <p className="text-[10px] text-slate-400 dark:text-gray-500">{" "}{tr("Hasta")}{" "}{formatHorizonEnd(suggestion.simulation.horizonMonths)}
               </p>
             </div>
           </div>

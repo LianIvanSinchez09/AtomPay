@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../services/api";
+import { tr } from "../../../../i18n/translate";
 
 const Stepper = (fn) => {
   const {
@@ -45,7 +46,7 @@ const Stepper = (fn) => {
         >
           <FieldShell
             id="name"
-            label="Nombre"
+            label={tr("Nombre")}
             icon={<User className="h-4 w-4" />}
             error={errors.name?.message}
           >
@@ -53,7 +54,7 @@ const Stepper = (fn) => {
               id="name"
               type="text"
               autoComplete="name"
-              placeholder="Tu nombre"
+              placeholder={tr("Tu nombre")}
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "name-error" : undefined}
               className={inputClass(!!errors.name)}
@@ -65,7 +66,7 @@ const Stepper = (fn) => {
             disabled={isSubmitting}
             className="w-full rounded-lg bg-black py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4D869C] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#bde43a] dark:focus-visible:outline-[#A7D129]"
           >
-            {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
+            {isSubmitting ? tr("Creando cuenta...") : tr("Crear cuenta")}
           </button>
         </form>
       )}

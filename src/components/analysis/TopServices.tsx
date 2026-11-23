@@ -14,6 +14,7 @@ import {
 import type { TopServicesProps, TopServicesBarClickEntry } from "../../types/analysisComponents";
 import ServiceHistoryDrawer from "./ServiceHistoryDrawer";
 import { formatMoney } from "./analysisMeta";
+import { tr } from "../../i18n/translate";
 
 export default function TopServices({
   data,
@@ -42,14 +43,9 @@ export default function TopServices({
         className="rounded-2xl border border-[#CDE8E5] bg-white p-6 shadow-sm
                    dark:border-[#3E432E] dark:bg-[#000000]"
       >
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-          Servicios con mayor gasto
-        </h2>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("Servicios con mayor gasto")}{" "}</h2>
 
-        <p className="mb-6 text-sm text-slate-500 dark:text-gray-400">
-          Los servicios que más impactan en tu presupuesto. Tocá uno para ver
-          su historial.
-        </p>
+        <p className="mb-6 text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Los servicios que más impactan en tu presupuesto. Tocá uno para ver su historial.")}{" "}</p>
 
         {hasData ? (
           <>
@@ -80,9 +76,9 @@ export default function TopServices({
                       return [
                         formatMoney(Number(value), currency) +
                           (percentage !== undefined
-                            ? ` · ${percentage}% del total`
+                            ? tr(" · {percentage}% del total", { percentage })
                             : ""),
-                        "Gasto",
+                        tr("Gasto"),
                       ];
                     }}
                   />
@@ -126,9 +122,7 @@ export default function TopServices({
               className="text-slate-300 dark:text-gray-600"
             />
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Sin servicios con gastos registrados.
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Sin servicios con gastos registrados.")}{" "}</p>
           </div>
         )}
       </motion.div>

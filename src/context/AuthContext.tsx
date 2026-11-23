@@ -1,9 +1,8 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 // import { getNotifications } from "../services/notificationService";
 import { updateLogout } from "../services/userService";
 import type { User, AuthContextType, AuthProviderProps } from "../types/types";
-import { api } from "../services/api";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -42,6 +41,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.setItem("token", token);
   };
 
+  const updateUser = useCallback((userData: User) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  }, []);
+
   const logout = async () => {
     if (!user) return;
 
@@ -62,6 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         login,
         register,
+        updateUser,
         logout,
         loading,
       }}
