@@ -9,15 +9,8 @@ export default function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [notification, setNotifications] = useState([])
 
-
-  const id = setInterval(() => {
-    console.log("Running scan...");
-    
-    if (document.visibilityState === "visible") void updateNotifications();
-  }, 1*60*1000);
-
   return (
-    <div className="h-dvh  flex overflow-hidden bg-[#EEF7FF] dark:bg-black">
+    <div className="h-dvh flex overflow-hidden bg-[#EEF7FF] dark:bg-black">
       <aside className="shrink-0 h-full ">
         <ToolBar
           collapsed={sidebarCollapsed}

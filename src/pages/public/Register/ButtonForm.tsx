@@ -1,14 +1,11 @@
 import React from "react";
-
-interface ButtonFormProps {
-  fn: () => void;
-  text: string;
-}
+import type { ButtonFormProps } from "../../../types/types";
 
 const ButtonForm = ({ fn, param, text }: ButtonFormProps) => {
   const handleCheck = () => {
-    fn(param)
-  }
+    fn(param);
+  };
+
   return (
     <button
       type="button"

@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 import { updateLogout } from "../services/userService";
 import type { User, AuthContextType, AuthProviderProps } from "../types/types";
 
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {

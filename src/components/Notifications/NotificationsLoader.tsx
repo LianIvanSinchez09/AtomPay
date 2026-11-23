@@ -6,7 +6,7 @@ import {
   markNotificationAsRead,
 } from "../../services/notificationService";
 import { errorMessage } from "../../services/apiError";
-import type { NotificationItem } from "../types/notification";
+import type { NotificationItem } from "../../types/notification";
 import { useNotifications } from "../../hooks/useNotifications";
 import { tr } from "../../i18n/translate";
 
@@ -31,8 +31,8 @@ export default function NotificationsLoader() {
 
   const handleRead = useCallback(async (id: string) => {
     setItems((current) => {
-      current.map((item) => (item.id === id ? { ...item, read: true } : item))
-      console.log(current);
+      return current.map((item) => (item.id === id ? { ...item, read: true } : item));
+
     }
     
     );

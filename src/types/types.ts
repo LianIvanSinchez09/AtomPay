@@ -2,10 +2,33 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import type { Language, Theme } from "./settings";
 
-export interface ScanNotificationsResponse {
-  skipped: boolean;
-  created: number;
+export interface FormListStep {
+  id: string;
+  label: string;
+  description?: string;
+  hasError?: boolean;
+  disabled?: boolean;
 }
+
+export interface FormListProps {
+  steps: FormListStep[];
+  currentStep: number;
+  onStepChange?: (index: number) => void;
+  canNavigateTo?: (index: number) => boolean;
+  ariaLabel?: string;
+  className?: string;
+}
+
+export type Status = "complete" | "current" | "upcoming";
+
+
+export type {
+  ScanNotificationsResponse,
+  NotificationItem,
+  NotificationCard,
+  NotificationsContextValue,
+} from "./notification";
+
 export interface GmailAccount {
   id: string;
   provider: string;
@@ -16,45 +39,10 @@ export interface GmailAccount {
   updatedAt: string;
 }
 
-export type NotificationsContextValue = {
-  items: NotificationItem[];
-  loading: boolean;
-  error: string | null;
-  unreadCount: number;
-  refetch: () => Promise<void>;
-  markAsRead: (id: string) => Promise<void>;
-  markAllAsRead: () => Promise<void>;
-  remove: (id: string) => Promise<void>;
-};
-
-export type ManualInvoicePanel = {
-  categories: ServiceCategory[];
-  onCreated: () => Promise<unknown> | void;
-};
-
-export type NotificationCard = {
-  notification: NotificationItem;
-  onRead: (id: string) => void;
-  onDelete?: (id: string) => void;
-};
-
-export interface NotificationItem {
-  id: string;
-  userId: string;
-  invoiceId: string;
-  serviceId: string;
-  type: string;
-  title: string;
-  message: string;
-  read: boolean;
-  scheduledAt: string | null;
-  sentAt: string | null;
-  createdAt: string;
-  service: {
-    id: string;
-    name: string;
-    category: { name: string };
-  };
+export interface ButtonFormProps {
+  fn: (param?: any) => void;
+  param?: any;
+  text: string;
 }
 
 export type ProviderImgProps = { provider?: string | null };
@@ -235,7 +223,7 @@ export interface SidepanelProps extends SidepanelChildren {
 // Usuario que devuelve nuestro backend
 export interface User {
   id: string;
-  googleId: string;
+  googleId?: string | null;
   email: string;
   name: string;
   avatarUrl: string | null;
