@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { updateLogout } from "../services/userService";
 import type { User, AuthContextType, AuthProviderProps } from "../types/types";
 import { api } from "../services/api";
+import { updateNotifications } from "../services/notificationService";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

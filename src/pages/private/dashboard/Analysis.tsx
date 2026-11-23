@@ -46,7 +46,7 @@ export default function Analysis() {
     setError(null);
 
     try {
-      setData(await getAnalysis());
+      setData(await getAnalysis());      
     } catch (err) {
       setError(errorMessage(err));
     } finally {
@@ -60,6 +60,8 @@ export default function Analysis() {
   }, [load]);
 
   const variation = data?.summary.variationPercent ?? null;
+  console.log(data);
+  
   const anomalies = data?.anomalies ?? [];
   const trends = data?.trends ?? [];
   const highAnomalies = anomalies.filter(

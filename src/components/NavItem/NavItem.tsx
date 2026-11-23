@@ -11,15 +11,15 @@ export default function NavItem({
   onClick,
   layoutId,
   children,
-  gap = 2
+  gap = 2,
 }: NavItemProps) {
   return (
     <>
-    <button
-      type="button"
-      onClick={onClick}
-      title={label}
-      className={`
+      <button
+        type="button"
+        onClick={onClick}
+        title={label}
+        className={`
         relative
         flex
 ${flexCol ? "flex-col" : ""}
@@ -38,47 +38,47 @@ ${flexCol ? "flex-col" : ""}
         hover:bg-white/10
         hover:text-[#A7D129]
       `}
-    >
-      {active && (
-        <motion.div
-          layoutId={layoutId}
-          className="
+      >
+        {active && (
+          <motion.div
+            layoutId={layoutId}
+            className="
             absolute
             inset-0
             rounded-xl
             bg-white/10
           "
-          transition={{
-            type: "spring",
-            stiffness: 500,
-            damping: 35,
-          }}
-        />
-      )}
-
-      <Icon size={22} className="relative z-10 shrink-0" />
-
-      {children}
-
-      <motion.span
-        initial={false}
-        animate={{
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.2,
-        }}
-        className={`
-          relative
-          z-10
-          overflow-hidden
-          whitespace-nowrap
-          text-base
-        `}
-      >
-        {label}
-      </motion.span>
-    </button>
+            transition={{
+              type: "spring",
+              stiffness: 500,
+              damping: 35,
+            }}
+          />
+        )}
+        <div className="flex items-center justify-center">
+          <Icon size={22} className="relative z-10 shrink-0" />
+          <div className="relative right-2 bottom-5">{children}</div>
+        </div>
+          <motion.span
+            initial={false}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.2,
+            }}
+            className={`
+            relative
+            z-10
+            ml-2
+            overflow-hidden
+            whitespace-nowrap
+            text-base
+          `}
+          >
+            {label}
+          </motion.span>
+      </button>
     </>
   );
 }
