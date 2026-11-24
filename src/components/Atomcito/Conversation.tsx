@@ -3,12 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import InputBox from "./InputBox";
 import { chat } from "../../services/chatservice";
 import DialogueContainer from "./DialogueContainer";
+import type { Message } from "../../types/types";
 
-interface Message {
-  id: number;
-  input: string;
-  user: "user" | "assistant";
-}
 
 const Conversation = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
@@ -42,7 +38,6 @@ const Conversation = () => {
     }
   };
 
-  getRawMessage
 
   const handleRawMessage = async (input: string) => {
     const userMessage: Message = {
