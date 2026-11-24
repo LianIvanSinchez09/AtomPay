@@ -3,11 +3,6 @@ import Logo from "../../pages/public/Home/Logo";
 import { UserCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
-interface DialogueProps {
-  input: string;
-  user: "user" | "assistant";
-}
-
 const NATIVE = 400;
 const ORBIT2 = 1.2;
 const SLOT = 60;
