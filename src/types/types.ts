@@ -29,6 +29,15 @@ export type {
   NotificationsContextValue,
 } from "./notification";
 
+export type { MonthlyExpense } from "./analysis";
+
+export type {
+  GoogleUser,
+  StoredAuth,
+  AuthContextType,
+  AuthProviderProps,
+} from "./AuthContext";
+
 export interface GmailAccount {
   id: string;
   provider: string;
@@ -45,15 +54,61 @@ export interface ButtonFormProps {
   text: string;
 }
 
+export interface FooterLink {
+  label: string;
+  to: string;
+}
+
+export interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
+
+export type ManualInvoicePanel = {
+  categories: ServiceCategory[];
+  onCreated: () => Promise<unknown> | void;
+};
+
 export type ProviderImgProps = { provider?: string | null };
 
-export type Invoice = {
-  invoice: InvoiceType;
+// Billing types
+export type InvoiceStatus = "Pagado" | "Pendiente" | "Vencido";
+
+export interface InvoiceConsumption {
+  value: number;
+  unit: string;
+}
+
+export interface Invoice {
+  id: string;
+  serviceId: string;
+  category: string;
+  service: string;
+  provider: string;
+  issueDate: string;
+  dueDate: string | null;
+  amount: number;
+  currency: string;
+  status: InvoiceStatus;
+  period: string;
+  consumption?: InvoiceConsumption;
+  /** true cuando el comprobante no traía el importe y hay que completarlo. */
+  requiresReview?: boolean;
+  source?: string;
+  invoiceNumber?: string | null;
+  /** Link al mail original en Gmail, para ir a verlo o pagarlo. */
+  emailUrl?: string | null;
+}
+
+export type InvoiceType = Invoice;
+
+export type InvoiceProps = {
+  invoice: Invoice;
   categories: DisplayCategory[];
   busyId: string | null;
   confirmDeleteId: string | null;
-  onMove: (invoice: InvoiceType, category: string) => void;
-  onDelete: (invoice: InvoiceType) => void;
+  onMove: (invoice: Invoice, category: string) => void;
+  onDelete: (invoice: Invoice) => void;
   onAskDelete: (id: string) => void;
   onCancelDelete: () => void;
 };
@@ -70,14 +125,13 @@ export type ManageinvoicesPanelProps = {
   onChanged: () => Promise<unknown> | void;
 };
 
-
 export type InvoiceContainerProps = {
-  invoices: InvoiceType[];
+  invoices: Invoice[];
   categories: DisplayCategory[];
   busyId: string | null;
   confirmDeleteId: string | null;
-  onMove: (invoice: InvoiceType, category: string) => void;
-  onDelete: (invoice: InvoiceType) => void;
+  onMove: (invoice: Invoice, category: string) => void;
+  onDelete: (invoice: Invoice) => void;
   onAskDelete: (id: string) => void;
   onCancelDelete: () => void;
 };
@@ -233,48 +287,7 @@ export interface User {
   theme?: Theme;
 }
 
-export interface AuthContextType {
-  user: User | null;
-  login: (userData: User, token: string) => void;
-  register: (userData: User, token: string) => void;
-  /** Refresca el usuario en memoria y en localStorage (p. ej. al editar el perfil). */
-  updateUser: (userData: User) => void;
-  logout: () => void;
-  loading: boolean;
-}
 
-export interface AuthProviderProps {
-  children: ReactNode;
-}
-
-//esto para el billing
-export type InvoiceStatus = "Pagado" | "Pendiente" | "Vencido";
-
-export interface InvoiceConsumption {
-  value: number;
-  unit: string;
-}
-
-export interface Invoice {
-  id: string;
-  serviceId: string;
-  category: string;
-  service: string;
-  provider: string;
-  issueDate: string;
-  dueDate: string | null;
-  amount: number;
-  currency: string;
-  status: InvoiceStatus;
-  period: string;
-  consumption?: InvoiceConsumption;
-  /** true cuando el comprobante no traía el importe y hay que completarlo. */
-  requiresReview?: boolean;
-  source?: string;
-  invoiceNumber?: string | null;
-  /** Link al mail original en Gmail, para ir a verlo o pagarlo. */
-  emailUrl?: string | null;
-}
 
 /**
  * Categoría que quedó asociada a un remitente cuando el usuario corrigió un

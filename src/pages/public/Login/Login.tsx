@@ -252,7 +252,7 @@ const Login = () => {
                     aria-invalid={!!errors.password}
                     aria-describedby={
                       errors.password ? "password-error" : undefined
-                    }X
+                    }
                     className={`${inputBase} pr-11 ${
                       errors.password ? inputInvalid : inputNormal
                     }`}

@@ -21,6 +21,7 @@ import {
   formatUnitPrice,
   trendMeta,
 } from "./analysisMeta";
+import { tr } from "../../i18n/translate";
 
 export default function ServiceHistoryDrawer({
   trend,

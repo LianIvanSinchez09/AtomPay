@@ -11,6 +11,7 @@ import {
 import type {
   ServiceCategory,
   ServiceSource,
+  AddServicePanelProps,
 } from "../../types/types";
 import {
   addServiceSource,

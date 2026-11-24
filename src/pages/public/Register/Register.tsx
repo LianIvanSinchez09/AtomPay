@@ -1,24 +1,17 @@
-import { useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { GoogleLogin } from "@react-oauth/google";
-import { FormState, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
 import {
   AlertCircle,
   CheckCircle2,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  User,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import { api } from "../../../services/api";
-import FieldShell from "../Home/FieldShell/FieldShell.tsx";
-import ButtonForm from "./ButtonForm.tsx";
 import ExpenseEvolutionChart from "../../../components/analysis/ExpenseEvolutionChart.tsx";
 import type { MonthlyExpense } from "../../../types/types";
 import { tr } from "../../../i18n/translate";
@@ -58,14 +51,6 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-const STEP_FIELDS: (keyof RegisterFormData)[][] = [
-  ["name"],
-  ["email"],
-  ["password", "confirmPassword"],
-];
-
-const LAST_STEP = STEP_FIELDS.length - 1;
-
 const inputBase =
   "w-full rounded-lg border bg-white py-2.5 pl-10 text-sm text-neutral-900 outline-none transition-colors placeholder:text-neutral-400 focus:ring-2 dark:bg-black dark:text-white dark:placeholder:text-neutral-500";
 
@@ -99,8 +84,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    trigger,
-    setFocus,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -111,30 +94,6 @@ const Register = () => {
       confirmPassword: "",
     },
   });
-
-  const [step, setStep] = useState(0);
-  const [status, setStatus] = useState(false);
-
-  const check = async (fields: (keyof RegisterFormData)[]) => {
-    const fromStep = step;
-    const isValid = await trigger(fields, { shouldFocus: true });
-    if (isValid) {
-      setStep((current) =>
-        current === fromStep ? Math.min(current + 1, LAST_STEP) : current,
-      );
-    }
-  };
-
-  useEffect(() => {
-    const first = STEP_FIELDS[step]?.[0];
-    if (step > 0 && first) setFocus(first);
-  }, [step, setFocus]);
-
-  const STEPS = [
-    { id: "name", label: "Nombre" },
-    { id: "email", label: "Correo electrónico" },
-    { id: "password", label: "Contraseña" },
-  ];
 
   const completeRegister = (
     user: Parameters<typeof registerUser>[0],

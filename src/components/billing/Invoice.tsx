@@ -2,7 +2,7 @@ import React from "react";
 import { Loader2, Mail, Trash2 } from "lucide-react";
 import { dateFormat, moneyFormat, getSourceLabel } from "../../utils/billingFormat";
 import ProviderImg from "./ProviderImg";
-import type { Invoice } from "../../types/types";
+import type { InvoiceProps } from "../../types/types";
 import { tr } from "../../i18n/translate";
 
 const Invoice = ({
@@ -14,7 +14,7 @@ const Invoice = ({
   onDelete,
   onAskDelete,
   onCancelDelete,
-}: Invoice) => {
+}: InvoiceProps) => {
   const isBusy = busyId === invoice.id;
   const isConfirming = confirmDeleteId === invoice.id;
   return (
