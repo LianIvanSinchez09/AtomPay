@@ -18,7 +18,7 @@ export default function Dashboard() {
         />
       </aside>
 
-      <main className="min-w-0 flex-1 h-full overflow-y-auto p-6 md:p-10 text-[#4D869C] dark:text-white">
+      <main className="min-w-0 flex-1 h-full relative overflow-y-auto p-6 md:p-10 text-[#4D869C] dark:text-white">
         <Outlet />
       </main>
     </div>

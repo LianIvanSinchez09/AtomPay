@@ -49,7 +49,7 @@ export default function CategoryExpenses({
 
       {hasData ? (
         <>
-          <div className="h-[280px]">
+          <div className="h-70">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -113,7 +113,7 @@ export default function CategoryExpenses({
           </div>
         </>
       ) : (
-        <div className="flex h-[320px] flex-col items-center justify-center gap-2 text-center">
+        <div className="flex h-80 flex-col items-center justify-center gap-2 text-center">
           <PieChartIcon
             size={32}
             className="text-slate-300 dark:text-gray-600"

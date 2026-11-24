@@ -13,12 +13,9 @@ import Analysis from "../pages/private/dashboard/Analysis";
 import Simulator from "../pages/private/dashboard/Simulator";
 import Billing from "../pages/private/dashboard/Billing";
 import AdminServices from "../pages/private/dashboard/AdminServices/AdminServices.tsx";
-import Atomcito from "../pages/private/dashboard/Atomcito.tsx";
+import Atomcito from "../pages/private/Atomcito.tsx";
 import VerifyEmail from "../pages/private/VerifyEmail.tsx";
-
-
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
-import Chatbot from "../components/chatbot/Chatbot";
 
 const AppRoutes = () => {
   return (
@@ -58,8 +55,6 @@ const AppRoutes = () => {
           <Route path="atomcito" element={<Atomcito />} />
         </Route>
       </Routes>
-
-      <Chatbot />
     </BrowserRouter>
   );
 };
