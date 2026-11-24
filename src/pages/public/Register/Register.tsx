@@ -121,7 +121,12 @@ const Register = () => {
         password: data.password,
       });
 
-      setMessage(response.data.message);
+      console.log(response);
+
+      setMessage(response.data[0].message);
+      registerUser(response.data[1], response.data[1].token);
+
+      // completeRegister(response.data[1], response.data[1].token);
     } catch (error) {
       console.error("Error durante el registro:", error);
 
@@ -137,6 +142,8 @@ const Register = () => {
       const response = await api.post("/auth/google/register", {
         idToken: credential,
       });
+
+      console.log(response);
 
       completeRegister(response.data.user, response.data.token);
     } catch (error) {

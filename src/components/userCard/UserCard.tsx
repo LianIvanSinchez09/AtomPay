@@ -1,28 +1,33 @@
-import { LogOut } from "lucide-react";
+import { useState } from "react";
+import { LogOut, UserCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { tr } from "../../i18n/translate";
 
 const UserCard = () => {
-    const {
-        user,
-        logout,
-    } = useAuth();
+    const { user, logout } = useAuth();
+    const [imageError, setImageError] = useState(false);
 
     if (!user) {
         return null;
     }
 
     return (
-        <div className="flex items-center gap-3 rounded-xl border border-[#CDE8E5] bg-white p-3 shadow-sm dark:border-[#616F39] dark:bg-[#000000]">
+        <div className="flex items-center gap-3 rounded-xl border border-[#CDE8E5] bg-white p-3 shadow-sm dark:border-[#616F39] dark:bg-black">
 
-            <img
-                src={user.avatarUrl ?? undefined}
-                alt={user.name}
-                className="h-10 w-10 rounded-full object-cover"
-            />
+            {user.avatarUrl && !imageError ? (
+                <img
+                    src={user.avatarUrl}
+                    alt={user.name}
+                    onError={() => setImageError(true)}
+                    className="h-10 w-10 rounded-full object-cover"
+                />
+            ) : (
+                <UserCircle
+                    className="h-10 w-10 shrink-0 text-[#4D869C] dark:text-[#A7D129]"
+                />
+            )}
 
             <div className="min-w-0 flex-1">
-
                 <p className="truncate text-sm font-semibold text-[#4D869C] dark:text-white">
                     {user.name}
                 </p>
@@ -30,7 +35,6 @@ const UserCard = () => {
                 <p className="truncate text-xs opacity-60">
                     {user.email}
                 </p>
-
             </div>
 
             <button
