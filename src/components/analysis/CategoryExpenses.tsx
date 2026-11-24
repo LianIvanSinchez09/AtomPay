@@ -9,6 +9,7 @@ import {
 } from "recharts";
 
 import type { CategoryExpensesProps } from "../../types/analysisComponents";
+import { tr } from "../../i18n/translate";
 
 const COLORS = [
   "#4D869C",
@@ -39,12 +40,9 @@ export default function CategoryExpenses({
       className="rounded-2xl border border-[#CDE8E5] bg-white p-6 shadow-sm
                  dark:border-[#3E432E] dark:bg-[#000000]"
     >
-      <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-        Gastos por categoría
-      </h2>
+      <h2 className="text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("Gastos por categoría")}{" "}</h2>
 
-      <p className="mb-4 text-sm text-slate-500 dark:text-gray-400">
-        Distribución de tus gastos en {currency}.
+      <p className="mb-4 text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Distribución de tus gastos en")}{" "}{currency}.
       </p>
 
       {hasData ? (
@@ -83,7 +81,7 @@ export default function CategoryExpenses({
           <div className="space-y-2">
             {data.map((category, index) => (
               <div
-                key={category.name}
+                key={tr(category.name)}
                 className="flex items-center justify-between gap-3 text-sm"
               >
                 <div className="flex min-w-0 items-center gap-2">
@@ -119,9 +117,7 @@ export default function CategoryExpenses({
             className="text-slate-300 dark:text-gray-600"
           />
 
-          <p className="text-sm text-slate-500 dark:text-gray-400">
-            Sin gastos para distribuir por categoría.
-          </p>
+          <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Sin gastos para distribuir por categoría.")}{" "}</p>
         </div>
       )}
     </motion.div>

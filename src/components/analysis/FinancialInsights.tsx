@@ -28,6 +28,7 @@ import {
   insightSeverity,
   insightSeverityMeta,
 } from "./analysisMeta";
+import { tr } from "../../i18n/translate";
 
 const anomalyKinds: FinancialInsightKind[] = [
   "tariff_hike",
@@ -43,10 +44,10 @@ const severityWeight: Record<FinancialInsightSeverity, number> = {
 };
 
 const tabs: FilterOption<InsightFilter>[] = [
-  { key: "all", label: "Todos" },
-  { key: "anomalies", label: "Anomalías" },
-  { key: "increases", label: "Aumentos" },
-  { key: "savings", label: "Ahorros" },
+  { key: "all", label: tr("Todos") },
+  { key: "anomalies", label: tr("Anomalías") },
+  { key: "increases", label: tr("Aumentos") },
+  { key: "savings", label: tr("Ahorros") },
 ];
 
 function iconFor(
@@ -174,19 +175,14 @@ export default function FinancialInsights({
           </div>
 
           <div>
-            <h2 className="font-bold text-slate-900 dark:text-white">
-              Detección de anomalías y tendencias
-            </h2>
+            <h2 className="font-bold text-slate-900 dark:text-white">{" "}{tr("Detección de anomalías y tendencias")}{" "}</h2>
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Observaciones priorizadas según su impacto en tu presupuesto.
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Observaciones priorizadas según su impacto en tu presupuesto.")}{" "}</p>
           </div>
         </div>
 
         <span className="rounded-full border border-[#CDE8E5] px-3 py-1 text-xs font-semibold text-slate-600 dark:border-[#3E432E] dark:text-gray-300">
-          {counts.all} observación(es)
-        </span>
+          {counts.all}{" "}{tr("observación(es)")}{" "}</span>
       </div>
 
       {/* PESTAÑAS */}
@@ -270,12 +266,12 @@ export default function FinancialInsights({
       ) : (
         <p className="text-sm text-slate-500 dark:text-gray-400">
           {filter === "anomalies"
-            ? "No detectamos anomalías en el período."
+            ? tr("No detectamos anomalías en el período.")
             : filter === "increases"
-              ? "No hay aumentos relevantes para mostrar."
+              ? tr("No hay aumentos relevantes para mostrar.")
               : filter === "savings"
-                ? "Todavía no hay ahorros detectados."
-                : "No hay observaciones por ahora."}
+                ? tr("Todavía no hay ahorros detectados.")
+                : tr("No hay observaciones por ahora.")}
         </p>
       )}
     </motion.div>

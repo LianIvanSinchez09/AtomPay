@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* El tema se alterna con la clase `.dark` en <html> (Ajustes > Apariencia). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 body { 
     background-color: #E8F5E9;
     font-size: 1.2rem;

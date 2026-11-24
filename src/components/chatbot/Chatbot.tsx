@@ -4,6 +4,7 @@ import './chatbotStyles.css';
 import { createChat } from '@n8n/chat';
 import { ChatBot } from '../../types/types';
 import { JSX } from 'react';
+import { tr, getCurrentLanguage } from "../../i18n/translate";
 
 const chatBotConfig: ChatBot = {
 	webhookUrl: 'https://atominc.app.n8n.cloud/webhook/24025a49-a0ec-457a-ac95-4f0ead3baabe/chat',
@@ -18,10 +19,10 @@ const chatBotConfig: ChatBot = {
 	loadPreviousSession: true,
 	metadata: {},
 	showWelcomeScreen: false,
-	defaultLanguage: 'en',
+	defaultLanguage: getCurrentLanguage() === "es" ? "es" : "en",
 	initialMessages: [
-		'Hola! 👋',
-		'Soy Atomcito, ¿En qué te puedo ayudar hoy?'
+		tr("¡Hola! 👋"),
+		tr("Soy Atomcito, ¿En qué te puedo ayudar hoy?")
 	],
 	enableStreaming: false,
 }

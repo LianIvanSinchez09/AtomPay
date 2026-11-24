@@ -8,6 +8,7 @@ import {
   updateNotifications,
   markAllNotificationsAsRead,
 } from "../../services/notificationService";
+import { tr } from "../../i18n/translate";
 
 const PATH = "/dashboard/notifications";
 
@@ -51,6 +52,14 @@ const NotificationsButton = () => {
       if (document.visibilityState !== "visible") return;
       if (scanning.current) return;
       if (lastScan.current.getTime() < SCAN_INTERVAL_MS) return;
+      const userStr = localStorage.getItem("user");
+      if (!userStr) return;
+      try {
+        const user = JSON.parse(userStr);
+        if (!user?.googleId) return;
+      } catch {
+        return;
+      }
       console.log("Running scan");
       
       scanning.current = true;
@@ -72,7 +81,7 @@ const NotificationsButton = () => {
   return (
     <div className="flex gap-3">
       <NavItem
-        label="Notificaciones"
+        label={tr("Notificaciones")}
         icon={Bell}
         flexCol={false}
         active={location.pathname === PATH}
@@ -80,20 +89,14 @@ const NotificationsButton = () => {
         layoutId="active-nav-pill"
         gap={2}
       >
-      {unreadCount > 0 && (
-      <span
-        aria-label={`${unreadCount} notificaciones sin leer`}
-        className="pointer-events-none flex justify-center absolute items-center bg-[#616F39] font-bold leading-none text-white"
-        style={
-          {
-            borderRadius: "50px",
-            width: "20px",
-          }
-        }
-      >
-        {badge}
-      </span>
-      )}
+        {unreadCount > 0 && (
+          <span
+            aria-label={tr("{count} notificaciones sin leer", { count: unreadCount })}
+            className="pointer-events-none flex rounded-full justify-center absolute min-w-4 px-1 h-4 items-center bg-[#616F39] text-xs font-bold leading-none text-white"
+          >
+            {badge}
+          </span>
+        )}
       </NavItem>
     </div>
   );

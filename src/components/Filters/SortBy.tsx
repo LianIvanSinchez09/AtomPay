@@ -3,6 +3,7 @@ import { ChevronDown, type LucideIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Invoice } from "../../types/types";
 import type { SortByProps } from "../../types/types";
+import { tr } from "../../i18n/translate";
 
 export default function SortBy({
   label,
@@ -76,14 +77,14 @@ export default function SortBy({
   };
 
   const options = [
-    { key: "dateAsc", label: "Fecha (Asc)", sort: dateAscFilter },
-    { key: "dateDesc", label: "Fecha (desc)", sort: dateDescFilter },
-    { key: "importDesc", label: "Importe (desc)", sort: importDescFilter },
-    { key: "importAsc", label: "Importe (asc)", sort: importAscFilter },
-    { key: "providerDesc", label: "Proveedor (desc)", sort: providerDescFilter },
-    { key: "providerAsc", label: "Proveedor (asc)", sort: providerAscFilter },
-    { key: "categoryAsc", label: "Categoría (Asc)", sort: categoryAscFilter },
-    { key: "categoryDesc", label: "Categoría (desc)", sort: categoryDescFilter },
+    { key: "dateAsc", label: tr("Fecha (Asc)"), sort: dateAscFilter },
+    { key: "dateDesc", label: tr("Fecha (desc)"), sort: dateDescFilter },
+    { key: "importDesc", label: tr("Importe (desc)"), sort: importDescFilter },
+    { key: "importAsc", label: tr("Importe (asc)"), sort: importAscFilter },
+    { key: "providerDesc", label: tr("Proveedor (desc)"), sort: providerDescFilter },
+    { key: "providerAsc", label: tr("Proveedor (asc)"), sort: providerAscFilter },
+    { key: "categoryAsc", label: tr("Categoría (Asc)"), sort: categoryAscFilter },
+    { key: "categoryDesc", label: tr("Categoría (desc)"), sort: categoryDescFilter },
   ];
 
   const handleToggle = (option: (typeof options)[number]) => {

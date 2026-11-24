@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import type { Language, Theme } from "./settings";
 
 export interface FormListStep {
   id: string;
@@ -21,10 +22,22 @@ export interface FormListProps {
 export type Status = "complete" | "current" | "upcoming";
 
 
-export interface ScanNotificationsResponse {
-  skipped: boolean;
-  created: number;
-}
+export type {
+  ScanNotificationsResponse,
+  NotificationItem,
+  NotificationCard,
+  NotificationsContextValue,
+} from "./notification";
+
+export type { MonthlyExpense } from "./analysis";
+
+export type {
+  GoogleUser,
+  StoredAuth,
+  AuthContextType,
+  AuthProviderProps,
+} from "./AuthContext";
+
 export interface GmailAccount {
   id: string;
   provider: string;
@@ -36,60 +49,66 @@ export interface GmailAccount {
 }
 
 export interface ButtonFormProps {
-  fn: () => void;
+  fn: (param?: any) => void;
+  param?: any;
   text: string;
 }
 
-export type NotificationsContextValue = {
-  items: NotificationItem[];
-  loading: boolean;
-  error: string | null;
-  unreadCount: number;
-  refetch: () => Promise<void>;
-  markAsRead: (id: string) => Promise<void>;
-  markAllAsRead: () => Promise<void>;
-  remove: (id: string) => Promise<void>;
-};
+export interface FooterLink {
+  label: string;
+  to: string;
+}
+
+export interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
 
 export type ManualInvoicePanel = {
   categories: ServiceCategory[];
   onCreated: () => Promise<unknown> | void;
 };
 
-export type NotificationCard = {
-  notification: NotificationItem;
-  onRead: (id: string) => void;
-  onDelete?: (id: string) => void;
-};
-
-export interface NotificationItem {
-  id: string;
-  userId: string;
-  invoiceId: string;
-  serviceId: string;
-  type: string;
-  title: string;
-  message: string;
-  read: boolean;
-  scheduledAt: string | null;
-  sentAt: string | null;
-  createdAt: string;
-  service: {
-    id: string;
-    name: string;
-    category: { name: string };
-  };
-}
-
 export type ProviderImgProps = { provider?: string | null };
 
-export type Invoice = {
-  invoice: InvoiceType;
+// Billing types
+export type InvoiceStatus = "Pagado" | "Pendiente" | "Vencido";
+
+export interface InvoiceConsumption {
+  value: number;
+  unit: string;
+}
+
+export interface Invoice {
+  id: string;
+  serviceId: string;
+  category: string;
+  service: string;
+  provider: string;
+  issueDate: string;
+  dueDate: string | null;
+  amount: number;
+  currency: string;
+  status: InvoiceStatus;
+  period: string;
+  consumption?: InvoiceConsumption;
+  /** true cuando el comprobante no traía el importe y hay que completarlo. */
+  requiresReview?: boolean;
+  source?: string;
+  invoiceNumber?: string | null;
+  /** Link al mail original en Gmail, para ir a verlo o pagarlo. */
+  emailUrl?: string | null;
+}
+
+export type InvoiceType = Invoice;
+
+export type InvoiceProps = {
+  invoice: Invoice;
   categories: DisplayCategory[];
   busyId: string | null;
   confirmDeleteId: string | null;
-  onMove: (invoice: InvoiceType, category: string) => void;
-  onDelete: (invoice: InvoiceType) => void;
+  onMove: (invoice: Invoice, category: string) => void;
+  onDelete: (invoice: Invoice) => void;
   onAskDelete: (id: string) => void;
   onCancelDelete: () => void;
 };
@@ -106,14 +125,13 @@ export type ManageinvoicesPanelProps = {
   onChanged: () => Promise<unknown> | void;
 };
 
-
 export type InvoiceContainerProps = {
-  invoices: InvoiceType[];
+  invoices: Invoice[];
   categories: DisplayCategory[];
   busyId: string | null;
   confirmDeleteId: string | null;
-  onMove: (invoice: InvoiceType, category: string) => void;
-  onDelete: (invoice: InvoiceType) => void;
+  onMove: (invoice: Invoice, category: string) => void;
+  onDelete: (invoice: Invoice) => void;
   onAskDelete: (id: string) => void;
   onCancelDelete: () => void;
 };
@@ -183,6 +201,10 @@ export type NavItemProps = {
   active: boolean;
   onClick: () => void;
   layoutId: string;
+  /** Contenido extra (p. ej. un badge de notificaciones). */
+  children?: ReactNode;
+  /** Separación interna entre icono y texto. */
+  gap?: number;
 };
 
 export type TransitionButtonProps = {
@@ -212,6 +234,15 @@ export type NavGroupProps = {
   itemsCenter?: boolean
   items: NavGroupItem[];
   layoutId: string;
+  /** Si ocupa todo el alto disponible. */
+  fill?: boolean;
+  /** Clases de separación entre ítems (p. ej. "gap-2"). */
+  gap?: string;
+};
+
+/** Props de la barra lateral (`components/Sidebar/Toolbar.tsx`). */
+export type ToolBarProps = {
+  collapsed: boolean;
 };
 
 export interface customWidth {
@@ -246,52 +277,17 @@ export interface SidepanelProps extends SidepanelChildren {
 // Usuario que devuelve nuestro backend
 export interface User {
   id: string;
-  googleId: string;
+  googleId?: string | null;
   email: string;
   name: string;
   avatarUrl: string | null;
+  /** Preferencia de idioma guardada en la cuenta (ver types/settings.ts). */
+  language?: Language;
+  /** Preferencia de tema guardada en la cuenta (ver types/settings.ts). */
+  theme?: Theme;
 }
 
-export interface AuthContextType {
-  user: User | null;
-  login: (userData: User, token: string) => void;
-  register: (userData: User, token: string) => void;
-  logout: () => void;
-  loading: boolean;
-}
 
-export interface AuthProviderProps {
-  children: ReactNode;
-}
-
-//esto para el billing
-export type InvoiceStatus = "Pagado" | "Pendiente" | "Vencido";
-
-export interface InvoiceConsumption {
-  value: number;
-  unit: string;
-}
-
-export interface Invoice {
-  id: string;
-  serviceId: string;
-  category: string;
-  service: string;
-  provider: string;
-  issueDate: string;
-  dueDate: string | null;
-  amount: number;
-  currency: string;
-  status: InvoiceStatus;
-  period: string;
-  consumption?: InvoiceConsumption;
-  /** true cuando el comprobante no traía el importe y hay que completarlo. */
-  requiresReview?: boolean;
-  source?: string;
-  invoiceNumber?: string | null;
-  /** Link al mail original en Gmail, para ir a verlo o pagarlo. */
-  emailUrl?: string | null;
-}
 
 /**
  * Categoría que quedó asociada a un remitente cuando el usuario corrigió un

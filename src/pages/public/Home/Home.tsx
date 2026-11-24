@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import Navbar from "../Navbar";
 import "./Home.css";
 import Footer from "../../../components/Footer";
+import { tr } from "../../../i18n/translate";
 
 const Home = () => {
   return (
@@ -22,17 +23,10 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <h1 className="flex gap-1 flex-col text-xl font-bold leading-tight md:text-6xl">
-                Tu dinero tiene patrones.
-                <span className="text-[#4D869C] dark:text-[#A7D129]">
-                  AtomPay los encuentra.
-                </span>
+              <h1 className="flex gap-1 flex-col text-xl font-bold leading-tight md:text-6xl">{" "}{tr("Tu dinero tiene patrones.")}{" "}<span className="text-[#4D869C] dark:text-[#A7D129]">{" "}{tr("AtomPay los encuentra.")}{" "}</span>
               </h1>
 
-              <p className="mt-6 max-w-xl text-lg text-[#4D869C]/80 dark:text-white/70">
-                AtomPay organiza tus facturas, servicios y gastos recurrentes para
-                que tengas el control de tus finanzas de forma simple.
-              </p>
+              <p className="mt-6 max-w-xl text-lg text-[#4D869C]/80 dark:text-white/70">{" "}{tr("AtomPay organiza tus facturas, servicios y gastos recurrentes para que tengas el control de tus finanzas de forma simple.")}{" "}</p>
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link to="/register">
@@ -40,9 +34,7 @@ const Home = () => {
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
                     className="rounded-xl bg-[#4D869C] px-6 py-3 font-semibold text-white shadow-lg transition dark:bg-[#A7D129] dark:text-[#000000]"
-                  >
-                    Comenzar ahora
-                  </motion.button>
+                  >{" "}{tr("Comenzar ahora")}{" "}</motion.button>
                 </Link>
 
                 <Link to="/login">
@@ -50,9 +42,7 @@ const Home = () => {
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
                     className="rounded-xl border-2 border-[#7AB2B2] px-6 py-3 font-semibold text-[#4D869C] transition hover:bg-[#CDE8E5] dark:border-[#616F39] dark:text-[#A7D129] dark:hover:bg-[#3E432E]"
-                  >
-                    Iniciar sesión
-                  </motion.button>
+                  >{" "}{tr("Iniciar sesión")}{" "}</motion.button>
                 </Link>
               </div>
             </motion.div>

@@ -12,6 +12,7 @@ import {
   formatSimulationMoney,
   simulationActionMeta,
 } from "./simulatorMeta";
+import { tr } from "../../i18n/translate";
 
 /**
  * Tarjeta de un servicio dentro del modo manual.
@@ -85,7 +86,7 @@ export default function ServiceSimulationCard({
             </h3>
 
             <span className="rounded-full border border-[#CDE8E5] bg-[#F7FCFF] px-2 py-0.5 text-[11px] font-medium text-slate-500 dark:border-[#616F39] dark:bg-[#3E432E] dark:text-gray-300">
-              {service.category}
+              {tr(service.category)}
             </span>
 
             <span
@@ -100,20 +101,25 @@ export default function ServiceSimulationCard({
 
             {highlighted && (
               <span className="flex items-center gap-1 rounded-full bg-[#EEF7FF] px-2 py-0.5 text-[11px] font-semibold text-[#4D869C] dark:bg-[#3E432E] dark:text-[#A7D129]">
-                <Sparkles size={11} />
-                Desde el análisis
-              </span>
+                <Sparkles size={11} />{" "}{tr("Desde el análisis")}{" "}</span>
             )}
           </div>
 
           <p className="mt-1 text-xs text-slate-400 dark:text-gray-500">
             {service.invoiceCount > 0
-              ? `Promedio de ${service.invoiceCount} factura${
-                  service.invoiceCount === 1 ? "" : "s"
-                }${service.lastPeriod ? ` · última ${service.lastPeriod}` : ""}`
+              ? tr("Promedio de {count} {facturas}{last}", {
+                  count: service.invoiceCount,
+                  facturas:
+                    service.invoiceCount === 1
+                      ? tr("factura")
+                      : tr("facturas"),
+                  last: service.lastPeriod
+                    ? tr(" · última {period}", { period: service.lastPeriod })
+                    : "",
+                })
               : service.lastAmount
-                ? "Precio cargado en el servicio"
-                : "Sin gasto registrado"}
+                ? tr("Precio cargado en el servicio")
+                : tr("Sin gasto registrado")}
           </p>
         </div>
 
@@ -126,9 +132,7 @@ export default function ServiceSimulationCard({
 
       <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-medium text-slate-500 dark:text-gray-400">
-            Gasto mensual actual
-          </p>
+          <p className="text-xs font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Gasto mensual actual")}{" "}</p>
 
           <p className="text-xl font-bold text-slate-900 dark:text-white">
             {formatSimulationMoney(current, currency)}
@@ -136,9 +140,7 @@ export default function ServiceSimulationCard({
         </div>
 
         <div className="text-right">
-          <p className="text-xs font-medium text-slate-500 dark:text-gray-400">
-            Quedaría en
-          </p>
+          <p className="text-xs font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Quedaría en")}{" "}</p>
 
           <p
             className={`text-xl font-bold ${
@@ -156,7 +158,7 @@ export default function ServiceSimulationCard({
         <ActionButton
           active={action === "KEEP"}
           disabled={!canSimulate}
-          label="Mantener"
+          label={tr("Mantener")}
           icon={<RotateCcw size={14} />}
           onClick={() => selectAction("KEEP")}
         />
@@ -164,7 +166,7 @@ export default function ServiceSimulationCard({
         <ActionButton
           active={action === "CANCEL"}
           disabled={!canSimulate}
-          label="Cancelar"
+          label={tr("Cancelar")}
           icon={<Ban size={14} />}
           onClick={() => selectAction("CANCEL")}
           tone="danger"
@@ -173,7 +175,7 @@ export default function ServiceSimulationCard({
         <ActionButton
           active={adjusting}
           disabled={!canSimulate}
-          label="Ajustar"
+          label={tr("Ajustar")}
           icon={<SlidersHorizontal size={14} />}
           onClick={() => selectAction("DOWNGRADE")}
         />
@@ -185,9 +187,7 @@ export default function ServiceSimulationCard({
             <label
               htmlFor={`simulated-${service.id}`}
               className="text-xs font-semibold text-slate-600 dark:text-gray-300"
-            >
-              Nuevo importe mensual
-            </label>
+            >{" "}{tr("Nuevo importe mensual")}{" "}</label>
 
             <div className="flex items-center gap-1">
               <span className="text-xs text-slate-400 dark:text-gray-500">
@@ -214,7 +214,7 @@ export default function ServiceSimulationCard({
             step={step}
             value={simulated}
             onChange={(event) => setAmount(Number(event.target.value))}
-            aria-label={`Ajustar el gasto mensual de ${service.name}`}
+            aria-label={tr("Ajustar el gasto mensual de {name}", { name: service.name })}
             className="mt-3 w-full accent-[#4D869C] dark:accent-[#A7D129]"
           />
 
@@ -234,24 +234,17 @@ export default function ServiceSimulationCard({
               ))}
             </div>
 
-            <p className="text-xs font-semibold text-[#4D869C] dark:text-[#A7D129]">
-              Ahorrás {formatSimulationMoney(saving, currency)}/mes
-            </p>
+            <p className="text-xs font-semibold text-[#4D869C] dark:text-[#A7D129]">{" "}{tr("Ahorrás")}{" "}{formatSimulationMoney(saving, currency)}{tr("/mes")}{" "}</p>
           </div>
         </div>
       )}
 
       {!adjusting && saving > 0 && (
-        <p className="mt-3 text-xs font-semibold text-[#4D869C] dark:text-[#A7D129]">
-          Ahorrás {formatSimulationMoney(saving, currency)} por mes.
-        </p>
+        <p className="mt-3 text-xs font-semibold text-[#4D869C] dark:text-[#A7D129]">{" "}{tr("Ahorrás")}{" "}{formatSimulationMoney(saving, currency)}{" "}{tr("por mes.")}{" "}</p>
       )}
 
       {!adjusting && saving === 0 && !canSimulate && (
-        <p className="mt-3 text-xs text-slate-400 dark:text-gray-500">
-          Este servicio todavía no tiene facturas ni precio cargado, así que no
-          afecta la simulación.
-        </p>
+        <p className="mt-3 text-xs text-slate-400 dark:text-gray-500">{" "}{tr("Este servicio todavía no tiene facturas ni precio cargado, así que no afecta la simulación.")}{" "}</p>
       )}
     </motion.article>
   );

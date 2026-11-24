@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import type { StatCardProps } from "../../types/analysisComponents";
+import { tr } from "../../i18n/translate";
 
 export default function StatCard({
   title,
@@ -57,8 +58,7 @@ export default function StatCard({
           }`}
         >
           {unchanged ? "→" : increased ? "↑" : "↓"}{" "}
-          {Math.abs(trend as number).toFixed(1)}% vs. mes anterior
-        </div>
+          {Math.abs(trend as number).toFixed(1)}{tr("% vs. mes anterior")}{" "}</div>
       )}
     </motion.div>
   );

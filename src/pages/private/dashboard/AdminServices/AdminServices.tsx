@@ -31,6 +31,7 @@ import { serviceCategories as baseCategories } from "../../../../data/serviceCat
 import { dateFormat } from "../../../../utils/billingFormat";
 import { errorMessage } from "../../../../services/apiError";
 import TogglePanelButton from "./TogglePanelButton";
+import { tr } from "../../../../i18n/translate";
 type PanelKind = "add-service" | "manager" | "upload";
 export default function AdminServices() {
   const [panel, setPanel] = useState<PanelKind | null>(null);
@@ -95,7 +96,7 @@ export default function AdminServices() {
         description:
           stored?.description ??
           known?.description ??
-          "Categoría personalizada",
+          tr("Categoría personalizada"),
         icon: known?.icon ?? Folder,
         invoiceCount: invoices.filter((invoice) => invoice.category === name)
           .length,
@@ -119,18 +120,11 @@ export default function AdminServices() {
         className="mx-auto max-w-7xl"
       >
         <header className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider opacity-60">
-            Gestión de servicios
-          </p>
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider opacity-60">{" "}{tr("Gestión de servicios")}{" "}</p>
 
-          <h1 className="text-3xl font-bold md:text-4xl">
-            Administrar Servicios
-          </h1>
+          <h1 className="text-3xl font-bold md:text-4xl">{" "}{tr("Administrar Servicios")}{" "}</h1>
 
-          <p className="mt-3 max-w-2xl text-sm opacity-70 md:text-base">
-            Sumá proveedores, organizá tus comprobantes o cargá una factura a
-            mano. Todo lo que detecta el escaneo cae acá.
-          </p>
+          <p className="mt-3 max-w-2xl text-sm opacity-70 md:text-base">{" "}{tr("Sumá proveedores, organizá tus comprobantes o cargá una factura a mano. Todo lo que detecta el escaneo cae acá.")}{" "}</p>
         </header>
 
         {error && (
@@ -142,12 +136,8 @@ export default function AdminServices() {
 
         <section>
           <div className="mb-5">
-            <h2 className="text-xl font-bold md:text-2xl">
-              ¿Qué querés hacer?
-            </h2>
-            <p className="mt-1 text-sm opacity-70">
-              Elegí una opción para abrirla acá abajo.
-            </p>
+            <h2 className="text-xl font-bold md:text-2xl">{" "}{tr("¿Qué querés hacer?")}{" "}</h2>
+            <p className="mt-1 text-sm opacity-70">{" "}{tr("Elegí una opción para abrirla acá abajo.")}{" "}</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -163,12 +153,12 @@ export default function AdminServices() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold">Agregar servicio</h3>
+                    <h3 className="font-bold">{tr("Agregar servicio")}</h3>
                     <p className="mt-1 text-xs opacity-65">
                       {sources.length}{" "}
                       {sources.length === 1
-                        ? "servicio propio"
-                        : "servicios propios"}
+                        ? tr("servicio propio")
+                        : tr("servicios propios")}
                     </p>
                   </div>
                 </div>
@@ -181,14 +171,11 @@ export default function AdminServices() {
                 />
               </div>
 
-              <p className="mt-4 text-sm opacity-70">
-                Sumá un proveedor por su mail o palabras clave para que el
-                escaneo empiece a detectarlo.
-              </p>
+              <p className="mt-4 text-sm opacity-70">{" "}{tr("Sumá un proveedor por su mail o palabras clave para que el escaneo empiece a detectarlo.")}{" "}</p>
 
               <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
-                <p className="text-xs opacity-65">Detección</p>
-                <p className="mt-1 font-bold">Mail o palabras clave</p>
+                <p className="text-xs opacity-65">{tr("Detección")}</p>
+                <p className="mt-1 font-bold">{tr("Mail o palabras clave")}</p>
               </div>
             </TogglePanelButton>
 
@@ -200,7 +187,7 @@ export default function AdminServices() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold">Administrar comprobantes</h3>
+                    <h3 className="font-bold">{tr("Administrar comprobantes")}</h3>
                     <p className="mt-1 text-xs opacity-65">
                       {loading ? (
                         <Loader2 size={14} className="animate-spin" />
@@ -208,8 +195,8 @@ export default function AdminServices() {
                         <>
                           {invoices.length}{" "}
                           {invoices.length === 1
-                            ? "comprobante"
-                            : "comprobantes"}
+                            ? tr("comprobante")
+                            : tr("comprobantes")}
                         </>
                       )}
                     </p>
@@ -224,13 +211,10 @@ export default function AdminServices() {
                 />
               </div>
 
-              <p className="mt-4 text-sm opacity-70">
-                Mové cada comprobante de categoría, abrí el mail original o
-                eliminalo del listado.
-              </p>
+              <p className="mt-4 text-sm opacity-70">{" "}{tr("Mové cada comprobante de categoría, abrí el mail original o eliminalo del listado.")}{" "}</p>
 
               <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
-                <p className="text-xs opacity-65">Sin importe</p>
+                <p className="text-xs opacity-65">{tr("Sin importe")}</p>
                 <p className="mt-1 font-bold">{withoutAmount}</p>
               </div>
             </TogglePanelButton>
@@ -243,8 +227,8 @@ export default function AdminServices() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold">Cargar factura</h3>
-                    <p className="mt-1 text-xs opacity-65">PDF o imagen</p>
+                    <h3 className="font-bold">{tr("Cargar factura")}</h3>
+                    <p className="mt-1 text-xs opacity-65">{tr("PDF o imagen")}</p>
                   </div>
                 </div>
 
@@ -256,13 +240,10 @@ export default function AdminServices() {
                 />
               </div>
 
-              <p className="mt-4 text-sm opacity-70">
-                Subí un comprobante, elegí a qué servicio pertenece y la app lee
-                importe, fechas y número.
-              </p>
+              <p className="mt-4 text-sm opacity-70">{" "}{tr("Subí un comprobante, elegí a qué servicio pertenece y la app lee importe, fechas y número.")}{" "}</p>
 
               <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
-                <p className="text-xs opacity-65">Última carga</p>
+                <p className="text-xs opacity-65">{tr("Última carga")}</p>
                 <p className="mt-1 font-bold">
                   {lastManual ? dateFormat(lastManual.issueDate) : "—"}
                 </p>
@@ -279,9 +260,7 @@ export default function AdminServices() {
                 onClick={() => setPanel(null)}
                 className="inline-flex items-center gap-1.5 rounded-xl border border-[#CDE8E5] bg-white px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-[#EEF7FF] dark:border-[#616F39] dark:bg-[#3E432E] dark:hover:bg-[#484D35]"
               >
-                <X size={14} />
-                Cerrar panel
-              </button>
+                <X size={14} />{" "}{tr("Cerrar panel")}{" "}</button>
             </div>
           )}
 
@@ -312,14 +291,8 @@ export default function AdminServices() {
         <div className="mt-8 flex items-start gap-3 rounded-2xl border border-[#CDE8E5] bg-white p-5 dark:border-[#616F39] dark:bg-[#3E432E]">
           <FileText size={21} className="mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold">Cómo se organiza todo</p>
-            <p className="mt-1 text-sm opacity-70">
-              Los servicios propios se suman al escaneo de Gmail. Los
-              comprobantes se guardan con la categoría del servicio, y podés
-              moverlos a otra cuando haga falta (el remitente se recuerda para
-              los próximos). La carga manual lee el archivo al instante: no se
-              guarda, solo los datos extraídos.
-            </p>
+            <p className="font-semibold">{tr("Cómo se organiza todo")}</p>
+            <p className="mt-1 text-sm opacity-70">{" "}{tr("Los servicios propios se suman al escaneo de Gmail. Los comprobantes se guardan con la categoría del servicio, y podés moverlos a otra cuando haga falta (el remitente se recuerda para los próximos). La carga manual lee el archivo al instante: no se guarda, solo los datos extraídos.")}{" "}</p>
           </div>
         </div>
       </motion.div>

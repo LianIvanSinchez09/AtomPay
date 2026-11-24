@@ -47,6 +47,7 @@ import type {
   SimulationDraftMap,
   SimulationMode,
 } from "../../../types/simulatorComponents";
+import { tr } from "../../../i18n/translate";
 
 /**
  * Simulador de escenarios de gastos.
@@ -357,7 +358,7 @@ export default function Simulator() {
   const handleDelete = async (value: SavedSimulation) => {
     if (
       !window.confirm(
-        `¿Eliminar el escenario "${value.name}"? Esta acción no se puede deshacer.`
+        tr("¿Eliminar el escenario \"{name}\"? Esta acción no se puede deshacer.", { name: value.name })
       )
     ) {
       return;
@@ -379,11 +380,8 @@ export default function Simulator() {
   const hasSavings = (simulation?.monthlyDifference ?? 0) > 0;
   const defaultName =
     hasSavings && simulation
-      ? `Ahorro de ${formatSimulationMoney(
-          simulation.monthlyDifference,
-          simulation.currency
-        )}`
-      : "Mi escenario";
+      ? tr("Ahorro de {amount}", { amount: formatSimulationMoney(simulation.monthlyDifference, simulation.currency) })
+      : tr("Mi escenario");
 
   return (
     <main className="min-h-screen bg-[#EEF7FF] px-4 py-6 dark:bg-black md:px-8 lg:px-10">
@@ -394,18 +392,11 @@ export default function Simulator() {
               to="/dashboard/analysis"
               className="mb-2 inline-flex items-center gap-1 text-xs font-semibold text-slate-500 transition hover:text-[#4D869C] dark:text-gray-400 dark:hover:text-[#A7D129]"
             >
-              <ArrowLeft size={13} />
-              Volver al análisis
-            </Link>
+              <ArrowLeft size={13} />{" "}{tr("Volver al análisis")}{" "}</Link>
 
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-              Simulador de gastos
-            </h1>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{" "}{tr("Simulador de gastos")}{" "}</h1>
 
-            <p className="mt-1 max-w-2xl text-sm text-slate-500 dark:text-gray-400">
-              Probá cancelar o achicar servicios y mirá el impacto antes de
-              decidir. No se modifica ninguna factura ni servicio real.
-            </p>
+            <p className="mt-1 max-w-2xl text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Probá cancelar o achicar servicios y mirá el impacto antes de decidir. No se modifica ninguna factura ni servicio real.")}{" "}</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -413,15 +404,13 @@ export default function Simulator() {
               type="button"
               onClick={() => void load(true)}
               disabled={refreshing}
-              title="Actualizar datos"
+              title={tr("Actualizar datos")}
               className="flex items-center gap-1.5 rounded-xl border border-[#CDE8E5] bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#F7FCFF] disabled:opacity-40 dark:border-[#616F39] dark:bg-black dark:text-gray-300 dark:hover:bg-[#3E432E]"
             >
               <RefreshCw
                 size={15}
                 className={refreshing ? "animate-spin" : ""}
-              />
-              Actualizar
-            </button>
+              />{" "}{tr("Actualizar")}{" "}</button>
 
             <button
               type="button"
@@ -432,14 +421,12 @@ export default function Simulator() {
               disabled={!hasSavings || changedCount === 0}
               title={
                 hasSavings
-                  ? "Guardar este escenario"
-                  : "Ajustá algún servicio para guardar el escenario"
+                  ? tr("Guardar este escenario")
+                  : tr("Ajustá algún servicio para guardar el escenario")
               }
               className="flex items-center gap-1.5 rounded-xl bg-[#4D869C] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#3d6f83] disabled:cursor-not-allowed disabled:opacity-40 dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
             >
-              <Save size={15} />
-              Guardar escenario
-            </button>
+              <Save size={15} />{" "}{tr("Guardar escenario")}{" "}</button>
           </div>
         </header>
 
@@ -452,9 +439,7 @@ export default function Simulator() {
               type="button"
               onClick={() => void load(true)}
               className="font-semibold underline-offset-2 hover:underline"
-            >
-              Reintentar
-            </button>
+            >{" "}{tr("Reintentar")}{" "}</button>
           </div>
         )}
 
@@ -465,9 +450,7 @@ export default function Simulator() {
               className="animate-spin text-[#4D869C] dark:text-[#A7D129]"
             />
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Preparando tus servicios...
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Preparando tus servicios...")}{" "}</p>
           </div>
         )}
 
@@ -478,21 +461,14 @@ export default function Simulator() {
               className="text-[#4D869C] dark:text-[#A7D129]"
             />
 
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-              No pudimos cargar tus servicios
-            </h2>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("No pudimos cargar tus servicios")}{" "}</h2>
 
-            <p className="max-w-md text-sm text-slate-500 dark:text-gray-400">
-              Cargá o conectá comprobantes para que el simulador estime tu gasto
-              mensual.
-            </p>
+            <p className="max-w-md text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Cargá o conectá comprobantes para que el simulador estime tu gasto mensual.")}{" "}</p>
 
             <Link
               to="/dashboard/billing"
               className="rounded-xl bg-[#4D869C] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#3d6f83] dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
-            >
-              Ir a facturación
-            </Link>
+            >{" "}{tr("Ir a facturación")}{" "}</Link>
           </div>
         )}
 
@@ -520,18 +496,13 @@ export default function Simulator() {
             {highlightServiceId && (
               <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#4D869C]/40 bg-[#EEF7FF] px-4 py-3 text-sm dark:border-[#A7D129]/30 dark:bg-[#3E432E]">
                 <p className="flex items-center gap-2 text-[#2f6477] dark:text-[#A7D129]">
-                  <Sparkles size={16} />
-                  Servicio precargado desde el análisis. Revisá el recorte antes
-                  de guardar.
-                </p>
+                  <Sparkles size={16} />{" "}{tr("Servicio precargado desde el análisis. Revisá el recorte antes de guardar.")}{" "}</p>
 
                 <button
                   type="button"
                   onClick={clearPreselect}
                   className="text-xs font-semibold text-[#4D869C] underline-offset-2 hover:underline dark:text-[#A7D129]"
-                >
-                  Quitar selección
-                </button>
+                >{" "}{tr("Quitar selección")}{" "}</button>
               </div>
             )}
 
@@ -546,9 +517,7 @@ export default function Simulator() {
                     : "border border-[#CDE8E5] bg-white text-slate-600 hover:border-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300"
                 }`}
               >
-                <SlidersHorizontal size={15} />
-                Ajuste manual
-                {changedCount > 0 && (
+                <SlidersHorizontal size={15} />{" "}{tr("Ajuste manual")}{" "}{changedCount > 0 && (
                   <span className="rounded-full bg-white/20 px-1.5 text-[11px] dark:bg-black/20">
                     {changedCount}
                   </span>
@@ -565,9 +534,7 @@ export default function Simulator() {
                     : "border border-[#CDE8E5] bg-white text-slate-600 hover:border-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300"
                 }`}
               >
-                <Target size={15} />
-                Meta de ahorro
-              </button>
+                <Target size={15} />{" "}{tr("Meta de ahorro")}{" "}</button>
             </div>
 
             <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -589,15 +556,9 @@ export default function Simulator() {
                       />
                     </div>
 
-                    <h2 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">
-                      Quiero ahorrar X por mes
-                    </h2>
+                    <h2 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">{" "}{tr("Quiero ahorrar X por mes")}{" "}</h2>
 
-                    <p className="mt-1 max-w-xl text-sm text-slate-500 dark:text-gray-400">
-                      Analizamos tus servicios flexibles (streaming,
-                      suscripciones, compras) y armamos la combinación más
-                      eficiente para llegar a la meta.
-                    </p>
+                    <p className="mt-1 max-w-xl text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Analizamos tus servicios flexibles (streaming, suscripciones, compras) y armamos la combinación más eficiente para llegar a la meta.")}{" "}</p>
 
                     <button
                       type="button"
@@ -607,16 +568,12 @@ export default function Simulator() {
                       }}
                       className="mt-4 flex items-center gap-1.5 rounded-xl bg-[#4D869C] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#3d6f83] dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
                     >
-                      <Calculator size={15} />
-                      Definir meta de ahorro
-                    </button>
+                      <Calculator size={15} />{" "}{tr("Definir meta de ahorro")}{" "}</button>
 
                     {goalSuggestion && (
                       <div className="mt-5 rounded-xl border border-[#CDE8E5] bg-[#F7FCFF] p-4 dark:border-[#616F39] dark:bg-[#3E432E]/40">
                         <p className="flex items-center gap-1.5 text-sm font-semibold text-[#4D869C] dark:text-[#A7D129]">
-                          <CheckCircle2 size={15} />
-                          Última propuesta
-                        </p>
+                          <CheckCircle2 size={15} />{" "}{tr("Última propuesta")}{" "}</p>
 
                         <p className="mt-1 text-sm text-slate-600 dark:text-gray-300">
                           {goalSuggestion.message}
@@ -627,25 +584,21 @@ export default function Simulator() {
                             type="button"
                             onClick={() => setGoalOpen(true)}
                             className="rounded-lg border border-[#CDE8E5] bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-[#4D869C] dark:border-[#616F39] dark:bg-black dark:text-gray-300"
-                          >
-                            Ver propuesta
-                          </button>
+                          >{" "}{tr("Ver propuesta")}{" "}</button>
 
                           <button
                             type="button"
                             onClick={applyGoal}
                             className="rounded-lg bg-[#4D869C] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#3d6f83] dark:bg-[#A7D129] dark:text-black dark:hover:bg-[#8fb320]"
-                          >
-                            Aplicar al simulador
-                          </button>
+                          >{" "}{tr("Aplicar al simulador")}{" "}</button>
                         </div>
                       </div>
                     )}
 
                     <ul className="mt-5 space-y-1.5 text-xs text-slate-500 dark:text-gray-400">
-                      <li>• Los servicios esenciales quedan afuera por defecto.</li>
-                      <li>• El plan se puede revisar y ajustar antes de guardar.</li>
-                      <li>• Podés compararlo con otros escenarios guardados.</li>
+                      <li>{tr("• Los servicios esenciales quedan afuera por defecto.")}</li>
+                      <li>{tr("• El plan se puede revisar y ajustar antes de guardar.")}</li>
+                      <li>{tr("• Podés compararlo con otros escenarios guardados.")}</li>
                     </ul>
                   </section>
                 )}
@@ -662,32 +615,19 @@ export default function Simulator() {
                 />
 
                 <section className="rounded-2xl border border-[#CDE8E5] bg-white p-4 text-xs text-slate-500 shadow-sm dark:border-[#3E432E] dark:bg-black dark:text-gray-400">
-                  <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                    Cómo se calcula
-                  </h2>
+                  <h2 className="text-sm font-bold text-slate-900 dark:text-white">{" "}{tr("Cómo se calcula")}{" "}</h2>
 
                   <ul className="mt-2 space-y-1.5">
-                    <li>
-                      • Gasto mensual: promedio de las últimas facturas de cada
-                      servicio (o su precio cargado).
-                    </li>
-                    <li>
-                      • Proyección: el ahorro mensual se multiplica por los
-                      meses que elegís (1 a 120).
-                    </li>
-                    <li>
-                      • Impacto en AtomScore: estimación sobre estabilidad y
-                      diversificación (máximo 10 puntos).
-                    </li>
+                    <li>{" "}{tr("• Gasto mensual: promedio de las últimas facturas de cada servicio (o su precio cargado).")}{" "}</li>
+                    <li>{" "}{tr("• Proyección: el ahorro mensual se multiplica por los meses que elegís (1 a 120).")}{" "}</li>
+                    <li>{" "}{tr("• Impacto en AtomScore: estimación sobre estabilidad y diversificación (máximo 10 puntos).")}{" "}</li>
                   </ul>
                 </section>
               </aside>
             </div>
 
-            <p className="mt-6 text-center text-xs text-slate-400 dark:text-gray-500">
-              Simulación estimada con tus datos actuales · Moneda:{" "}
-              {base.currency} · Proyección: {horizonMonths} mes
-              {horizonMonths === 1 ? "" : "es"}.
+            <p className="mt-6 text-center text-xs text-slate-400 dark:text-gray-500">{" "}{tr("Simulación estimada con tus datos actuales · Moneda:")}{" "}
+              {base.currency}{" "}{tr("· Proyección:")}{" "}{tr("· Proyección: {months} {label}.", { months: horizonMonths, label: horizonMonths === 1 ? tr("mes") : tr("meses") })}
             </p>
           </>
         )}

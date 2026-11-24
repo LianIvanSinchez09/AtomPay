@@ -20,6 +20,7 @@ import {
 import { dateFormat, moneyFormat } from "../../utils/billingFormat";
 import { errorMessage } from "../../services/apiError";
 import type { ManualInvoicePanel } from "../../types/types";
+import { tr } from "../../i18n/translate";
 
 const MAX_MB = 10;
 const NEW_SERVICE = "__new";
@@ -81,7 +82,7 @@ export default function ManualInvoicePanel({
     setError(null);
 
     if (!file) {
-      setError("Elegí un PDF o una foto del comprobante.");
+      setError(tr("Elegí un PDF o una foto del comprobante."));
       return;
     }
 
@@ -91,12 +92,12 @@ export default function ManualInvoicePanel({
     }
 
     if (!serviceChoice) {
-      setError("Elegí a qué servicio pertenece el comprobante.");
+      setError(tr("Elegí a qué servicio pertenece el comprobante."));
       return;
     }
 
     if (creating && !newName.trim()) {
-      setError("Poné el nombre del servicio nuevo.");
+      setError(tr("Poné el nombre del servicio nuevo."));
       return;
     }
 
@@ -134,13 +135,8 @@ export default function ManualInvoicePanel({
       className="mt-8 overflow-hidden rounded-2xl border border-[#CDE8E5] bg-white shadow-sm dark:border-[#ffffff] dark:bg-[#3E432E]"
     >
       <div className="border-b border-[#CDE8E5] p-5 dark:border-[#616F39] md:p-6">
-        <h2 className="text-xl font-bold">Cargar factura manualmente</h2>
-        <p className="mt-1 text-sm opacity-70">
-          Subí el PDF o una foto del comprobante, elegí a qué servicio
-          pertenece y lo leemos con OCR. El archivo se procesa al
-          instante y <strong>no se guarda</strong>: solo quedan los
-          datos extraídos.
-        </p>
+        <h2 className="text-xl font-bold">{tr("Cargar factura manualmente")}</h2>
+        <p className="mt-1 text-sm opacity-70">{" "}{tr("Subí el PDF o una foto del comprobante, elegí a qué servicio pertenece y lo leemos con OCR. El archivo se procesa al instante y")}{" "}<strong>{tr("no se guarda")}</strong>{tr(": solo quedan los datos extraídos.")}{" "}</p>
       </div>
 
       {error && (
@@ -151,8 +147,7 @@ export default function ManualInvoicePanel({
       )}
 
       <form onSubmit={handleSubmit} className="p-5 md:p-6">
-        <label className={labelClass}>
-          Comprobante (PDF, JPG, PNG o WEBP · hasta {MAX_MB} MB)
+        <label className={labelClass}>{" "}{tr("Comprobante (PDF, JPG, PNG o WEBP · hasta")}{" "}{MAX_MB} MB)
           <input
             type="file"
             accept="application/pdf,image/jpeg,image/png,image/webp"
@@ -167,9 +162,7 @@ export default function ManualInvoicePanel({
         </label>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <label className={labelClass}>
-            Servicio al que pertenece
-            <select
+          <label className={labelClass}>{" "}{tr("Servicio al que pertenece")}{" "}<select
               value={serviceChoice}
               onChange={(event) => {
                 setServiceChoice(event.target.value);
@@ -179,12 +172,10 @@ export default function ManualInvoicePanel({
               required
               className={inputClass}
             >
-              <option value="" disabled>
-                Elegí un servicio
-              </option>
+              <option value="" disabled>{" "}{tr("Elegí un servicio")}{" "}</option>
 
               {Object.entries(grouped).map(([category, list]) => (                
-                <optgroup key={category} label={category}>
+                <optgroup key={category} label={tr(category)}>
                   {list.map((service) => (
                     <option key={service.id} value={service.id}>
                       {service.name}
@@ -196,24 +187,17 @@ export default function ManualInvoicePanel({
                 </optgroup>
               ))}
 
-              <option value={NEW_SERVICE}>
-                Otro servicio (crear nuevo)…
-              </option>
+              <option value={NEW_SERVICE}>{" "}{tr("Otro servicio (crear nuevo)…")}{" "}</option>
             </select>
 
             {servicesError && (
-              <span className="mt-2 block text-xs font-normal text-red-600 dark:text-red-400">
-                No pudimos cargar la lista de servicios. Podés crear
-                uno nuevo igual.
-              </span>
+              <span className="mt-2 block text-xs font-normal text-red-600 dark:text-red-400">{" "}{tr("No pudimos cargar la lista de servicios. Podés crear uno nuevo igual.")}{" "}</span>
             )}
           </label>
 
           {creating && (
             <div className="grid gap-4 sm:grid-cols-2">
-              <label className={labelClass}>
-                Nombre del servicio nuevo
-                <input
+              <label className={labelClass}>{" "}{tr("Nombre del servicio nuevo")}{" "}<input
                   value={newName}
                   onChange={(event) => setNewName(event.target.value)}
                   placeholder="Edenor"
@@ -224,9 +208,7 @@ export default function ManualInvoicePanel({
                 />
               </label>
 
-              <label className={labelClass}>
-                Categoría
-                <select
+              <label className={labelClass}>{" "}{tr("Categoría")}{" "}<select
                   value={newCategory}
                   onChange={(event) =>
                     setNewCategory(event.target.value)
@@ -261,13 +243,13 @@ export default function ManualInvoicePanel({
             ) : (
               <Upload size={16} />
             )}
-            {busy ? "Leyendo…" : "Leer comprobante"}
+            {busy ? tr("Leyendo…") : tr("Leer comprobante")}
           </button>
 
           <p className="text-xs opacity-60">
             {busy
-              ? "Estamos leyendo el archivo. Puede tardar unos segundos."
-              : "El importe y las fechas los lee la app: no se editan a mano."}
+              ? tr("Estamos leyendo el archivo. Puede tardar unos segundos.")
+              : tr("El importe y las fechas los lee la app: no se editan a mano.")}
           </p>
         </div>
       </form>
@@ -277,43 +259,40 @@ export default function ManualInvoicePanel({
           <div className="flex items-start gap-2">
             <CheckCircle size={18} className="mt-0.5 shrink-0" />
             <div>
-              <p className="font-semibold">Comprobante cargado</p>
-              <p className="mt-1 text-sm opacity-70">
-                Los datos quedaron guardados en el servicio elegido.
-                El archivo no se guardó.
-              </p>
+              <p className="font-semibold">{tr("Comprobante cargado")}</p>
+              <p className="mt-1 text-sm opacity-70">{" "}{tr("Los datos quedaron guardados en el servicio elegido. El archivo no se guardó.")}{" "}</p>
             </div>
           </div>
 
           <div className="mt-4 grid gap-4 rounded-xl bg-[#EEF7FF] p-4 text-sm dark:bg-black/20 sm:grid-cols-2 lg:grid-cols-3">
             <div>
-              <p className="opacity-60">Servicio</p>
+              <p className="opacity-60">{tr("Servicio")}</p>
               <p className="mt-1 font-medium">{result.service}</p>
             </div>
 
             <div>
-              <p className="opacity-60">Categoría</p>
-              <p className="mt-1 font-medium">{result.category}</p>
+              <p className="opacity-60">{tr("Categoría")}</p>
+              <p className="mt-1 font-medium">{tr(result.category)}</p>
             </div>
 
             <div>
-              <p className="opacity-60">Importe</p>
+              <p className="opacity-60">{tr("Importe")}</p>
               <p className="mt-1 font-medium">
                 {result.amount > 0
                   ? moneyFormat(result.amount, result.currency)
-                  : "Sin importe"}
+                  : tr("Sin importe")}
               </p>
             </div>
 
             <div>
-              <p className="opacity-60">Fecha de emisión</p>
+              <p className="opacity-60">{tr("Fecha de emisión")}</p>
               <p className="mt-1 font-medium">
                 {dateFormat(result.issueDate)}
               </p>
             </div>
 
             <div>
-              <p className="opacity-60">Vencimiento</p>
+              <p className="opacity-60">{tr("Vencimiento")}</p>
               <p className="mt-1 font-medium">
                 {result.dueDate
                   ? dateFormat(result.dueDate)
@@ -322,7 +301,7 @@ export default function ManualInvoicePanel({
             </div>
 
             <div>
-              <p className="opacity-60">N° de comprobante</p>
+              <p className="opacity-60">{tr("N° de comprobante")}</p>
               <p className="mt-1 break-all font-medium">
                 {result.invoiceNumber ?? "—"}
               </p>
@@ -331,11 +310,7 @@ export default function ManualInvoicePanel({
 
           {result.requiresReview && (
             <p className="mt-3 flex items-start gap-2 text-xs opacity-70">
-              <FileText size={14} className="mt-0.5 shrink-0" />
-              No pudimos leer el importe con seguridad, así que quedó
-              como "Sin importe". Podés moverlo de categoría desde
-              Administrar comprobantes.
-            </p>
+              <FileText size={14} className="mt-0.5 shrink-0" />{" "}{tr("No pudimos leer el importe con seguridad, así que quedó como \"Sin importe\". Podés moverlo de categoría desde Administrar comprobantes.")}{" "}</p>
           )}
         </div>
       )}
