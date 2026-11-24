@@ -15,6 +15,7 @@ import {
   formatMoney,
   formatNumber,
 } from "./analysisMeta";
+import { tr } from "../../i18n/translate";
 
 /**
  * Compara el importe facturado (barras) con el consumo físico (línea) de los
@@ -32,21 +33,15 @@ export default function ServiceHistoryChart({
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="font-semibold text-slate-900 dark:text-white">
-          Últimos 6 meses
-        </h3>
+        <h3 className="font-semibold text-slate-900 dark:text-white">{" "}{tr("Últimos 6 meses")}{" "}</h3>
 
         <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-gray-400">
           <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-sm bg-[#7AB2B2]" />
-            Importe
-          </span>
+            <span className="h-2 w-2 rounded-sm bg-[#7AB2B2]" />{" "}{tr("Importe")}{" "}</span>
 
           {hasConsumption && (
             <span className="flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-[#A7D129]" />
-              Consumo
-            </span>
+              <span className="h-2 w-2 rounded-full bg-[#A7D129]" />{" "}{tr("Consumo")}{" "}</span>
           )}
         </div>
       </div>
@@ -87,11 +82,11 @@ export default function ServiceHistoryChart({
                     `${formatNumber(Number(value))} ${
                       trend.consumptionUnit ?? ""
                     }`,
-                    "Consumo",
+                    tr("Consumo"),
                   ];
                 }
 
-                return [formatMoney(Number(value), currency), "Importe"];
+                return [formatMoney(Number(value), currency), tr("Importe")];
               }}
             />
 

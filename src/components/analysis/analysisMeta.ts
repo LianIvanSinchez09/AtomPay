@@ -10,17 +10,18 @@ import type {
   SeverityBadgeMeta,
   TrendMeta,
 } from "../../types/analysisComponents";
+import { tr } from "../../i18n/translate";
 
 /** Etiquetas y estilos de cada estado de tendencia. */
 export const trendMeta: Record<ServiceTrend, TrendMeta> = {
   increasing: {
-    label: "En aumento",
+    label: tr("En aumento"),
     badge:
       "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300",
     dot: "bg-red-500",
   },
   decreasing: {
-    label: "En baja",
+    label: tr("En baja"),
     badge:
       "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300",
     dot: "bg-emerald-500",
@@ -32,13 +33,13 @@ export const trendMeta: Record<ServiceTrend, TrendMeta> = {
     dot: "bg-slate-400",
   },
   fluctuating: {
-    label: "Variable",
+    label: tr("Variable"),
     badge:
       "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
     dot: "bg-amber-500",
   },
   new: {
-    label: "Reciente",
+    label: tr("Reciente"),
     badge:
       "border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-900 dark:bg-sky-950 dark:text-sky-300",
     dot: "bg-sky-500",
@@ -46,11 +47,11 @@ export const trendMeta: Record<ServiceTrend, TrendMeta> = {
 };
 
 export const anomalyTypeLabel: Record<ServiceAnomalyType, string> = {
-  spike: "Pico inusual",
-  tariff_hike: "Aumento tarifario",
-  consumption_spike: "Pico de consumo",
-  consecutive_increase: "Tendencia alcista",
-  drop: "Ahorro",
+  spike: tr("Pico inusual"),
+  tariff_hike: tr("Aumento tarifario"),
+  consumption_spike: tr("Pico de consumo"),
+  consecutive_increase: tr("Tendencia alcista"),
+  drop: tr("Ahorro"),
 };
 
 export const anomalySeverityMeta: Record<
@@ -58,17 +59,17 @@ export const anomalySeverityMeta: Record<
   SeverityBadgeMeta
 > = {
   high: {
-    label: "Prioridad alta",
+    label: tr("Prioridad alta"),
     badge:
       "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300",
   },
   medium: {
-    label: "Atención",
+    label: tr("Atención"),
     badge:
       "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
   },
   low: {
-    label: "Optimización",
+    label: tr("Optimización"),
     badge:
       "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300",
   },
@@ -79,29 +80,29 @@ export const insightSeverityMeta: Record<
   SeverityBadgeMeta
 > = {
   critical: {
-    label: "Prioridad alta",
+    label: tr("Prioridad alta"),
     badge:
       "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300",
   },
   warning: {
-    label: "Atención",
+    label: tr("Atención"),
     badge:
       "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
   },
   info: {
-    label: "Informativa",
+    label: tr("Informativa"),
     badge:
       "border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-900 dark:bg-sky-950 dark:text-sky-300",
   },
 };
 
 export const insightKindLabel: Record<FinancialInsightKind, string> = {
-  tariff_hike: "Aumento tarifario",
-  consumption_spike: "Pico de consumo",
-  spike: "Pico inusual",
-  consecutive_increase: "Tendencia alcista",
-  savings: "Ahorro",
-  general: "General",
+  tariff_hike: tr("Aumento tarifario"),
+  consumption_spike: tr("Pico de consumo"),
+  spike: tr("Pico inusual"),
+  consecutive_increase: tr("Tendencia alcista"),
+  savings: tr("Ahorro"),
+  general: tr("General"),
 };
 
 /** Normaliza la severidad de insights viejos que no traen el campo. */

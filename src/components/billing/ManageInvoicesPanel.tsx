@@ -27,6 +27,7 @@ import FilterBy from "../Filters/FilterBy";
 import InvoiceContainer from "./InvoiceContainer";
 import { source } from "motion/react-client";
 import type { ManageinvoicesPanelProps } from "../../types/types";
+import { tr } from "../../i18n/translate";
 
 /**
  * Listado de comprobantes: cambiar de categoría, abrir el mail original o
@@ -76,8 +77,18 @@ export default function ManageinvoicesPanel({
 
       setFeedback(
         rule
-          ? `El comprobante de ${invoice.service} ahora está en ${category}. Los próximos de ${rule.sender} van a ir directo a ${category}.`
-          : `El comprobante de ${invoice.service} ahora está en ${category}.`,
+          ? tr(
+              "El comprobante de {service} ahora está en {category}. Los próximos de {sender} van a ir directo a {category}.",
+              {
+                service: invoice.service,
+                category,
+                sender: rule.sender,
+              },
+            )
+          : tr("El comprobante de {service} ahora está en {category}.", {
+              service: invoice.service,
+              category,
+            }),
       );
       await onChanged();
     } catch (requestError) {
@@ -95,9 +106,10 @@ export default function ManageinvoicesPanel({
       await deleteInvoice(invoice.id);
       setConfirmDeleteId(null);
       setFeedback(
-        `Se eliminó el comprobante de ${invoice.service} del ${dateFormat(
-          invoice.issueDate,
-        )}.`,
+        tr("Se eliminó el comprobante de {service} del {date}.", {
+          service: invoice.service,
+          date: dateFormat(invoice.issueDate),
+        }),
       );
       await onChanged();
     } catch (requestError) {
@@ -139,31 +151,25 @@ export default function ManageinvoicesPanel({
     >
       <div className="flex flex-col gap-5 justify-between border-b border-[#CDE8E5] p-5 dark:border-[#FFFF] md:flex-row md:items-center md:p-6">
         <div>
-          <p className="mt-1 text-sm opacity-70">
-            Cada comprobante está asociado a una categoría. Si quedó en la
-            equivocada, cambiala; si no querés verlo más, eliminalo.
-          </p>
-          <p className="mt-2 text-xs opacity-60">
-            Al cambiar la categoría se recuerda el remitente: los comprobantes
-            nuevos de esa dirección van a ir directo a la categoría que elijas.
-          </p>
+          <p className="mt-1 text-sm opacity-70">{" "}{tr("Cada comprobante está asociado a una categoría. Si quedó en la equivocada, cambiala; si no querés verlo más, eliminalo.")}{" "}</p>
+          <p className="mt-2 text-xs opacity-60">{" "}{tr("Al cambiar la categoría se recuerda el remitente: los comprobantes nuevos de esa dirección van a ir directo a la categoría que elijas.")}{" "}</p>
         </div>
       <div className="flex">
         <FilterBy
-          label="Filtrar por"
+          label={tr("Filtrar por")}
           icon={Settings2}
           items={invoices}
           services={services}
           setInvoiceState={setInvoiceState}
         />
         <SortBy
-          label="Ordenar por"
+          label={tr("Ordenar por")}
           icon={Settings2}
           items={invoiceState}
           setInvoiceState={setInvoiceState}
         />
         <input
-          placeholder="Buscar..."
+          placeholder={tr("Buscar...")}
           className="bg-[#181d1c] rounded-4xl p-2 w-full" 
           onChange={(e) => search(e.target.value)}
         />
@@ -171,14 +177,12 @@ export default function ManageinvoicesPanel({
         <div className="flex shrink-0 flex-wrap items-center gap-2 self-start md:self-auto">
           <span className="rounded-full bg-[#EEF7FF] px-3 py-1 text-xs font-semibold dark:bg-black/20">
             {invoiceState.length}{" "}
-            {invoiceState.length === 1 ? "comprobante" : "comprobantes"}
+            {invoiceState.length === 1 ? tr("comprobante") : tr("comprobantes")}
           </span>
 
           {invoiceState.filter((invoice) => invoice.amount <= 0).length > 0 && (
             <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
-              {invoiceState.filter((invoice) => invoice.amount <= 0).length} sin
-              importe
-            </span>
+              {invoiceState.filter((invoice) => invoice.amount <= 0).length}{" "}{tr("sin importe")}{" "}</span>
           )}
         </div>
       </div>
@@ -199,13 +203,8 @@ export default function ManageinvoicesPanel({
       {invoiceState.length === 0 ? (
         <div className="p-8 text-center">
           <FileText size={32} className="mx-auto mb-3 opacity-50" />
-          <p className="font-semibold">
-            Todavía no hay comprobantes para administrar.
-          </p>
-          <p className="mt-1 text-sm opacity-65">
-            Cuando se detecten, vas a poder moverlos de categoría o eliminarlos
-            desde acá.
-          </p>
+          <p className="font-semibold">{" "}{tr("Todavía no hay comprobantes para administrar.")}{" "}</p>
+          <p className="mt-1 text-sm opacity-65">{" "}{tr("Cuando se detecten, vas a poder moverlos de categoría o eliminarlos desde acá.")}{" "}</p>
         </div>
       ) : (
         <InvoiceContainer

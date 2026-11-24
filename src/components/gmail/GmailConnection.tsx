@@ -18,6 +18,7 @@ import {
   syncGmailAccount,
   type GmailAccount,
 } from "../../services/gmailService";
+import { getLocale, tr } from "../../i18n/translate";
 
 type Feedback = { ok: boolean; text: string };
 
@@ -31,14 +32,23 @@ type Feedback = { ok: boolean; text: string };
  */
 export default function GmailConnection({
   onScanned,
+  title = tr("Conexión con Gmail"),
+  description = tr("Conectá tu casilla para que AtomPay detecte automáticamente facturas y comprobantes con adjuntos."),
 }: {
   /** Se llama después de un escaneo exitoso, para recargar facturas. */
   onScanned?: () => void;
+  /** Título de la tarjeta (Ajustes lo traduce). */
+  title?: string;
+  /** Descripción de la tarjeta (Ajustes la traduce). */
+  description?: string;
 }) {
   const [accounts, setAccounts] = useState<GmailAccount[]>([]);
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(false);
   const [syncingId, setSyncingId] = useState<string | null>(null);
+  const [confirmDisconnectId, setConfirmDisconnectId] = useState<string | null>(
+    null
+  );
   const [feedback, setFeedback] = useState<Feedback | null>(null);
 
   const loadAccounts = useCallback(async () => {
@@ -69,12 +79,12 @@ export default function GmailConnection({
       setConnecting(false);
 
       if (data.ok) {
-        setFeedback({ ok: true, text: `Gmail conectado: ${data.email}` });
+        setFeedback({ ok: true, text: tr("Gmail conectado: {email}", { email: data.email }) });
         void loadAccounts();
       } else {
         setFeedback({
           ok: false,
-          text: data.message ?? "No se pudo conectar Gmail",
+          text: data.message ?? tr("No se pudo conectar Gmail"),
         });
       }
     }
@@ -98,13 +108,13 @@ export default function GmailConnection({
       setConnecting(false);
       setFeedback({
         ok: false,
-        text: "Permití las ventanas emergentes (popups) para conectar Gmail.",
+        text: tr("Permití las ventanas emergentes (popups) para conectar Gmail."),
       });
       return;
     }
 
     popup.document.write(
-      "<p style='font-family:system-ui;padding:2rem'>Conectando con Google…</p>"
+      `<p style='font-family:system-ui;padding:2rem'>${tr("Conectando con Google…")}</p>`
     );
 
     try {
@@ -125,9 +135,16 @@ export default function GmailConnection({
         const result = await syncGmailAccount(account.id);
         setFeedback({
           ok: true,
-          text: `Revisados ${result.queued} correos: ${result.created} nuevos, ${result.merged} duplicados, ${result.ignored} ignorados${
-            result.failed > 0 ? `, ${result.failed} con error` : ""
-          }.`,
+          text: tr("Revisados {queued} correos: {created} nuevos, {merged} duplicados, {ignored} ignorados{failed}.", {
+            queued: result.queued,
+            created: result.created,
+            merged: result.merged,
+            ignored: result.ignored,
+            failed:
+              result.failed > 0
+                ? tr(", {failed} con error", { failed: result.failed })
+                : "",
+          }),
         });
         await listGmailAccounts().then(setAccounts);
         onScanned?.();
@@ -146,7 +163,11 @@ export default function GmailConnection({
     try {
       await disconnectGmailAccount(account.id);
       setAccounts((current) => current.filter((item) => item.id !== account.id));
-      setFeedback({ ok: true, text: `Se desconectó ${account.email}` });
+      setConfirmDisconnectId(null);
+      setFeedback({
+        ok: true,
+        text: tr("Se desconectó {email}", { email: account.email }),
+      });
     } catch (error) {
       setFeedback({ ok: false, text: errorMessage(error) });
     }
@@ -164,11 +185,10 @@ export default function GmailConnection({
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h2 className="text-xl font-bold md:text-2xl">
-            Conexión con Gmail
+            {title}
           </h2>
           <p className="mt-1 max-w-2xl text-sm opacity-70">
-            Conectá tu casilla para que AtomPay detecte automáticamente
-            facturas y comprobantes con adjuntos.
+            {description}
           </p>
         </div>
 
@@ -189,9 +209,7 @@ export default function GmailConnection({
 
       {loading ? (
         <p className="mt-5 flex items-center gap-2 text-sm opacity-70">
-          <Loader2 size={16} className="animate-spin" />
-          Cargando casillas…
-        </p>
+          <Loader2 size={16} className="animate-spin" />{" "}{tr("Cargando casillas…")}{" "}</p>
       ) : accounts.length > 0 ? (
         <ul className="mt-5 divide-y divide-[#CDE8E5] dark:divide-[#616F39]">
           {accounts.map((account) => (
@@ -203,14 +221,16 @@ export default function GmailConnection({
                 <p className="font-semibold">{account.email}</p>
                 <p className="mt-1 text-xs opacity-65">
                   {account.status === "active"
-                    ? "Activa"
-                    : "Requiere reconectar"}
+                    ? tr("Activa")
+                    : tr("Requiere reconectar")}
                   {account.lastSyncAt
-                    ? ` · Última sincronización: ${new Intl.DateTimeFormat(
-                        "es-AR",
-                        { dateStyle: "short", timeStyle: "short" }
-                      ).format(new Date(account.lastSyncAt))}`
-                    : " · Todavía sin sincronizar"}
+                    ? tr(" · Última sincronización: {date}", {
+                        date: new Intl.DateTimeFormat(getLocale(), {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        }).format(new Date(account.lastSyncAt)),
+                      })
+                    : tr(" · Todavía sin sincronizar")}
                 </p>
               </div>
 
@@ -225,25 +245,38 @@ export default function GmailConnection({
                     size={15}
                     className={syncingId === account.id ? "animate-spin" : ""}
                   />
-                  {syncingId === account.id ? "Buscando…" : "Buscar facturas"}
+                  {syncingId === account.id ? "Buscando…" : tr("Buscar facturas")}
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => void disconnect(account)}
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#CDE8E5] px-4 py-2 text-sm font-semibold transition-colors hover:bg-red-50 hover:text-red-700 dark:border-[#616F39] dark:hover:bg-red-900/20"
-                >
-                  <Unplug size={15} />
-                  Desconectar
-                </button>
+                {confirmDisconnectId === account.id ? (
+                  <>
+                    <span className="self-center text-xs font-medium text-red-600 dark:text-red-400">{" "}{tr("¿Borrar los datos de esta casilla?")}{" "}</span>
+                    <button
+                      type="button"
+                      onClick={() => void disconnect(account)}
+                      className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+                    >
+                      <Unplug size={15} />{" "}{tr("Confirmar")}{" "}</button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDisconnectId(null)}
+                      className="rounded-xl px-4 py-2 text-sm font-semibold transition-colors hover:bg-[#F7FCFF] dark:hover:bg-[#484D35]"
+                    >{" "}{tr("Cancelar")}{" "}</button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDisconnectId(account.id)}
+                    className="inline-flex items-center gap-2 rounded-xl border border-[#CDE8E5] px-4 py-2 text-sm font-semibold transition-colors hover:bg-red-50 hover:text-red-700 dark:border-[#616F39] dark:hover:bg-red-900/20"
+                  >
+                    <Unplug size={15} />{" "}{tr("Desconectar")}{" "}</button>
+                )}
               </div>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="mt-5 text-sm opacity-70">
-          Todavía no hay ninguna casilla conectada.
-        </p>
+        <p className="mt-5 text-sm opacity-70">{" "}{tr("Todavía no hay ninguna casilla conectada.")}{" "}</p>
       )}
 
       {feedback && (

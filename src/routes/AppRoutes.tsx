@@ -14,6 +14,8 @@ import Simulator from "../pages/private/dashboard/Simulator";
 import Billing from "../pages/private/dashboard/Billing";
 import AdminServices from "../pages/private/dashboard/AdminServices/AdminServices.tsx";
 import Atomcito from "../pages/private/Atomcito.tsx";
+
+import Settings from "../pages/private/dashboard/Settings";
 import VerifyEmail from "../pages/private/VerifyEmail.tsx";
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
 
@@ -38,6 +40,7 @@ const AppRoutes = () => {
           <Route path="analysis" element={<Analysis />} />
           <Route path="simulator" element={<Simulator />} />
           <Route path="billing" element={<Billing />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="admin-services" element={<AdminServices />} />
           <Route path="admin-servicios/agregar" element={<AdminAddService />} />
           <Route

@@ -1,10 +1,5 @@
 allowBuilds:
-  cpu-features: set this to true or false
-  isolated-vm: set this to true or false
-  ssh2: set this to true or false
-  vue-demi: set this to true or false
-ignoredBuiltDependencies:
-  - cpu-features
-  - isolated-vm
-  - ssh2
-  - vue-demi
+  cpu-features: false
+  isolated-vm: false
+  ssh2: false
+  vue-demi: false

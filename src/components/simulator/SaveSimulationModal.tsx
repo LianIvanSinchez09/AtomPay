@@ -4,6 +4,7 @@ import { AlertCircle, Loader2, Save } from "lucide-react";
 import type { SaveSimulationModalProps } from "../../types/simulatorComponents";
 import ModalShell from "./ModalShell";
 import { formatSimulationMoney, formatSimulationPercent } from "./simulatorMeta";
+import { tr } from "../../i18n/translate";
 
 /**
  * Modal para ponerle nombre al escenario y guardarlo.
@@ -39,8 +40,8 @@ export default function SaveSimulationModal({
     <ModalShell
       open={open}
       onClose={onClose}
-      title="Guardar escenario"
-      description="Podés volver a cargarlo o compararlo con otros escenarios."
+      title={tr("Guardar escenario")}
+      description={tr("Podés volver a cargarlo o compararlo con otros escenarios.")}
       footer={
         <>
           <button
@@ -48,9 +49,7 @@ export default function SaveSimulationModal({
             onClick={onClose}
             disabled={saving}
             className="rounded-xl border border-[#CDE8E5] px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#F7FCFF] disabled:opacity-40 dark:border-[#616F39] dark:text-gray-300 dark:hover:bg-[#3E432E]"
-          >
-            Cancelar
-          </button>
+          >{" "}{tr("Cancelar")}{" "}</button>
 
           <button
             type="submit"
@@ -62,15 +61,13 @@ export default function SaveSimulationModal({
               <Loader2 size={15} className="animate-spin" />
             ) : (
               <Save size={15} />
-            )}
-            Guardar escenario
-          </button>
+            )}{" "}{tr("Guardar escenario")}{" "}</button>
         </>
       }
     >
       <div className="rounded-xl border border-[#CDE8E5] bg-[#F7FCFF] p-3 text-sm dark:border-[#616F39] dark:bg-[#3E432E]/40">
         <p className="font-semibold text-slate-800 dark:text-gray-100">
-          {changes} cambio{changes === 1 ? "" : "s"} · Ahorro mensual{" "}
+          {changes}{" "}{tr("cambio")}{changes === 1 ? "" : "s"}{" "}{tr("· Ahorro mensual")}{" "}
           <span className="text-[#4D869C] dark:text-[#A7D129]">
             {formatSimulationMoney(
               simulation.monthlyDifference,
@@ -80,10 +77,7 @@ export default function SaveSimulationModal({
         </p>
 
         <p className="text-xs text-slate-500 dark:text-gray-400">
-          {formatSimulationPercent(simulation.savingsPercent)} del gasto actual
-          · {formatSimulationMoney(simulation.yearlyDifference, simulation.currency)}{" "}
-          al año.
-        </p>
+          {formatSimulationPercent(simulation.savingsPercent)}{" "}{tr("del gasto actual ·")}{" "}{formatSimulationMoney(simulation.yearlyDifference, simulation.currency)}{" "}{" "}{tr("al año.")}{" "}</p>
       </div>
 
       <form
@@ -99,9 +93,7 @@ export default function SaveSimulationModal({
           <label
             htmlFor="simulation-name"
             className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400"
-          >
-            Nombre
-          </label>
+          >{" "}{tr("Nombre")}{" "}</label>
 
           <input
             id="simulation-name"
@@ -110,7 +102,7 @@ export default function SaveSimulationModal({
             maxLength={80}
             value={name}
             onChange={(event) => setName(event.target.value)}
-            placeholder="Plan austero, Sin streaming…"
+            placeholder={tr("Plan austero, Sin streaming…")}
             className="mt-1 w-full rounded-xl border border-[#CDE8E5] bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-[#4D869C] focus:ring-2 focus:ring-[#4D869C]/20 dark:border-[#616F39] dark:bg-[#3E432E] dark:text-white"
           />
         </div>
@@ -119,9 +111,7 @@ export default function SaveSimulationModal({
           <label
             htmlFor="simulation-description"
             className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400"
-          >
-            Descripción (opcional)
-          </label>
+          >{" "}{tr("Descripción (opcional)")}{" "}</label>
 
           <textarea
             id="simulation-description"
@@ -129,7 +119,7 @@ export default function SaveSimulationModal({
             maxLength={240}
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            placeholder="Qué incluiste y por qué"
+            placeholder={tr("Qué incluiste y por qué")}
             className="mt-1 w-full resize-none rounded-xl border border-[#CDE8E5] bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-[#4D869C] focus:ring-2 focus:ring-[#4D869C]/20 dark:border-[#616F39] dark:bg-[#3E432E] dark:text-white"
           />
         </div>

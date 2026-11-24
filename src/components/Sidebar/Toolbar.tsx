@@ -15,39 +15,52 @@ import Sidepanel from "../Sidepanel/Sidepanel";
 import NavGroup from "../Navgroup";
 import NavDropdown, { type NavDropdownChild } from "../NavDropdown.tsx";
 import { useAuth } from "../../context/AuthContext";
-import type { serviceItems } from "../../types/types";
+import { usePreferences } from "../../context/PreferencesContext";
+import type { serviceItems, ToolBarProps } from "../../types/types";
 import NotificationsButton from "../Notifications/NotificationsButton.tsx";
-import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavItem from "../NavItem/NavItem";
 
 const ADMIN_BASE = "/dashboard/admin-servicios";
 
-const serviceItems: serviceItems[] = [
-  { label: "Análisis", icon: BarChart3, path: "/dashboard/analysis" },
-  { label: "Simulador", icon: SlidersHorizontal, path: "/dashboard/simulator" },
-  { label: "Facturación", icon: Receipt, path: "/dashboard/billing" },
-];
-
-const adminServiceChildren: NavDropdownChild[] = [
-  { label: "Agregar servicio", icon: Building2, path: `${ADMIN_BASE}/agregar` },
-  {
-    label: "Administrar comprobantes",
-    icon: Settings2,
-    path: `${ADMIN_BASE}/comprobantes`,
-  },
-  { label: "Cargar factura", icon: Upload, path: `${ADMIN_BASE}/cargar` },
-];
-
-const serviceItemsSecondary: serviceItems[] = [
-  { label: "Atomcito", icon: Sparkles, path: "/dashboard/atomcito" },
-];
-
 export default function ToolBar({ collapsed }: ToolBarProps) {
   const { user, logout } = useAuth();
+  const { t } = usePreferences();
   const location = useLocation();
   const navigate = useNavigate();
   const SETTINGS_PATH = "/dashboard/settings";
+
+  const serviceItems: serviceItems[] = [
+    { label: t("nav.analysis"), icon: BarChart3, path: "/dashboard/analysis" },
+    {
+      label: t("nav.simulator"),
+      icon: SlidersHorizontal,
+      path: "/dashboard/simulator",
+    },
+    { label: t("nav.billing"), icon: Receipt, path: "/dashboard/billing" },
+  ];
+
+  const adminServiceChildren: NavDropdownChild[] = [
+    {
+      label: t("nav.addService"),
+      icon: Building2,
+      path: `${ADMIN_BASE}/agregar`,
+    },
+    {
+      label: t("nav.manageInvoices"),
+      icon: Settings2,
+      path: `${ADMIN_BASE}/comprobantes`,
+    },
+    {
+      label: t("nav.uploadInvoice"),
+      icon: Upload,
+      path: `${ADMIN_BASE}/cargar`,
+    },
+  ];
+
+  const serviceItemsSecondary: serviceItems[] = [
+    { label: t("nav.atomcito"), icon: Sparkles, path: "/dashboard/atomcito" },
+  ];
 
   return (
     <div className="flex h-screen shrink-0 self-start">
@@ -63,7 +76,7 @@ export default function ToolBar({ collapsed }: ToolBarProps) {
           </div>
 
           <NavItem
-            label="Ajustes"
+            label={t("nav.settings")}
             icon={Settings}
             flexCol={false}
             active={location.pathname === SETTINGS_PATH}
@@ -84,7 +97,7 @@ export default function ToolBar({ collapsed }: ToolBarProps) {
             />
 
             <NavDropdown
-              label="Administrar Servicios"
+              label={t("nav.adminServices")}
               icon={Settings2Icon}
               basePath={ADMIN_BASE}
               items={adminServiceChildren}
@@ -116,7 +129,7 @@ export default function ToolBar({ collapsed }: ToolBarProps) {
 
                 <button
                   onClick={logout}
-                  title="Cerrar sesión"
+                  title={t("nav.logout")}
                   className="shrink-0 rounded-lg p-2 text-red-500 transition-colors hover:bg-red-100/50 dark:hover:bg-red-950/30"
                 >
                   <LogOut className="h-5 w-5" />

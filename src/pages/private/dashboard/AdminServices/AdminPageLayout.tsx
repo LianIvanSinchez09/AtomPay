@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { AlertCircle, Loader2 } from "lucide-react";
+import { tr } from "../../../../i18n/translate";
 
 type Props = {
   title: string;
@@ -28,9 +29,7 @@ export default function AdminPageLayout({
         className="mx-auto max-w-7xl"
       >
         <header className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider opacity-60">
-            Administrar Servicios
-          </p>
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider opacity-60">{" "}{tr("Administrar Servicios")}{" "}</p>
 
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-3xl font-bold md:text-4xl">{title}</h1>

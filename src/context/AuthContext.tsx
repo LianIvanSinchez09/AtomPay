@@ -1,10 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
-
-// import { getNotifications } from "../services/notificationService";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { updateLogout } from "../services/userService";
 import type { User, AuthContextType, AuthProviderProps } from "../types/types";
-import { api } from "../services/api";
-import { updateNotifications } from "../services/notificationService";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -20,7 +16,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(JSON.parse(storedUser));
       } catch (error) {
         console.error("Error al parsear el usuario del localStorage:", error);
-
         localStorage.removeItem("user");
       }
     }
@@ -28,26 +23,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setLoading(false);
   }, []);
 
-  const login = (userData: User, token: string) => {
+  const login = useCallback((userData: User, token: string) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
-
     localStorage.setItem("token", token);
-  };
+  }, []);
 
-  const register = (userData: User, token: string) => {
+  const register = useCallback((userData: User, token: string) => {
     setUser(userData);
-
     localStorage.setItem("user", JSON.stringify(userData));
-
     localStorage.setItem("token", token);
-  };
+  }, []);
 
-  const logout = async () => {
-    if (!user) return;
+  const updateUser = useCallback((userData: User) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  }, []);
+
+  const logout = useCallback(async () => {
+    const currentUserId = user?.id;
 
     try {
-      await updateLogout(user.id);
+      if (currentUserId) {
+        await updateLogout(currentUserId);
+      }
     } catch (error) {
       console.error("Error al registrar el logout:", error);
     } finally {
@@ -55,7 +54,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
     }
-  };
+  }, [user?.id]);
 
   return (
     <AuthContext.Provider
@@ -63,6 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         login,
         register,
+        updateUser,
         logout,
         loading,
       }}

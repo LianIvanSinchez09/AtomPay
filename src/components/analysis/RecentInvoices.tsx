@@ -20,15 +20,16 @@ import type {
 import { getAnalysisInvoices } from "../../services/analysisService";
 import { errorMessage } from "../../services/apiError";
 import { dateFormat, moneyFormat } from "../../utils/billingFormat";
+import { tr } from "../../i18n/translate";
 
 const PAGE_SIZE = 10;
 
 const RANGE_OPTIONS: { value: RangePreset; label: string }[] = [
-  { value: "all", label: "Todo" },
-  { value: "month", label: "Este mes" },
-  { value: "quarter", label: "Últimos 3 meses" },
-  { value: "year", label: "Este año" },
-  { value: "custom", label: "Personalizado" },
+  { value: "all", label: tr("Todo") },
+  { value: "month", label: tr("Este mes") },
+  { value: "quarter", label: tr("Últimos 3 meses") },
+  { value: "year", label: tr("Este año") },
+  { value: "custom", label: tr("Personalizado") },
 ];
 
 const statusStyles: Record<InvoiceStatus, string> = {
@@ -202,13 +203,9 @@ export default function RecentInvoices({
         </div>
 
         <div>
-          <h2 className="font-bold text-slate-900 dark:text-white">
-            Facturas recientes
-          </h2>
+          <h2 className="font-bold text-slate-900 dark:text-white">{" "}{tr("Facturas recientes")}{" "}</h2>
 
-          <p className="text-sm text-slate-500 dark:text-gray-400">
-            Buscá y filtrá tus comprobantes por fecha, estado o servicio.
-          </p>
+          <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Buscá y filtrá tus comprobantes por fecha, estado o servicio.")}{" "}</p>
         </div>
       </div>
 
@@ -224,8 +221,8 @@ export default function RecentInvoices({
               type="search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Buscar por servicio, categoría o N° de comprobante"
-              aria-label="Buscar facturas"
+              placeholder={tr("Buscar por servicio, categoría o N° de comprobante")}
+              aria-label={tr("Buscar facturas")}
               className={`${inputStyles} w-full py-2.5 pl-10 pr-9`}
             />
 
@@ -233,7 +230,7 @@ export default function RecentInvoices({
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                aria-label="Limpiar búsqueda"
+                aria-label={tr("Limpiar búsqueda")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-700 dark:text-gray-500 dark:hover:text-gray-200"
               >
                 <X size={16} />
@@ -246,21 +243,19 @@ export default function RecentInvoices({
             onChange={(event) =>
               setStatus(event.target.value as InvoiceStatus | "")
             }
-            aria-label="Filtrar por estado"
+            aria-label={tr("Filtrar por estado")}
             className={`${inputStyles} px-3 py-2.5 lg:w-48`}
           >
-            <option value="">Todos los estados</option>
-            <option value="Pagado">Pagado</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Vencido">Vencido</option>
+            <option value="">{tr("Todos los estados")}</option>
+            <option value="Pagado">{tr("Pagado")}</option>
+            <option value="Pendiente">{tr("Pendiente")}</option>
+            <option value="Vencido">{tr("Vencido")}</option>
           </select>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-gray-400">
-            <CalendarDays size={14} />
-            Fecha
-          </span>
+            <CalendarDays size={14} />{" "}{tr("Fecha")}{" "}</span>
 
           {RANGE_OPTIONS.map((option) => {
             const active = range === option.value;
@@ -288,7 +283,7 @@ export default function RecentInvoices({
                 type="date"
                 value={customFrom}
                 onChange={(event) => setCustomFrom(event.target.value)}
-                aria-label="Desde"
+                aria-label={tr("Desde")}
                 className={`${inputStyles} px-3 py-1.5`}
               />
 
@@ -300,7 +295,7 @@ export default function RecentInvoices({
                 type="date"
                 value={customTo}
                 onChange={(event) => setCustomTo(event.target.value)}
-                aria-label="Hasta"
+                aria-label={tr("Hasta")}
                 className={`${inputStyles} px-3 py-1.5`}
               />
             </div>
@@ -312,9 +307,7 @@ export default function RecentInvoices({
               onClick={clearFilters}
               className="ml-auto flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-medium text-slate-500 transition hover:bg-[#EEF7FF] hover:text-[#4D869C] dark:text-gray-400 dark:hover:bg-[#3E432E] dark:hover:text-[#A7D129]"
             >
-              <X size={14} />
-              Limpiar filtros
-            </button>
+              <X size={14} />{" "}{tr("Limpiar filtros")}{" "}</button>
           )}
         </div>
       </div>
@@ -329,8 +322,8 @@ export default function RecentInvoices({
       <div className="mt-5 flex items-center justify-between gap-3">
         <p className="text-xs font-medium text-slate-500 dark:text-gray-400">
           {loading
-            ? "Buscando..."
-            : `${total} factura${total === 1 ? "" : "s"}`}
+            ? tr("Buscando...")
+            : tr("{total} {facturas}", { total, facturas: total === 1 ? tr("factura") : tr("facturas") })}
         </p>
 
         {loading && (
@@ -349,25 +342,15 @@ export default function RecentInvoices({
         <table className="w-full min-w-[600px] text-sm">
           <thead>
             <tr className="border-b border-gray-200 text-left dark:border-[#3E432E]">
-              <th className="pb-3 font-medium text-slate-500 dark:text-gray-400">
-                Servicio
-              </th>
+              <th className="pb-3 font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Servicio")}{" "}</th>
 
-              <th className="pb-3 font-medium text-slate-500 dark:text-gray-400">
-                Categoría
-              </th>
+              <th className="pb-3 font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Categoría")}{" "}</th>
 
-              <th className="pb-3 font-medium text-slate-500 dark:text-gray-400">
-                Fecha
-              </th>
+              <th className="pb-3 font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Fecha")}{" "}</th>
 
-              <th className="pb-3 text-right font-medium text-slate-500 dark:text-gray-400">
-                Importe
-              </th>
+              <th className="pb-3 text-right font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Importe")}{" "}</th>
 
-              <th className="pb-3 text-right font-medium text-slate-500 dark:text-gray-400">
-                Estado
-              </th>
+              <th className="pb-3 text-right font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Estado")}{" "}</th>
             </tr>
           </thead>
 
@@ -382,7 +365,7 @@ export default function RecentInvoices({
                 </td>
 
                 <td className="py-4 text-slate-500 dark:text-gray-400">
-                  {invoice.category}
+                  {tr(invoice.category)}
                 </td>
 
                 <td className="py-4 text-slate-500 dark:text-gray-400">
@@ -412,8 +395,8 @@ export default function RecentInvoices({
                   className="py-10 text-center text-sm text-slate-500 dark:text-gray-400"
                 >
                   {loading
-                    ? "Buscando facturas..."
-                    : "No hay facturas con esos filtros."}
+                    ? tr("Buscando facturas...")
+                    : tr("No hay facturas con esos filtros.")}
                 </td>
               </tr>
             )}
@@ -429,12 +412,9 @@ export default function RecentInvoices({
             disabled={page === 0}
             className="flex items-center gap-1 rounded-xl border border-[#CDE8E5] px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-[#F7FCFF] disabled:cursor-not-allowed disabled:opacity-40 dark:border-[#616F39] dark:text-gray-300 dark:hover:bg-[#3E432E]"
           >
-            <ChevronLeft size={15} />
-            Anterior
-          </button>
+            <ChevronLeft size={15} />{" "}{tr("Anterior")}{" "}</button>
 
-          <span className="text-xs font-medium text-slate-500 dark:text-gray-400">
-            Página {currentPage} de {pageCount}
+          <span className="text-xs font-medium text-slate-500 dark:text-gray-400">{" "}{tr("Página")}{" "}{currentPage}{" "}{tr("de")}{" "}{pageCount}
           </span>
 
           <button
@@ -442,9 +422,7 @@ export default function RecentInvoices({
             onClick={() => setPage((value) => value + 1)}
             disabled={!canGoNext(page, total)}
             className="flex items-center gap-1 rounded-xl border border-[#CDE8E5] px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-[#F7FCFF] disabled:cursor-not-allowed disabled:opacity-40 dark:border-[#616F39] dark:text-gray-300 dark:hover:bg-[#3E432E]"
-          >
-            Siguiente
-            <ChevronRight size={15} />
+          >{" "}{tr("Siguiente")}{" "}<ChevronRight size={15} />
           </button>
         </div>
       )}

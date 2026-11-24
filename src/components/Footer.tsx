@@ -2,6 +2,7 @@ import { Atom } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { FooterSection } from "../types/types"
 import { useScroll, useMotionValueEvent } from "motion/react";
+import { tr } from "../i18n/translate";
 
 
 
@@ -9,23 +10,23 @@ import { useScroll, useMotionValueEvent } from "motion/react";
 
 const sections: FooterSection[] = [
   {
-    title: "Mi cuenta",
+    title: tr("Mi cuenta"),
     links: [
-      { label: "Análisis", to: "/dashboard/analysis" },
-      { label: "Facturación", to: "/dashboard/billing" },
+      { label: tr("Análisis"), to: "/dashboard/analysis" },
+      { label: tr("Facturación"), to: "/dashboard/billing" },
     ],
   },
   {
-    title: "Servicios",
+    title: tr("Servicios"),
     links: [
       {
-        label: "Administrar servicios",
+        label: tr("Administrar servicios"),
         to: "/dashboard/admin-services",
       },
     ],
   },
   {
-    title: "Asistente",
+    title: tr("Asistente"),
     links: [{ label: "Atomcito", to: "/dashboard/atomcito" }],
   },
 ];
@@ -52,9 +53,7 @@ useMotionValueEvent(scrollY, "change", (latest) => {
           <Atom color="#FFFF" />
           <p className="text-base font-semibold tracking-tight">AtomPay</p>
         </div>
-        <p className="mt-5 text-[17px] leading-6 text-zinc-800/80">
-          Controlá tus servicios, tus facturas y tus gastos en un solo lugar.
-        </p>
+        <p className="mt-5 text-[17px] leading-6 text-zinc-800/80">{" "}{tr("Controlá tus servicios, tus facturas y tus gastos en un solo lugar.")}{" "}</p>
         <hr className="mt-10 border-t border-zinc-900/30" />
       </div>
 
@@ -83,9 +82,7 @@ useMotionValueEvent(scrollY, "change", (latest) => {
 
       <hr className="mt-12 border-t border-zinc-900/30" />
       <div className="mt-11.5 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-mono text-[11px] uppercase tracking-wide text-zinc-800/80">
-          © 2026 AtomInc, derechos reservados.
-        </p>
+        <p className="font-mono text-[11px] uppercase tracking-wide text-zinc-800/80">{" "}{tr("© 2026 AtomInc, derechos reservados.")}{" "}</p>
 
         <ul className="flex items-center gap-6"></ul>
       </div>

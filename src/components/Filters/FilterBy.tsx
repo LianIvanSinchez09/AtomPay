@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ChevronDown, Settings2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import type { Invoice, filterByProps } from "../../types/types";
+import { tr } from "../../i18n/translate";
 
 export default function FilterBy({ label, items = [], setInvoiceState }: filterByProps) {
   const [open, setOpen] = useState(false);
@@ -88,9 +89,7 @@ export default function FilterBy({ label, items = [], setInvoiceState }: filterB
                   type="button"
                   onClick={clearAll}
                   className="w-full rounded-lg px-2 py-1.5 text-left text-xs opacity-70 hover:opacity-100"
-                >
-                  Limpiar filtro
-                </button>
+                >{" "}{tr("Limpiar filtro")}{" "}</button>
               </li>
             )}
           </motion.ul>

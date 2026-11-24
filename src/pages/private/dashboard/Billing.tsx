@@ -22,7 +22,6 @@ import type {
   ServiceCategory,
 } from "../../../types/types";
 
-import GmailConnection from "../../../components/gmail/GmailConnection";
 import {
   getBillingOverview,
   getCategories,
@@ -31,9 +30,10 @@ import { serviceCategories as categories } from "../../../data/serviceCategories
 import {
   dateFormat,
   moneyFormat,
-  sourceLabels,
+  getSourceLabel,
 } from "../../../utils/billingFormat";
 import { errorMessage } from "../../../services/apiError";
+import { tr } from "../../../i18n/translate";
 
 const statusStyles: Record<InvoiceStatus, string> = {
   Pagado: "bg-[#CDE8E5] text-[#28665D] dark:bg-[#616F39] dark:text-[#D7F59A]",
@@ -129,7 +129,7 @@ export default function Billing() {
         description:
           stored?.description ??
           known?.description ??
-          "Categoría personalizada",
+          tr("Categoría personalizada"),
         icon: known?.icon ?? Folder,
       };
     });
@@ -150,7 +150,7 @@ export default function Billing() {
           ? result
           : (result as { venta?: number })?.venta;
 
-      if (!rate || rate <= 0) throw new Error("Cotización inválida");
+      if (!rate || rate <= 0) throw new Error(tr("Cotización inválida"));
       setUsdRate(rate);
     } catch {
       setRateError(true);
@@ -178,16 +178,11 @@ export default function Billing() {
         className="mx-auto max-w-7xl"
       >
         <header className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider opacity-60">
-            Gestión de servicios
-          </p>
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider opacity-60">{" "}{tr("Gestión de servicios")}{" "}</p>
 
-          <h1 className="text-3xl font-bold md:text-4xl">Facturación</h1>
+          <h1 className="text-3xl font-bold md:text-4xl">{tr("Facturación")}</h1>
 
-          <p className="mt-3 max-w-2xl text-sm opacity-70 md:text-base">
-            Consultá tus servicios, facturas, vencimientos y consumos en un solo
-            lugar.
-          </p>
+          <p className="mt-3 max-w-2xl text-sm opacity-70 md:text-base">{" "}{tr("Consultá tus servicios, facturas, vencimientos y consumos en un solo lugar.")}{" "}</p>
         </header>
 
         {error && (
@@ -205,7 +200,7 @@ export default function Billing() {
               </div>
 
               <div>
-                <p className="text-sm opacity-70">Facturas registradas</p>
+                <p className="text-sm opacity-70">{tr("Facturas registradas")}</p>
                 <p className="text-2xl font-bold">
                   {loading ? (
                     <Loader2 size={22} className="animate-spin" />
@@ -224,9 +219,7 @@ export default function Billing() {
               </div>
 
               <div>
-                <p className="text-sm opacity-70">
-                  Importe pendiente o vencido
-                </p>
+                <p className="text-sm opacity-70">{" "}{tr("Importe pendiente o vencido")}{" "}</p>
                 <p className="text-2xl font-bold">{pendingDisplay}</p>
               </div>
 
@@ -235,7 +228,7 @@ export default function Billing() {
                 onClick={toggleCurrency}
                 disabled={rateLoading}
                 aria-pressed={showUsd}
-                title="Alternar entre pesos y dólares"
+                title={tr("Alternar entre pesos y dólares")}
                 className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4D869C] px-3 py-1 text-xs font-semibold transition-colors hover:bg-[#EEF7FF] disabled:opacity-60 dark:border-[#A7D129] dark:hover:bg-black/30"
               >
                 {rateLoading && <Loader2 size={14} className="animate-spin" />}
@@ -244,28 +237,18 @@ export default function Billing() {
             </div>
 
             {rateError && (
-              <p className="mt-3 text-xs text-red-600 dark:text-red-300">
-                No se pudo obtener la cotización del dólar.
-              </p>
+              <p className="mt-3 text-xs text-red-600 dark:text-red-300">{" "}{tr("No se pudo obtener la cotización del dólar.")}{" "}</p>
             )}
             {showUsd && usdRate && (
-              <p className="mt-3 text-xs opacity-60">
-                Cotización usada: {moneyFormat(usdRate, "ARS")} por USD
-              </p>
+              <p className="mt-3 text-xs opacity-60">{" "}{tr("Cotización usada:")}{" "}{moneyFormat(usdRate, "ARS")}{" "}{tr("por USD")}{" "}</p>
             )}
           </div>
         </div>
 
-        <GmailConnection onScanned={loadInvoices} />
-
         <section>
           <div className="mb-5">
-            <h2 className="text-xl font-bold md:text-2xl">
-              Categorías de servicios
-            </h2>
-            <p className="mt-1 text-sm opacity-70">
-              Seleccioná una categoría para consultar sus facturas.
-            </p>
+            <h2 className="text-xl font-bold md:text-2xl">{" "}{tr("Categorías de servicios")}{" "}</h2>
+            <p className="mt-1 text-sm opacity-70">{" "}{tr("Seleccioná una categoría para consultar sus facturas.")}{" "}</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -303,12 +286,12 @@ export default function Billing() {
                       </div>
 
                       <div>
-                        <h3 className="font-bold">{category.name}</h3>
+                        <h3 className="font-bold">{tr(category.name)}</h3>
                         <p className="mt-1 text-xs opacity-65">
                           {categoryInvoices.length}{" "}
                           {categoryInvoices.length === 1
-                            ? "factura"
-                            : "facturas"}
+                            ? tr("factura")
+                            : tr("facturas")}
                         </p>
                       </div>
                     </div>
@@ -326,7 +309,7 @@ export default function Billing() {
                   </p>
 
                   <div className="mt-4 border-t border-[#CDE8E5] pt-3 dark:border-[#616F39]">
-                    <p className="text-xs opacity-65">Total registrado</p>
+                    <p className="text-xs opacity-65">{tr("Total registrado")}</p>
                     <p className="mt-1 font-bold">
                       {moneyFormat(categoryTotal, "ARS")}
                     </p>
@@ -348,12 +331,9 @@ export default function Billing() {
               className="mt-8 overflow-hidden rounded-2xl border border-[#CDE8E5] bg-white shadow-sm dark:border-[#616F39] dark:bg-[#3E432E]"
             >
               <div className="border-b border-[#CDE8E5] p-5 dark:border-[#616F39] md:p-6">
-                <h2 className="text-xl font-bold">
-                  Facturas de {selectedCategory}
+                <h2 className="text-xl font-bold">{" "}{tr("Facturas de")}{" "}{selectedCategory}
                 </h2>
-                <p className="mt-1 text-sm opacity-70">
-                  Detalle de los comprobantes asociados a esta categoría.
-                </p>
+                <p className="mt-1 text-sm opacity-70">{" "}{tr("Detalle de los comprobantes asociados a esta categoría.")}{" "}</p>
               </div>
 
               <div className="divide-y divide-[#CDE8E5] dark:divide-[#616F39]">
@@ -367,8 +347,7 @@ export default function Billing() {
                           <p className="mt-1 text-sm opacity-70">
                             {invoice.provider}
                           </p>
-                          <p className="mt-2 text-xs opacity-60">
-                            Período: {invoice.period}
+                          <p className="mt-2 text-xs opacity-60">{" "}{tr("Período:")}{" "}{invoice.period}
                           </p>
                         </div>
 
@@ -380,35 +359,33 @@ export default function Billing() {
                               href={invoice.emailUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              title="Abrir el mail original en Gmail"
+                              title={tr("Abrir el mail original en Gmail")}
                               className="inline-flex items-center gap-1.5 rounded-full border border-[#4D869C] px-3 py-1 text-xs font-semibold transition-colors hover:bg-[#EEF7FF] dark:border-[#A7D129] dark:hover:bg-black/30"
                             >
-                              <Mail size={14} />
-                              Abrir correo
-                            </a>
+                              <Mail size={14} />{" "}{tr("Abrir correo")}{" "}</a>
                           )}
                         </div>
                       </div>
 
                       <div className="mt-5 grid gap-4 rounded-xl bg-[#EEF7FF] p-4 text-sm dark:bg-black/20 sm:grid-cols-2 lg:grid-cols-3">
                         <div>
-                          <p className="opacity-60">Importe</p>
+                          <p className="opacity-60">{tr("Importe")}</p>
                           <p className="mt-1 font-medium">
                             {invoice.amount > 0
                               ? moneyFormat(invoice.amount, invoice.currency)
-                              : "Sin importe"}
+                              : tr("Sin importe")}
                           </p>
                         </div>
 
                         <div>
-                          <p className="opacity-60">Fecha de emisión</p>
+                          <p className="opacity-60">{tr("Fecha de emisión")}</p>
                           <p className="mt-1 font-medium">
                             {dateFormat(invoice.issueDate)}
                           </p>
                         </div>
 
                         <div>
-                          <p className="opacity-60">Vencimiento</p>
+                          <p className="opacity-60">{tr("Vencimiento")}</p>
                           <p className="mt-1 font-medium">
                             {invoice.dueDate
                               ? dateFormat(invoice.dueDate)
@@ -418,7 +395,7 @@ export default function Billing() {
 
                         {invoice.consumption && (
                           <div>
-                            <p className="opacity-60">Consumo</p>
+                            <p className="opacity-60">{tr("Consumo")}</p>
                             <p className="mt-1 font-medium">
                               {invoice.consumption.value}{" "}
                               {invoice.consumption.unit}
@@ -428,7 +405,7 @@ export default function Billing() {
 
                         {invoice.invoiceNumber && (
                           <div>
-                            <p className="opacity-60">N° de comprobante</p>
+                            <p className="opacity-60">{tr("N° de comprobante")}</p>
                             <p className="mt-1 break-all font-medium">
                               {invoice.invoiceNumber}
                             </p>
@@ -437,9 +414,9 @@ export default function Billing() {
 
                         {invoice.source && (
                           <div>
-                            <p className="opacity-60">Origen del dato</p>
+                            <p className="opacity-60">{tr("Origen del dato")}</p>
                             <p className="mt-1 font-medium">
-                              {sourceLabels[invoice.source] ?? invoice.source}
+                              {getSourceLabel(invoice.source)}
                             </p>
                           </div>
                         )}
@@ -452,12 +429,8 @@ export default function Billing() {
                 ).length === 0 && (
                   <div className="p-8 text-center">
                     <FileText size={32} className="mx-auto mb-3 opacity-50" />
-                    <p className="font-semibold">
-                      Todavía no hay facturas en esta categoría.
-                    </p>
-                    <p className="mt-1 text-sm opacity-65">
-                      Cuando se detecten comprobantes, aparecerán aquí.
-                    </p>
+                    <p className="font-semibold">{" "}{tr("Todavía no hay facturas en esta categoría.")}{" "}</p>
+                    <p className="mt-1 text-sm opacity-65">{" "}{tr("Cuando se detecten comprobantes, aparecerán aquí.")}{" "}</p>
                   </div>
                 )}
               </div>
@@ -468,16 +441,9 @@ export default function Billing() {
         <div className="mt-8 flex items-start gap-3 rounded-2xl border border-[#CDE8E5] bg-white p-5 dark:border-[#616F39] dark:bg-[#3E432E]">
           <AlertCircle size={21} className="mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold">Datos detectados automáticamente</p>
-            <p className="mt-1 text-sm opacity-70">
-              Los comprobantes y pagos se extraen de los mails de tu casilla
-              conectada. Si el comprobante viene adjunto como PDF o como foto,
-              se lee el archivo para obtener el importe. Cuando no hay ningún
-              importe disponible (por ejemplo, Temu envía el recibo por la app),
-              queda como "Sin importe". En esos casos usá{" "}
-              <strong>Abrir correo</strong> para ver el mail original y seguir
-              desde ahí el link del proveedor.
-            </p>
+            <p className="font-semibold">{tr("Datos detectados automáticamente")}</p>
+            <p className="mt-1 text-sm opacity-70">{" "}{tr("Los comprobantes y pagos se extraen de los mails de tu casilla conectada. Si el comprobante viene adjunto como PDF o como foto, se lee el archivo para obtener el importe. Cuando no hay ningún importe disponible (por ejemplo, Temu envía el recibo por la app), queda como \"Sin importe\". En esos casos usá")}{" "}
+              <strong>{tr("Abrir correo")}</strong>{" "}{tr("para ver el mail original y seguir desde ahí el link del proveedor.")}{" "}</p>
           </div>
         </div>
       </motion.div>

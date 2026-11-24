@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { Link } from "react-router-dom";
 import NavLogo from './NavLogo/NavLogo';
+import { tr } from "../../i18n/translate";
 
 const Navbar = () => {
   return (
@@ -17,16 +18,12 @@ const Navbar = () => {
           <Link
             to="/login"
             className="rounded-lg px-4 py-2 font-medium transition hover:bg-[#CDE8E5] dark:hover:bg-[#3E432E]"
-          >
-            Iniciar sesión
-          </Link>
+          >{" "}{tr("Iniciar sesión")}{" "}</Link>
 
           <Link
             to="/register"
             className="rounded-lg bg-[#4D869C] px-4 py-2 font-medium text-white transition hover:bg-[#7AB2B2] dark:bg-[#A7D129] dark:text-[#000000] dark:hover:bg-[#616F39]"
-          >
-            Registrarse
-          </Link>
+          >{" "}{tr("Registrarse")}{" "}</Link>
         </div>
       </motion.nav> 
     </>

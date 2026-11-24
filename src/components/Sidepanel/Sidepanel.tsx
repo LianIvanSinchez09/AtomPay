@@ -17,6 +17,7 @@ import {
 import type { SidepanelProps, customWidth } from "../../types/types";
 import { useState } from "react";
 import HomeButton from "../HomeButton/HomeButton.tsx";
+import { tr } from "../../i18n/translate";
 
 export default function Sidepanel({
   width,
@@ -34,7 +35,7 @@ export default function Sidepanel({
 
   const serviceItemsSecondary: serviceItems[] = [
   {
-    label: "Notificaciones",
+    label: tr("Notificaciones"),
     icon: Bell,
     path: "/dashboard/atomcito",
   },
@@ -44,7 +45,7 @@ export default function Sidepanel({
     path: "/dashboard/atomcito",
   },
   {
-    label: "Ajustes",
+    label: tr("Ajustes"),
     icon: Settings,
     path: "/dashboard/atomcito",
   },

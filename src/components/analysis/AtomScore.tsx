@@ -15,6 +15,7 @@ import type {
   AtomScoreLevelStyle,
   AtomScoreProps,
 } from "../../types/analysisComponents";
+import { tr } from "../../i18n/translate";
 
 const LEVEL_STYLES: Record<AnalysisScore["level"], AtomScoreLevelStyle> = {
   Excelente: {
@@ -90,13 +91,9 @@ export default function AtomScore({ score }: AtomScoreProps) {
           </div>
 
           <div>
-            <h2 className="font-bold text-slate-900 dark:text-white">
-              AtomScore
-            </h2>
+            <h2 className="font-bold text-slate-900 dark:text-white">{" "}{tr("AtomScore")}{" "}</h2>
 
-            <p className="text-sm text-slate-500 dark:text-gray-400">
-              Salud de tus gastos
-            </p>
+            <p className="text-sm text-slate-500 dark:text-gray-400">{" "}{tr("Salud de tus gastos")}{" "}</p>
           </div>
         </div>
 
@@ -157,9 +154,7 @@ export default function AtomScore({ score }: AtomScoreProps) {
               {safeScore}
             </motion.span>
 
-            <span className="text-xs text-slate-500 dark:text-gray-400">
-              de 100
-            </span>
+            <span className="text-xs text-slate-500 dark:text-gray-400">{" "}{tr("de 100")}{" "}</span>
           </div>
         </div>
 
@@ -185,9 +180,7 @@ export default function AtomScore({ score }: AtomScoreProps) {
             className={`mt-4 rounded-xl border p-4 text-sm leading-6
                         ${style.border} ${style.bg}`}
           >
-            <span className={`font-semibold ${style.color}`}>
-              💡 Recomendación
-            </span>
+            <span className={`font-semibold ${style.color}`}>{" "}{tr("💡 Recomendación")}{" "}</span>
 
             <p className="mt-1 text-slate-600 dark:text-gray-300">
               {score.recommendation}
@@ -199,13 +192,9 @@ export default function AtomScore({ score }: AtomScoreProps) {
       {/* FACTORES */}
       <div className="mt-8 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-            Cómo se calcula
-          </h3>
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{" "}{tr("Cómo se calcula")}{" "}</h3>
 
-          <span className="text-xs text-slate-400 dark:text-gray-500">
-            Ponderado sobre 100
-          </span>
+          <span className="text-xs text-slate-400 dark:text-gray-500">{" "}{tr("Ponderado sobre 100")}{" "}</span>
         </div>
 
         {score.factors.map((factor) => {
@@ -246,11 +235,11 @@ export default function AtomScore({ score }: AtomScoreProps) {
       {/* ESCALA */}
       <div className="mt-8">
         <div className="mb-2 flex justify-between text-xs text-slate-400 dark:text-gray-500">
-          <span>Crítico</span>
-          <span>Riesgo</span>
-          <span>Atención</span>
-          <span>Saludable</span>
-          <span>Excelente</span>
+          <span>{tr("Crítico")}</span>
+          <span>{tr("Riesgo")}</span>
+          <span>{tr("Atención")}</span>
+          <span>{tr("Saludable")}</span>
+          <span>{tr("Excelente")}</span>
         </div>
 
         <div className="relative h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-[#3E432E]">

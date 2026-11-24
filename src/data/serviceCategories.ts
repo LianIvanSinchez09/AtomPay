@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import type { ServiceCategory } from "../types/types";
+import { tr } from "../i18n/translate";
 
 /**
  * Categorías base del producto. Son globales: no se crean ni se borran
@@ -18,42 +19,42 @@ import type { ServiceCategory } from "../types/types";
 export const serviceCategories: ServiceCategory[] = [
   {
     name: "Luz",
-    description: "Facturas de electricidad y consumo energético",
+    description: tr("Facturas de electricidad y consumo energético"),
     icon: Zap,
   },
   {
     name: "Gas",
-    description: "Facturas de gas y consumo",
+    description: tr("Facturas de gas y consumo"),
     icon: Flame,
   },
   {
     name: "Agua",
-    description: "Facturas y consumo de agua",
+    description: tr("Facturas y consumo de agua"),
     icon: Droplets,
   },
   {
     name: "Internet",
-    description: "Internet, telefonía y conectividad",
+    description: tr("Internet, telefonía y conectividad"),
     icon: Wifi,
   },
   {
     name: "Multimedia",
-    description: "Streaming, plataformas y suscripciones",
+    description: tr("Streaming, plataformas y suscripciones"),
     icon: Tv,
   },
   {
     name: "Compras",
-    description: "Compras y pedidos online",
+    description: tr("Compras y pedidos online"),
     icon: ShoppingBag,
   },
   {
     name: "Pagos",
-    description: "Transferencias, débitos y pagos con cualquier medio",
+    description: tr("Transferencias, débitos y pagos con cualquier medio"),
     icon: ArrowLeftRight,
   },
   {
     name: "Otros",
-    description: "Otros servicios y facturas detectados",
+    description: tr("Otros servicios y facturas detectados"),
     icon: CircleDollarSign,
   },
 ];

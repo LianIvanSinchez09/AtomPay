@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { BarChart3, Loader2, RefreshCw } from "lucide-react";
 
 import type { AnalysisHeaderProps } from "../../types/analysisComponents";
+import { tr } from "../../i18n/translate";
 
 const formatUpdatedAt = (value: string) =>
   new Intl.DateTimeFormat("es-AR", {
@@ -30,19 +31,13 @@ export default function AnalysisHeader({
             />
           </div>
 
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-            Análisis
-          </h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{" "}{tr("Análisis")}{" "}</h1>
         </div>
 
-        <p className="text-slate-500 dark:text-gray-400">
-          Analizá tus gastos y obtené información sobre tu comportamiento
-          financiero.
-        </p>
+        <p className="text-slate-500 dark:text-gray-400">{" "}{tr("Analizá tus gastos y obtené información sobre tu comportamiento financiero.")}{" "}</p>
 
         {updatedAt && (
-          <p className="mt-1 text-xs text-slate-400 dark:text-gray-500">
-            Actualizado el {formatUpdatedAt(updatedAt)}
+          <p className="mt-1 text-xs text-slate-400 dark:text-gray-500">{" "}{tr("Actualizado el")}{" "}{formatUpdatedAt(updatedAt)}
           </p>
         )}
       </div>
@@ -63,7 +58,7 @@ export default function AnalysisHeader({
           ) : (
             <RefreshCw size={16} />
           )}
-          {loading ? "Actualizando..." : "Actualizar"}
+          {loading ? "Actualizando..." : tr("Actualizar")}
         </button>
       )}
     </motion.div>

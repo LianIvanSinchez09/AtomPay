@@ -24,7 +24,7 @@ export default function NavDropdown({
   items,
 }: Props) {
   const { pathname } = useLocation();
-  const isInside = pathname.startsWith(basePath);
+  const isInside = pathname.startsWith(basePath ?? "");
   const [open, setOpen] = useState(isInside);
 
   return (

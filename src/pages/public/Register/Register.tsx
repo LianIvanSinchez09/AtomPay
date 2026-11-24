@@ -1,26 +1,20 @@
-import { useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { GoogleLogin } from "@react-oauth/google";
-import { FormState, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
 import {
   AlertCircle,
   CheckCircle2,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  User,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import { api } from "../../../services/api";
-import FieldShell from "../Home/FieldShell/FieldShell.tsx";
-import ButtonForm from "./ButtonForm.tsx";
 import ExpenseEvolutionChart from "../../../components/analysis/ExpenseEvolutionChart.tsx";
-import type { MonthlyExpense } from "../../types/types";
+import type { MonthlyExpense } from "../../../types/types";
+import { tr } from "../../../i18n/translate";
 import { FormBody } from "./FormBody.tsx";
 
 const previewData: MonthlyExpense[] = [
@@ -32,38 +26,30 @@ const previewData: MonthlyExpense[] = [
   { month: "Jun", amount: 125000 },
 ];
 
-type RegisterFormData = z.infer<typeof registerSchema>;
+export type RegisterFormData = z.infer<typeof registerSchema>;
 
 const registerSchema = z
   .object({
     name: z
       .string()
       .trim()
-      .min(1, "Ingresá tu nombre.")
+      .min(1, tr("Ingresá tu nombre."))
       .max(100, "El nombre no puede superar los 100 caracteres."),
     email: z
       .string()
       .trim()
-      .min(1, "Ingresá tu correo electrónico.")
-      .email("Ingresá un correo electrónico válido."),
+      .min(1, tr("Ingresá tu correo electrónico."))
+      .email(tr("Ingresá un correo electrónico válido.")),
     password: z
       .string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres.")
-      .max(72, "La contraseña no puede superar los 72 caracteres."),
-    confirmPassword: z.string().min(1, "Repetí tu contraseña."),
+      .min(8, tr("La contraseña debe tener al menos 8 caracteres."))
+      .max(72, tr("La contraseña no puede superar los 72 caracteres.")),
+    confirmPassword: z.string().min(1, tr("Repetí tu contraseña.")),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Las contraseñas no coinciden.",
+    message: tr("Las contraseñas no coinciden."),
     path: ["confirmPassword"],
   });
-
-const STEP_FIELDS: (keyof RegisterFormData)[][] = [
-  ["name"],
-  ["email"],
-  ["password", "confirmPassword"],
-];
-
-const LAST_STEP = STEP_FIELDS.length - 1;
 
 const inputBase =
   "w-full rounded-lg border bg-white py-2.5 pl-10 text-sm text-neutral-900 outline-none transition-colors placeholder:text-neutral-400 focus:ring-2 dark:bg-black dark:text-white dark:placeholder:text-neutral-500";
@@ -80,13 +66,13 @@ const inputClass = (hasError: boolean, paddingRight = "pr-3") =>
 const getRegisterErrorMessage = (error: unknown) => {
   if (axios.isAxiosError(error)) {
     if (!error.response) {
-      return "No se pudo conectar con el servidor.";
+      return tr("No se pudo conectar con el servidor.");
     }
 
-    return error.response.data?.message ?? "Error desconocido del servidor.";
+    return error.response.data?.message ?? tr("Error desconocido del servidor.");
   }
 
-  return "No se pudo completar el registro.";
+  return tr("No se pudo completar el registro.");
 };
 
 const Register = () => {
@@ -98,8 +84,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    trigger,
-    setFocus,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -111,34 +95,19 @@ const Register = () => {
     },
   });
 
-  const [step, setStep] = useState(0);
-  const [status, setStatus] = useState(false);
-
-  const check = async (fields: (keyof RegisterFormData)[]) => {
-    const fromStep = step;
-    const isValid = await trigger(fields, { shouldFocus: true });
-    if (isValid) {
-      setStep((current) =>
-        current === fromStep ? Math.min(current + 1, LAST_STEP) : current,
-      );
-    }
-  };
-
-  useEffect(() => {
-    const first = STEP_FIELDS[step]?.[0];
-    if (step > 0 && first) setFocus(first);
-  }, [step, setFocus]);
-
-  const STEPS = [
-    { id: "name", label: "Nombre" },
-    { id: "email", label: "Correo electrónico" },
-    { id: "password", label: "Contraseña" },
-  ];
-
   const completeRegister = (
     user: Parameters<typeof registerUser>[0],
     token: string,
   ) => {
+    registerUser(user, token);
+
+    localStorage.setItem("token", token);
+
+    setMessage(tr("¡Registro exitoso! Redirigiendo al Dashboard..."));
+
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1200);
   };
 
   const onSubmit = async (data: RegisterFormData) => {
@@ -253,13 +222,9 @@ const Register = () => {
             transition={{ duration: 0.4 }}
             className="mx-auto my-auto w-full max-w-sm py-10"
           >
-            <h1 className="text-3xl font-semibold text-neutral-900 dark:text-white">
-              Crear una cuenta
-            </h1>
+            <h1 className="text-3xl font-semibold text-neutral-900 dark:text-white">{" "}{tr("Crear una cuenta")}{" "}</h1>
 
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              Empezá a gestionar tus gastos con AtomPay.
-            </p>
+            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{" "}{tr("Empezá a gestionar tus gastos con AtomPay.")}{" "}</p>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8">
               <FormBody
@@ -273,9 +238,7 @@ const Register = () => {
             </form>
 
             <div className="my-6 flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
-              o
-              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
+              <span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />{" "}{tr("o")}{" "}<span className="h-px flex-1 bg-neutral-200 dark:bg-white/15" />
             </div>
 
             <div className="flex w-full justify-center">
@@ -283,28 +246,25 @@ const Register = () => {
                 onSuccess={(response) => {
                   if (!response.credential) {
                     setErrorMessage(
-                      "Google no devolvió las credenciales necesarias.",
+                      tr("Google no devolvió las credenciales necesarias."),
                     );
                     return;
                   }
                   handleGoogleRegister(response.credential);
                 }}
                 onError={() => {
-                  setErrorMessage("No se pudo autenticar con Google.");
+                  setErrorMessage(tr("No se pudo autenticar con Google."));
                 }}
                 useOneTap={false}
                 text="signup_with"
               />
             </div>
 
-            <p className="mt-8 text-center text-sm text-neutral-600 dark:text-neutral-400">
-              ¿Ya tenés una cuenta?{" "}
+            <p className="mt-8 text-center text-sm text-neutral-600 dark:text-neutral-400">{" "}{tr("¿Ya tenés una cuenta?")}{" "}
               <Link
                 to="/login"
                 className="font-semibold text-[#4D869C] hover:underline dark:text-[#A7D129]"
-              >
-                Iniciá sesión
-              </Link>
+              >{" "}{tr("Iniciá sesión")}{" "}</Link>
             </p>
           </motion.div>
         </section>
@@ -322,13 +282,8 @@ const Register = () => {
             </div>
 
             <div className="mt-8 text-center">
-              <h2 className="text-3xl font-semibold leading-tight">
-                Todas tus facturas. En un solo lugar.
-              </h2>
-              <p className="mt-4 text-sm text-white/80">
-                Conectá tu Gmail y AtomPay se encarga de encontrar, ordenar y
-                analizar tus gastos recurrentes.
-              </p>
+              <h2 className="text-3xl font-semibold leading-tight">{" "}{tr("Todas tus facturas. En un solo lugar.")}{" "}</h2>
+              <p className="mt-4 text-sm text-white/80">{" "}{tr("Conectá tu Gmail y AtomPay se encarga de encontrar, ordenar y analizar tus gastos recurrentes.")}{" "}</p>
             </div>
           </div>
         </aside>

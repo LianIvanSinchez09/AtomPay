@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LogOut, UserCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { tr } from "../../i18n/translate";
 
 const UserCard = () => {
     const { user, logout } = useAuth();
@@ -39,7 +40,7 @@ const UserCard = () => {
             <button
                 type="button"
                 onClick={logout}
-                title="Cerrar sesión"
+                title={tr("Cerrar sesión")}
                 className="rounded-lg p-2 text-[#4D869C] transition hover:bg-[#EEF7FF] dark:text-[#A7D129] dark:hover:bg-[#3E432E]"
             >
                 <LogOut className="h-5 w-5" />
